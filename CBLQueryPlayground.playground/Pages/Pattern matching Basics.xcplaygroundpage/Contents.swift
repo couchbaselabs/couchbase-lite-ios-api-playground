@@ -6,10 +6,10 @@
  The `like` clause is used for case insensitive matches and you can use `regex` expressions for more elaborate case sensitive matches
  
  The examples below demonstrate
- - Filtering using simple comparison Expression
- - Filtering using simple Logical Expression
- - Filtering using Property Expression with KeyPaths
- - Filtering using Boolean Expression
+ - Exact case insensitive match using like
+ - Wildcard match using like
+ - Wildcard character match using like
+ - Regex
  
  */
 

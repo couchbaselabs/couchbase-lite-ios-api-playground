@@ -2,10 +2,14 @@
 <playground version='6.0' target-platform='ios' display-mode='raw' executeOnSourceChanges='false'>
     <pages>
         <page name='ToC'/>
-        <page name='Untitled Page'/>
         <page name='The Basics'/>
         <page name='SelectResult'/>
         <page name='IntroToWhere'/>
         <page name='Pattern matching Basics'/>
+        <page name='NullCheck'/>
+        <page name='Ordering'/>
+        <page name='Collections'/>
+        <page name='Strings'/>
+        <page name='Groups'/>
     </pages>
 </playground>
