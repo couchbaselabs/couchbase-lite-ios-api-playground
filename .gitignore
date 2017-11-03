@@ -53,6 +53,9 @@ ios/Pods/
 # Carthage/Checkouts
 
 Carthage/Build
+carthage/Carthage/Build
+carthage/Carthage/Checkouts
+Carthage/Checkouts
 
 # fastlane
 #
