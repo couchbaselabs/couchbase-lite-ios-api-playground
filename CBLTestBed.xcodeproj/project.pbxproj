@@ -8,14 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		5F5B9FB01F6ADC41004B86F9 /* CouchbaseLite.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5F3664081F3ABE3200D1E889 /* CouchbaseLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		5F6EC73E1FAC183000933A1C /* db.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = 5F6EC73B1FAC183000933A1C /* db.sqlite3 */; };
-		5F6EC73F1FAC183000933A1C /* db.sqlite3-shm in Resources */ = {isa = PBXBuildFile; fileRef = 5F6EC73C1FAC183000933A1C /* db.sqlite3-shm */; };
-		5F6EC7401FAC183000933A1C /* db.sqlite3-wal in Resources */ = {isa = PBXBuildFile; fileRef = 5F6EC73D1FAC183000933A1C /* db.sqlite3-wal */; };
 		5FDE9C1E1F3A3DED006968FB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDE9C1D1F3A3DED006968FB /* AppDelegate.swift */; };
 		5FDE9C201F3A3DED006968FB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDE9C1F1F3A3DED006968FB /* ViewController.swift */; };
 		5FDE9C231F3A3DED006968FB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5FDE9C211F3A3DED006968FB /* Main.storyboard */; };
 		5FDE9C251F3A3DED006968FB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5FDE9C241F3A3DED006968FB /* Assets.xcassets */; };
 		5FDE9C281F3A3DED006968FB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5FDE9C261F3A3DED006968FB /* LaunchScreen.storyboard */; };
+		5FF580691FACEA650004532E /* db.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = 5FF580661FACEA640004532E /* db.sqlite3 */; };
+		5FF5806A1FACEA650004532E /* db.sqlite3-shm in Resources */ = {isa = PBXBuildFile; fileRef = 5FF580671FACEA640004532E /* db.sqlite3-shm */; };
+		5FF5806B1FACEA650004532E /* db.sqlite3-wal in Resources */ = {isa = PBXBuildFile; fileRef = 5FF580681FACEA640004532E /* db.sqlite3-wal */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,9 +86,6 @@
 
 /* Begin PBXFileReference section */
 		5F3663F91F3ABE3100D1E889 /* CouchbaseLite.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CouchbaseLite.xcodeproj; path = "carthage/Carthage/Checkouts/couchbase-lite-ios/CouchbaseLite.xcodeproj"; sourceTree = "<group>"; };
-		5F6EC73B1FAC183000933A1C /* db.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = db.sqlite3; sourceTree = "<group>"; };
-		5F6EC73C1FAC183000933A1C /* db.sqlite3-shm */ = {isa = PBXFileReference; lastKnownFileType = file; path = "db.sqlite3-shm"; sourceTree = "<group>"; };
-		5F6EC73D1FAC183000933A1C /* db.sqlite3-wal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "db.sqlite3-wal"; sourceTree = "<group>"; };
 		5FDE9C1A1F3A3DED006968FB /* CBLTestBed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CBLTestBed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FDE9C1D1F3A3DED006968FB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5FDE9C1F1F3A3DED006968FB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -96,6 +93,9 @@
 		5FDE9C241F3A3DED006968FB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5FDE9C271F3A3DED006968FB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5FDE9C291F3A3DED006968FB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5FF580661FACEA640004532E /* db.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = db.sqlite3; sourceTree = "<group>"; };
+		5FF580671FACEA640004532E /* db.sqlite3-shm */ = {isa = PBXFileReference; lastKnownFileType = file; path = "db.sqlite3-shm"; sourceTree = "<group>"; };
+		5FF580681FACEA640004532E /* db.sqlite3-wal */ = {isa = PBXFileReference; lastKnownFileType = file; path = "db.sqlite3-wal"; sourceTree = "<group>"; };
 		5FF6B0771F6820910018A7BC /* CBLQueryPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = CBLQueryPlayground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 /* End PBXFileReference section */
 
@@ -124,20 +124,10 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		5F6EC73A1FAC183000933A1C /* travel-sample.cblite2 */ = {
-			isa = PBXGroup;
-			children = (
-				5F6EC73B1FAC183000933A1C /* db.sqlite3 */,
-				5F6EC73C1FAC183000933A1C /* db.sqlite3-shm */,
-				5F6EC73D1FAC183000933A1C /* db.sqlite3-wal */,
-			);
-			path = "travel-sample.cblite2";
-			sourceTree = "<group>";
-		};
 		5FDE9C111F3A3DED006968FB = {
 			isa = PBXGroup;
 			children = (
-				5F6EC73A1FAC183000933A1C /* travel-sample.cblite2 */,
+				5FF580651FACEA640004532E /* travel-sample.cblite2 */,
 				5FF6B0771F6820910018A7BC /* CBLQueryPlayground.playground */,
 				5F3663F91F3ABE3100D1E889 /* CouchbaseLite.xcodeproj */,
 				5FDE9C1C1F3A3DED006968FB /* CBLTestBed */,
@@ -164,6 +154,16 @@
 				5FDE9C291F3A3DED006968FB /* Info.plist */,
 			);
 			path = CBLTestBed;
+			sourceTree = "<group>";
+		};
+		5FF580651FACEA640004532E /* travel-sample.cblite2 */ = {
+			isa = PBXGroup;
+			children = (
+				5FF580661FACEA640004532E /* db.sqlite3 */,
+				5FF580671FACEA640004532E /* db.sqlite3-shm */,
+				5FF580681FACEA640004532E /* db.sqlite3-wal */,
+			);
+			path = "travel-sample.cblite2";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -285,12 +285,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5F6EC7401FAC183000933A1C /* db.sqlite3-wal in Resources */,
+				5FF5806B1FACEA650004532E /* db.sqlite3-wal in Resources */,
 				5FDE9C281F3A3DED006968FB /* LaunchScreen.storyboard in Resources */,
 				5FDE9C251F3A3DED006968FB /* Assets.xcassets in Resources */,
-				5F6EC73F1FAC183000933A1C /* db.sqlite3-shm in Resources */,
+				5FF5806A1FACEA650004532E /* db.sqlite3-shm in Resources */,
 				5FDE9C231F3A3DED006968FB /* Main.storyboard in Resources */,
-				5F6EC73E1FAC183000933A1C /* db.sqlite3 in Resources */,
+				5FF580691FACEA650004532E /* db.sqlite3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,15 +7,15 @@
  ``` bash
  $ mkdir ~/Documents/Shared\ Playground\ Data/
  ```
- - Copy the "travel-sample.cblite2" folder that is bundled with this .xcworkspace into the "Shared Playground Data"
+ - Copy the "travel-sample.cblite2" folder that is bundled with the repo into the "Shared Playground Data"
  ``` bash
  $ cd /path/to/CBL2APITester/CBL2APITester/
  $ cp  -r travel-sample.cblite2 ~/Documents/Shared\ Playground\ Data/
  ```
  
- ### Content
+ ### Example Queries
  - [The Basics](The%20Basics)
- 
+ - [SelectResult](SelectResult)
  ****
  [Next](@next)
  */

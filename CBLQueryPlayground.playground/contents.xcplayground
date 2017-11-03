@@ -4,5 +4,6 @@
         <page name='ToC'/>
         <page name='Untitled Page'/>
         <page name='The Basics'/>
+        <page name='SelectResult'/>
     </pages>
 </playground>
