@@ -5,5 +5,7 @@
         <page name='Untitled Page'/>
         <page name='The Basics'/>
         <page name='SelectResult'/>
+        <page name='IntroToWhere'/>
+        <page name='Pattern matching Basics'/>
     </pages>
 </playground>

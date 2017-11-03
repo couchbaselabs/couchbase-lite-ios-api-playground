@@ -2,17 +2,14 @@
  [Table of Contents](ToC) | [Previous](@previous) | [Next](@next)
  ****
  
- ## Examples that show the use of the `SelectResult`
- A `SelectResult` represents a single return value of the query statement
-
- - SelectResult.all() : Returns all properties
- - SelectResult(Expression) : Return values based on Expression. An expression can be of many types. *We discuss `Property` type expression here*
+ ## Examples that show the use of the `where` clause.
+ The `where` clause is used for filtering documents returned in the results of the query based on criteria specified by an appropriate  `Expression`
  
  The examples below demonstrate
- - Fetching a specific property for all documents
- - Fetching metadata for all documents
- - Fetching metadata and selected properties for documents
- - Fethcing metadata and all properties for documents
+ - Filtering using simple comparison Expression
+ - Filtering using simple Logical Expression
+ - Filtering using Property Expression with KeyPaths
+ - Filtering using Boolean Expression
  
  */
 
@@ -31,10 +28,10 @@ typealias Data = [String:Any?]
 
 /*:
  ## Opens Couchbase Lite Database.
- The opens the database from prebuilt travel-sample database in `playgroundSharedDataDirectory`. Make sure that you have the "travel-sample.cblite2" folder copied over to the ~/Documents/Shared\ Playground\ Data/ folder 
+ The opens the database from prebuilt travel-sample database in `playgroundSharedDataDirectory`. Make sure that you have the "travel-sample.cblite2" folder copied over to the ~/Documents/Shared\ Playground\ Data/ folder
  - returns: Handle to CBLite database
  - throws exception if failure to create/open database
-
+ 
  */
 func createOrOpenDatabase() throws -> Database? {
     let sharedDocumentDirectory = playgroundSharedDataDirectory.resolvingSymlinksInPath()
@@ -45,7 +42,7 @@ func createOrOpenDatabase() throws -> Database? {
     let appSupportFolderPath = sharedDocumentDirectory.path
     options.fileProtection = .noFileProtection
     options.directory = appSupportFolderPath
-  
+    
     // Uncomment the line below  if you want details of the SQLite query equivalent
     // Database.setLogLevel(.verbose, domain: .all)
     return try Database(name: kDBName, config: options)
@@ -63,21 +60,34 @@ func closeDatabase(_ db:Database) throws  {
 }
 
 /*:
- ## Query for `type` property in documents.
- Note that this query can be extended to include other properties
+ ## Query for all documents filtered on `type` property
+ 
+ - Comparison Options Supported :
+     - lessThan
+     - notLessThan
+     - lessThanOrEqualTo
+     - notLessThanOrEqualTo
+     - greaterThan
+     - notGreaterThan
+     - greaterThanOrEqualTo
+     - notGreaterThanOrEqualTo
+     - equalTo
+     - notEqualTo
+ 
+ 
  - parameter db : The database to query
  - parameter limit: The max number of documents to fetch. Defaults to 10
  - returns: Documents matching the query
  
  */
 
-func queryPropertyForDocumentsFromDB(_ db:Database, limit:Int = 10) throws -> [Data]? {
+func queryForDocumentsOfSpecificTypeFromDB(_ db:Database,limit:Int = 10 ) throws -> [Data]? {
     
     let searchQuery = Query
-        .select(SelectResult.expression(Expression.property("type")))
+        .select(SelectResult.all())
         .from(DataSource.database(db))
+        .where(Expression.property("type").equalTo("hotel"))
         .limit(limit)
-    
     
     var matches:[Data] = [Data]()
     do {
@@ -89,23 +99,44 @@ func queryPropertyForDocumentsFromDB(_ db:Database, limit:Int = 10) throws -> [D
 }
 
 
-
-
 /*:
- ## Query for metadata in documents
+ ## Query for all documents with where comparisons
+ Supported Criteria :
+ - lessThan
+ - notLessThan
+ - lessThanOrEqualTo
+ - notLessThanOrEqualTo
+ - greaterThan
+ - notGreaterThan
+ - greaterThanOrEqualTo
+ - notGreaterThanOrEqualTo
+ - equalTo
+ - notEqualTo
  - parameter db : The database to query
  - parameter limit: The max number of documents to fetch. Defaults to 10
  - returns: Documents matching the query
  
  */
 
-func queryMetadataForDocumentsFromDB(_ db:Database, limit:Int = 10) throws -> [Data]? {
+
+/*:
+ ## Query for all documents filtered on `type` property and logically combined with other criteria
+ - parameter db : The database to query
+ - parameter limit: The max number of documents to fetch. Defaults to 10
+ - returns: Documents matching the query
+ 
+ */
+
+func queryForDocumentsWithLogicalExpressionFilterFromDB(_ db:Database, limit:Int = 10 ) throws -> [Data]? {
     
     let searchQuery = Query
         .select(SelectResult.expression(Expression.meta().id))
         .from(DataSource.database(db))
+        .where(Expression.property("type").equalTo("hotel")
+            .and(Expression.property("country").equalTo("United States")
+                .or(Expression.property("country").equalTo("France")))
+                .and(Expression.property("vacancy").equalTo(true)))
         .limit(limit)
-    
     
     var matches:[Data] = [Data]()
     do {
@@ -117,19 +148,21 @@ func queryMetadataForDocumentsFromDB(_ db:Database, limit:Int = 10) throws -> [D
 }
 
 /*:
- ## Query for metadata and `type` property in documents
+ ## Query for all documents using keypath in property expression
  - parameter db : The database to query
  - parameter limit: The max number of documents to fetch. Defaults to 10
  - returns: Documents matching the query
  
  */
 
-func queryMetadataAndPropertyForDocumentsFromDB(_ db:Database, limit:Int = 10) throws -> [Data]? {
+func queryDocumentsByKeyPathFromDB(_ db:Database , limit:Int = 10) throws -> [Data]? {
     
     let searchQuery = Query
-        .select(SelectResult.expression(Expression.meta().id),
-                SelectResult.expression(Expression.property("type")))
+        .select(SelectResult.expression(Expression.property("name")),
+                SelectResult.expression(Expression.property("geo.lat")),
+                SelectResult.expression(Expression.property("geo.lon")))
         .from(DataSource.database(db))
+        .where(Expression.property("type").equalTo("hotel"))
         .limit(limit)
     
     
@@ -141,23 +174,25 @@ func queryMetadataAndPropertyForDocumentsFromDB(_ db:Database, limit:Int = 10) t
     }
     return matches
 }
+
 
 /*:
- ## Query for metadata and all properties in documents
- - parameter db : The database to query
- - parameter limit: The max number of documents to fetch. Defaults to 10
+ ## Query for all documents with bool filtering
+ - parameter db : The database to query. Defaults to 10
+ - parameter limit: The max number of documents to fetch
  - returns: Documents matching the query
  
  */
 
-func queryMetadataAndAllPropertiesForDocumentsFromDB(_ db:Database, limit:Int = 10) throws -> [Data]? {
+func queryForDocumentsWithBoolFilterFromDB(_ db:Database, limit:Int = 10 ) throws -> [Data]? {
     
     let searchQuery = Query
-        .select(SelectResult.expression(Expression.meta().id),
-                SelectResult.all())
+        .select(SelectResult.expression(Expression.property("title")),
+                SelectResult.expression(Expression.property("vacancy")))
         .from(DataSource.database(db))
+        .where(Expression.property("type").equalTo("hotel")
+            .and(Expression.property("vacancy").equalTo(true)))
         .limit(limit)
-    
     
     var matches:[Data] = [Data]()
     do {
@@ -167,7 +202,6 @@ func queryMetadataAndAllPropertiesForDocumentsFromDB(_ db:Database, limit:Int = 
     }
     return matches
 }
-
 
 
 
@@ -180,18 +214,17 @@ do {
     // Open or Create Couchbase Lite Database
     if let db:Database = try createOrOpenDatabase() {
         
-        let results1 = try queryPropertyForDocumentsFromDB(db, limit: 30)
+        let results1 = try queryForDocumentsOfSpecificTypeFromDB(db, limit: 2)
         print(results1)
         
-        let results2 = try queryMetadataForDocumentsFromDB(db)
+        let results2 = try queryForDocumentsWithLogicalExpressionFilterFromDB(db)
         print(results2)
-        
-        let results3 = try queryMetadataAndPropertyForDocumentsFromDB(db)
+     
+        let results3 = try queryDocumentsByKeyPathFromDB(db)
         print(results3)
         
-        let results4 = try queryMetadataAndAllPropertiesForDocumentsFromDB(db)
+        let results4 = try queryForDocumentsWithBoolFilterFromDB(db)
         print(results4)
-                
        // try closeDatabase(db)
     }
     
@@ -199,4 +232,5 @@ do {
 catch {
     print ("Exception is \(error.localizedDescription)")
 }
+
 

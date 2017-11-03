@@ -122,7 +122,7 @@ do {
         let results2 = try queryForAllDocumentsFromSpecifiedOffsetFromDB(db,offset: 2,limit: 3)
         print(results2)
         
-        try closeDatabase(db)
+       // try closeDatabase(db)
     }
     
 }

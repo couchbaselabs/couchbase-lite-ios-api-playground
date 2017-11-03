@@ -16,6 +16,8 @@
  ### Example Queries
  - [The Basics](The%20Basics)
  - [SelectResult](SelectResult)
+ - [Intro to where clause](IntroToWhere)
+ - [Pattern Matching basics](Pattern%20matching%20Basics)
  ****
  [Next](@next)
  */
