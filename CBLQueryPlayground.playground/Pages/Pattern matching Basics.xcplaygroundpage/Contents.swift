@@ -77,7 +77,7 @@ func queryForDocumentsMatchingStringFromDB(_ db:Database,limit:Int = 10 ) throws
                 SelectResult.expression(Expression.property("name")))
         .from(DataSource.database(db))
         .where(Expression.property("type").equalTo("landmark")
-            .and( Expression.property("name").like("engineer")))
+            .and( Expression.property("name").like("Royal engineers museum")))
         .limit(limit)
    
     
@@ -194,17 +194,20 @@ do {
     // Open or Create Couchbase Lite Database
     if let db:Database = try createOrOpenDatabase() {
         
-        let results1 = try queryForDocumentsMatchingStringFromDB(db, limit: 2)
-        print(results1)
+        let results1 = try queryForDocumentsMatchingStringFromDB(db, limit: 10)
+        print("\n*****\nResponse to queryForDocumentsMatchingStringFromDB :\n\(results1)")
+        
         
         let results2 = try queryForDocumentsMatchingWildcardedStringFromDB(db)
-        print(results2)
+        print("\n*****\nResponse to queryForDocumentsMatchingWildcardedStringFromDB :\n\(results2)")
         
         let results3 = try queryForDocumentsMatchingCharacterWildcardedStringFromDB(db)
-        print(results3)
+        print("\n*****\nResponse to queryForDocumentsMatchingCharacterWildcardedStringFromDB :\n\(results3)")
+
         
         let results4 = try queryForDocumentsMatchingRegexFromDB(db)
-        print(results4)
+        print("\n*****\nResponse to queryForDocumentsMatchingRegexFromDB :\n\(results4)")
+        
         // try closeDatabase(db)
     }
     

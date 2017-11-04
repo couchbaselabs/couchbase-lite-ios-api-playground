@@ -18,6 +18,10 @@
  - [SelectResult](SelectResult)
  - [Intro to where clause](IntroToWhere)
  - [Pattern Matching basics](Pattern%20matching%20Basics)
+ - [Property Null Check](NullCheck)
+ - [Ordering Results](Ordering)
+ - [Operations on Collections](Collections)
+ 
  ****
  [Next](@next)
  */

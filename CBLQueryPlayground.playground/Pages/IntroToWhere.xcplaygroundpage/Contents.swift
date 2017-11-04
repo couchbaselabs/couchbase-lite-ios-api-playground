@@ -215,16 +215,20 @@ do {
     if let db:Database = try createOrOpenDatabase() {
         
         let results1 = try queryForDocumentsOfSpecificTypeFromDB(db, limit: 2)
-        print(results1)
+        print("\n*****\nResponse to queryForDocumentsOfSpecificTypeFromDB :\n\(results1)")
+        
         
         let results2 = try queryForDocumentsWithLogicalExpressionFilterFromDB(db)
-        print(results2)
+        print("\n*****\nResponse to queryForDocumentsWithLogicalExpressionFilterFromDB :\n\(results2)")
+        
      
         let results3 = try queryDocumentsByKeyPathFromDB(db)
-        print(results3)
+        print("\n*****\nResponse to queryDocumentsByKeyPathFromDB :\n\(results3)")
+        
         
         let results4 = try queryForDocumentsWithBoolFilterFromDB(db)
-        print(results4)
+        print("\n*****\nResponse to queryForDocumentsWithBoolFilterFromDB :\n\(results4)")
+        
        // try closeDatabase(db)
     }
     

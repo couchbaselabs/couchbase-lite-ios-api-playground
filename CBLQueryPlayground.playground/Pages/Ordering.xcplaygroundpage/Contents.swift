@@ -2,7 +2,7 @@
  [Table of Contents](ToC) | [Previous](@previous) | [Next](@next)
  ****
  
- Example that sorts the results of a query
+ ## Example that sorts the results of a query
 
  
  */
@@ -91,7 +91,7 @@ do {
     if let db:Database = try createOrOpenDatabase() {
         
         let results1 = try queryForDocumentsInAscendingOrderFromDB(db, limit: 5)
-        print(results1)
+        print("\n*****\nResponse to queryForDocumentsInAscendingOrderFromDB :\n\(results1)")
         
        
         // try closeDatabase(db)

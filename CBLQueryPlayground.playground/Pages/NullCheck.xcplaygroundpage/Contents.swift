@@ -2,7 +2,7 @@
  [Table of Contents](ToC) | [Previous](@previous) | [Next](@next)
  ****
  
- Example that tests if a property is null or missing
+ ## Example that tests if a property is null or missing
  
  */
 
@@ -116,11 +116,12 @@ do {
     if let db:Database = try createOrOpenDatabase() {
         
         let results1 = try queryMissingOrNullPropertyForDocumentsFromDB(db, limit: 5)
-        print(results1)
+        print("\n*****\nResponse to queryMissingOrNullPropertyForDocumentsFromDB :\n\(results1)")
+        
         
         let results2 = try queryNotMissingOrNullPropertyForDocumentsFromDB(db, limit: 5)
-        print(results2)
-   
+        print("\n*****\nResponse to queryNotMissingOrNullPropertyForDocumentsFromDB :\n\(results2)")
+      
         // try closeDatabase(db)
     }
     
