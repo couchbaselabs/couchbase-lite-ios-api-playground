@@ -1,6 +1,7 @@
 /*:
  # Couchbase Lite 2.0 API Playground
- Examples in the playground demonstrate the Query and FTS interface in Couchbase Lite 2.0. The examples will use sample couchbase lite database named "travel-sample"
+ Examples in this playground demonstrate the Query and FTS interface in Couchbase Lite 2.0. The examples will use sample couchbase lite database named "travel-sample" that can be downloaded as part of the GitHub repo download
+ 
  
  ### Setup Instructions
  - Create a folder named "Shared Playground Data" within your "Documents" folder
@@ -22,6 +23,7 @@
  - [Ordering Results](Ordering)
  - [Operations on Collections](Collections)
  - [Groups and Count Functions](Groups)
+ - [Parameterized Functions](Parameters)
  ****
  [Next](@next)
  */

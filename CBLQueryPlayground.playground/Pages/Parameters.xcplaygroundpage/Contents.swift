@@ -2,15 +2,13 @@
 /*:
  [Table of Contents](ToC) | [Previous](@previous) | [Next](@next)
  ****
- ## Examples that show query functions on strings
+ ## An advanced query example demonstrating the use of Parameterized Functions
  
-The examples discussed here describe some simple string manipulation operations that can be performed using the `Function` expressions
-
+ So far, we have looked at examples of query functions for string manipulation, handling collections etc. In the examples here, we will look at passing parameters to functions. This is a very powerful feature that brings a lot of flexibility to queries
+ 
  The examples below demonstrate
  
- - Substring operation
- - Collation
- 
+ - Use of parameters with `range` functions
  
  */
 
@@ -60,65 +58,34 @@ func closeDatabase(_ db:Database) throws  {
     try db.close()
 }
 
+
 /*:
- ## Query for documents using `substring` filter criteria.
- The example below discusses one particular string manipulation function.
- - String Manipulation Functions include :
-     - Function.lower(prop);
-     - Function.ltrim(prop);
-     - Function.rtrim(prop);
-     - Function.trim(prop);
-     - Function.upper(prop);
+ ## Query for documents by applying a function that takes in params
+ In this example, we are looking for documents where the number of elements in "public_likes" nested array is within a specific range
  - parameter db : The database to query
  - parameter limit: The max number of documents to fetch. Defaults to 10
  - returns: Documents matching the query
  
  */
 
-func queryForDocumentsUsingSubstringFilteringFromDB(_ db:Database, limit:Int = 10) throws -> [Data]? {
+func queryForDocumentsApplyingFunctionsWithParams(_ db:Database, limit:Int = 10) throws -> [Data]? {
+    
+    let likesCount = Function.arrayLength(Expression.property("public_likes"))
+    let lowerCount = Expression.parameter("lower")
+    let upperCount = Expression.parameter("upper")
     
     let searchQuery = Query
         .select(SelectResult.expression(Expression.meta().id),
-                SelectResult.expression(Expression.property("email")),
-                SelectResult.expression(Expression.property("name")))
+                SelectResult.expression(Expression.property("name")),
+                SelectResult.expression(likesCount).as("NumLikes")
+        )
         .from(DataSource.database(db))
-        .where(Expression.property("email").and(Function.contains(Expression.property("email"), substring: "nationaltrust.org")))
+        .where(Expression.property("type").equalTo("hotel").and(likesCount.between(lowerCount,and: upperCount)))
         .limit(limit)
     
+    searchQuery.parameters.setInt(5, forName: "lower")
+    searchQuery.parameters.setInt(10, forName: "upper")
     
-    var matches:[Data] = [Data]()
-    do {
-        for row in try searchQuery.run() {
-            matches.append(row.toDictionary())
-        }
-    }
-    return matches
-}
-
-
-/*:
- ## Query for documents by applying collation function to a string
- In this example, we ignore the case when doing string comparison
- - parameter db : The database to query
- - parameter limit: The max number of documents to fetch. Defaults to 10
- - returns: Documents matching the query
- 
- */
-
-func queryForDocumentsApplyingStringCollation(_ db:Database, limit:Int = 10) throws -> [Data]? {
-    
-    let ignoreCase = Collation.unicode()
-        .ignoreCase(true)
-    
-    let searchQuery = Query
-        .select(SelectResult.expression(Expression.meta().id),
-                SelectResult.expression(Expression.property("name")))
-        .from(DataSource.database(db))
-        .where(Expression.property("type").equalTo("hotel")
-            .and(Expression.property("name").collate(ignoreCase).equalTo("the robins")))
-        .limit(limit)
-    
-
     var matches:[Data] = [Data]()
     do {
         for row in try searchQuery.run() {
@@ -133,17 +100,12 @@ func queryForDocumentsApplyingStringCollation(_ db:Database, limit:Int = 10) thr
  ## Run the queries defined in the above functions
  */
 
-
 do {
     // Open or Create Couchbase Lite Database
     if let db:Database = try createOrOpenDatabase() {
         
-        let results1 = try queryForDocumentsUsingSubstringFilteringFromDB(db, limit: 5)
-        print("\n*****\nResponse to queryForDocumentsUsingSubstringFilteringFromDB : \n \(results1)")
-        
-        let results2 = try queryForDocumentsApplyingStringCollation(db, limit: 5)
-        print("\n*****\nResponse to  queryForDocumentsApplyingStringCollation : \n \(results2)")
-        
+        let results1 = try queryForDocumentsApplyingFunctionsWithParams(db, limit: 50)
+        print("\n*****\nResponse to queryForDocumentsApplyingFunctionsWithParams : \n \(results1)")
         
         // try closeDatabase(db)
     }
@@ -152,10 +114,4 @@ do {
 catch {
     print ("Exception is \(error.localizedDescription)")
 }
-
-
-
-
-
-
 

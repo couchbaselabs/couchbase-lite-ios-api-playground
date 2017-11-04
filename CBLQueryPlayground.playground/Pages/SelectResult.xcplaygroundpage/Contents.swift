@@ -23,7 +23,8 @@ import PlaygroundSupport
 
 /*:
  ## Data
- Definition of a Document object returned by the Couchbase Lite query. Note that in an actual application, you would probably define a native object instead of a generic map type of the kind defined below
+ Definition of a Document object returned by the Couchbase Lite query.
+ Note that in an actual application, you would probably define a native object instead of a generic map type of the kind defined below
  
  */
 

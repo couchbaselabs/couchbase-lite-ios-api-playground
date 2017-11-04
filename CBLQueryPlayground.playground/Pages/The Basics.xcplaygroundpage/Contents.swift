@@ -3,6 +3,8 @@
  ****
  
  Examples that show the structure of basic query
+ Note that you can speed up query processing by creating appropriate indexes. The examples below deal with a small dataset so we will not be creating any indexes.
+ 
  - Fetching all documents from DB
  - Fetching documents with Pagination
  
@@ -14,7 +16,8 @@ import Foundation
 import PlaygroundSupport
 
 /*:
- ## Definition of a Document object returned by the Couchbase Lite query. Note that in an actual application, you would probably define a native object instead of a generic map type of the kind defined below
+ ## Definition of a Document object returned by the Couchbase Lite query.
+ Note that in an actual application, you would probably define a native object instead of a generic map type of the kind defined below
  
  */
 

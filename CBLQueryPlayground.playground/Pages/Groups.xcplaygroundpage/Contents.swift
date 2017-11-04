@@ -4,15 +4,13 @@
  ****
  ## Examples that demonstrate `group` functions
  
-While not required, Groups are generally used in conjunction with `count` function . The `count` function is returns the number of items that meet specific criteria
+Groups are generally used in conjunction with `count` function . The `count` function is returns the number of items that meet specific criteria
  
  The examples below demonstrate
  
  - Basic use of `count` function
  - Use of `group` function with  count
  - limitation of group function
- 
- 
  
  */
 
@@ -22,7 +20,8 @@ import Foundation
 import PlaygroundSupport
 
 /*:
- ## Definition of a Document object returned by the Couchbase Lite query. Note that in an actual application, you would probably define a native object instead of a generic map type of the kind defined below
+ ## Definition of a Document object returned by the Couchbase Lite query.
+ Note that in an actual application, you would probably define a native object instead of a generic map type of the kind defined below
  
  */
 

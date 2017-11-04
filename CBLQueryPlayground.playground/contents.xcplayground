@@ -11,5 +11,6 @@
         <page name='Collections'/>
         <page name='Strings'/>
         <page name='Groups'/>
+        <page name='Parameters'/>
     </pages>
 </playground>
