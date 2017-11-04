@@ -1,6 +1,4 @@
 
-
-//: [Next](@next)
 /*:
  [Table of Contents](ToC) | [Previous](@previous) | [Next](@next)
  ****

@@ -21,7 +21,7 @@
  - [Property Null Check](NullCheck)
  - [Ordering Results](Ordering)
  - [Operations on Collections](Collections)
- 
+ - [Groups and Count Functions](Groups)
  ****
  [Next](@next)
  */
