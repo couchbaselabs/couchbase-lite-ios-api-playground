@@ -1,7 +1,7 @@
 /*:
  [Table of Contents](ToC) | [Previous](@previous) | [Next](@next)
  ****
- ## Examples that show queries on on arrays 
+ ## Examples that show query functions on arrays 
  
 A JSON object contain a nested array object. The examples discussed here describe queries that can be performed on arrays using appropriate array `Function` expressions
  The examples below demonstrate
