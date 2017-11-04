@@ -10,10 +10,8 @@ The examples discussed here describe some simple string manipulation operations 
 
  The examples below demonstrate
  
- - Checking if an array contains a specific member
- - Querying for length of an array
- - Querying for length of an array with aliases
- - Using `satisfies` / `in` clause to check if members of array satisfy a criteria defined by the query expression
+ - Substring operation
+ - Collation
  
  
  */
@@ -121,8 +119,7 @@ func queryForDocumentsApplyingStringCollation(_ db:Database, limit:Int = 10) thr
             .and(Expression.property("name").collate(ignoreCase).equalTo("the robins")))
         .limit(limit)
     
-    
-    print(try searchQuery.explain())
+
     var matches:[Data] = [Data]()
     do {
         for row in try searchQuery.run() {
