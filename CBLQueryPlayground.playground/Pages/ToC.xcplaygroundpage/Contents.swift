@@ -22,8 +22,13 @@
  - [Property Null Check](NullCheck)
  - [Ordering Results](Ordering)
  - [Operations on Collections](Collections)
+ - [String Manipulation](Strings)
+ - [Math Functions](Math)
  - [Groups and Count Functions](Groups)
  - [Parameterized Functions](Parameters)
+ - [Join Functions](Joins)
+ - [Full Text Search](FTS)
+
  ****
  [Next](@next)
  */

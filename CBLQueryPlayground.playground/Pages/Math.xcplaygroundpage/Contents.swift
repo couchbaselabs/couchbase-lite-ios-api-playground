@@ -2,10 +2,11 @@
 /*:
  [Table of Contents](ToC) | [Previous](@previous) | [Next](@next)
  ****
- ## Examples that show queries using string manipulation functions
+ ## Examples that show query with simple math functions
  
-The examples discussed here describe some simple string manipulation operations that can be performed using the `Function` expressions
+ The examples discussed here describe some simple math  operations that can be performed using the `Function` expressions
 
+ 
  The examples below demonstrate
  
  - Substring operation
@@ -64,11 +65,11 @@ func closeDatabase(_ db:Database) throws  {
  ## Query for documents using `substring` filter criteria.
  The example below discusses one particular string manipulation function.
  - String Manipulation Functions include :
-     - Function.lower(prop);
-     - Function.ltrim(prop);
-     - Function.rtrim(prop);
-     - Function.trim(prop);
-     - Function.upper(prop);
+ - Function.lower(prop);
+ - Function.ltrim(prop);
+ - Function.rtrim(prop);
+ - Function.trim(prop);
+ - Function.upper(prop);
  - parameter db : The database to query
  - parameter limit: The max number of documents to fetch. Defaults to 10
  - returns: Documents matching the query
@@ -118,7 +119,7 @@ func queryForDocumentsApplyingStringCollation(_ db:Database, limit:Int = 10) thr
             .and(Expression.property("name").collate(ignoreCase).equalTo("the robins")))
         .limit(limit)
     
-
+    
     var matches:[Data] = [Data]()
     do {
         for row in try searchQuery.run() {
@@ -152,6 +153,7 @@ do {
 catch {
     print ("Exception is \(error.localizedDescription)")
 }
+
 
 
 
