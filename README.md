@@ -42,10 +42,12 @@ This Swift Playground demonostrates the new Query interface in Couchbase Lite 2.
 - You should see a bunch of playground pages in your project explorer. Start with the "ToC" page.
 
 - Check `Render Documentation` checkbox in the Utilities Window to turn on rendering of the playground pages
+![](https://raw.githubusercontent.com/couchbaselabs/couchbase-lite-ios-api-playground/master/pages.png?token=AAnYg2SJc85cx_1sesr6VMPyCCvXzEyBks5aCbEgwA%3D%3D)
 
 - From the "ToC" page, you can navigate to any of the other playground pages. Each playground page execises a set of queries against the "travel-sample.cblite" database
-- 
+
 
 ## Build and Run
 - The very first time, you will need to build `CouchbaseLiteSwift.framework`. For this, select the "CBL Swift" scheme and build it using *Cmd-B* as shown below. You will not be required to build CBLite Swift framework unless you update to a different version of Couchbase Lite. 
 - Select the playground that you want to Execute a playground by clicking on the "Run" button
+![](https://raw.githubusercontent.com/couchbaselabs/couchbase-lite-ios-api-playground/master/run_page.gif?token=AAnYg1rpGHsrE3u5F7ZqEPdp8ub1iRd-ks5aCbFVwA%3D%3D)
