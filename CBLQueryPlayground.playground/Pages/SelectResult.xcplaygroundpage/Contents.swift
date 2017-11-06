@@ -163,6 +163,11 @@ func queryMetadataAndAllPropertiesForDocumentsFromDB(_ db:Database, limit:Int = 
     var matches:[Data] = [Data]()
     do {
         for row in try searchQuery.run() {
+            let dict = row.toDictionary()
+            let docId = dict["id"]
+            if let docDetails = dict["travel-sample"] as? [String:Any] {
+                let name = docDetails["icao"]
+            }
             matches.append(row.toDictionary())
         }
     }

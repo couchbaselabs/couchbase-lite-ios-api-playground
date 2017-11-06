@@ -10,7 +10,7 @@
  ```
  - Copy the "travel-sample.cblite2" folder that is bundled with the repo into the "Shared Playground Data"
  ``` bash
- $ cd /path/to/CBL2APITester/CBL2APITester/
+ $ cd /path/to/ouchbase-lite-ios-api-playground/
  $ cp  -r travel-sample.cblite2 ~/Documents/Shared\ Playground\ Data/
  ```
  
