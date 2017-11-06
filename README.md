@@ -34,7 +34,7 @@ This Swift Playground demonostrates the new Query interface in Couchbase Lite 2.
   ``` bash
     $ cd /path/to/couchbase-lite-ios-api-playground/
     $ cp  -r travel-sample.cblite2 ~/Documents/Shared\ Playground\ Data/
- ```
+  ```
 
 ## Exploring the Project 
 
