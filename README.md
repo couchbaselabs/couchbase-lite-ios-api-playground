@@ -44,7 +44,7 @@ This Swift Playground demonostrates the new Query interface in Couchbase Lite 2.
 - Check `Render Documentation` checkbox in the Utilities Window to turn on rendering of the playground pages
 ![](https://raw.githubusercontent.com/couchbaselabs/couchbase-lite-ios-api-playground/master/pages.png?token=AAnYg2SJc85cx_1sesr6VMPyCCvXzEyBks5aCbEgwA%3D%3D)
 
-- From the "ToC" page, you can navigate to any of the other playground pages. Each playground page execises a set of queries against the "travel-sample.cblite" database
+- From the "ToC" page, you can navigate to any of the other playground pages. Each playground page exercises a set of queries against the "travel-sample.cblite" database
 
 
 ## Build and Run
