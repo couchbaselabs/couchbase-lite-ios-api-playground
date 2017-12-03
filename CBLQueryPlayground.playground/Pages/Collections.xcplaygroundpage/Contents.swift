@@ -167,7 +167,7 @@ func queryForDocumentsApplyingSatisfiesCriteriaFromDB(_ db:Database, limit:Int =
         .from(DataSource.database(db))
         .where(Expression.property("type").equalTo("hotel")
             .and(Expression.any("reviewer").in(Expression.property("public_likes"))
-                .satisfies(NAME.like("%Lan%"))))
+                .satisfies(NAME.like("Cor%"))))
         .limit(limit)
     
     
