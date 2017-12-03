@@ -111,6 +111,13 @@ func queryMetadataForDocumentsFromDB(_ db:Database, limit:Int = 10) throws -> [D
     var matches:[Data] = [Data]()
     do {
         for row in try searchQuery.run() {
+            for row in try searchQuery.run() {
+                if let dict = row.toDictionary() as? [String:Any],
+                    let docId  = dict["id"] as? String {
+                    // You can now fetch the details of the document using the Id
+                    let doc = try db.getDocument(docId)
+                }
+            }
             matches.append(row.toDictionary())
         }
     }
@@ -182,16 +189,17 @@ do {
     if let db:Database = try createOrOpenDatabase() {
         
         let results1 = try queryPropertyForDocumentsFromDB(db, limit: 30)
-        print(results1)
+        print("\n*****\nResponse to queryPropertyForDocumentsFromDB :\n\(results1)")
         
-        let results2 = try queryMetadataForDocumentsFromDB(db)
-        print(results2)
+        let results2  = try queryMetadataForDocumentsFromDB(db,limit: 1)
+        print("\n*****\nResponse to queryMetadataForDocumentsFromDB :\n\(results2)")
         
         let results3 = try queryMetadataAndPropertyForDocumentsFromDB(db)
-        print(results3)
+        print("\n*****\nResponse to queryMetadataAndPropertyForDocumentsFromDB :\n\(results3)")
         
         let results4 = try queryMetadataAndAllPropertiesForDocumentsFromDB(db)
-        print(results4)
+        print("\n*****\nResponse to queryMetadataAndAllPropertiesForDocumentsFromDB :\n\(results4)")
+        
                 
        // try closeDatabase(db)
     }

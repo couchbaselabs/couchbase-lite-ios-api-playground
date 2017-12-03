@@ -120,10 +120,11 @@ do {
     if let db:Database = try createOrOpenDatabase() {
         
         let results1 = try queryForAllDocumentsFromDB(db, limit: 5)
-        print(results1)
+        print("\n*****\nResponse to queryForAllDocumentsFromDB :\n\(results1)")
         
         let results2 = try queryForAllDocumentsFromSpecifiedOffsetFromDB(db,offset: 2,limit: 3)
-        print(results2)
+        print("\n*****\nResponse to queryForAllDocumentsFromSpecifiedOffsetFromDB :\n\(results2)")
+        
         
        // try closeDatabase(db)
     }
