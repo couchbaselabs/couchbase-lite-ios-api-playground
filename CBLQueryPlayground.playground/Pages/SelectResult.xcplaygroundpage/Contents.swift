@@ -82,7 +82,7 @@ func queryPropertyForDocumentsFromDB(_ db:Database, limit:Int = 10) throws -> [D
     
     var matches:[Data] = [Data]()
     do {
-        for row in try searchQuery.run() {
+        for row in try searchQuery.execute() {
             matches.append(row.toDictionary())
         }
     }
@@ -103,19 +103,19 @@ func queryPropertyForDocumentsFromDB(_ db:Database, limit:Int = 10) throws -> [D
 func queryMetadataForDocumentsFromDB(_ db:Database, limit:Int = 10) throws -> [Data]? {
     
     let searchQuery = Query
-        .select(SelectResult.expression(Expression.meta().id))
+        .select(SelectResult.expression(Meta.id))
         .from(DataSource.database(db))
         .limit(limit)
     
     
     var matches:[Data] = [Data]()
     do {
-        for row in try searchQuery.run() {
-            for row in try searchQuery.run() {
+        for row in try searchQuery.execute() {
+            for row in try searchQuery.execute() {
                 if let dict = row.toDictionary() as? [String:Any],
                     let docId  = dict["id"] as? String {
                     // You can now fetch the details of the document using the Id
-                    let doc = try db.getDocument(docId)
+                    let doc = try db.document(withID:docId)
                 }
             }
             matches.append(row.toDictionary())
@@ -135,7 +135,7 @@ func queryMetadataForDocumentsFromDB(_ db:Database, limit:Int = 10) throws -> [D
 func queryMetadataAndPropertyForDocumentsFromDB(_ db:Database, limit:Int = 10) throws -> [Data]? {
     
     let searchQuery = Query
-        .select(SelectResult.expression(Expression.meta().id),
+        .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("type")))
         .from(DataSource.database(db))
         .limit(limit)
@@ -143,7 +143,7 @@ func queryMetadataAndPropertyForDocumentsFromDB(_ db:Database, limit:Int = 10) t
     
     var matches:[Data] = [Data]()
     do {
-        for row in try searchQuery.run() {
+        for row in try searchQuery.execute() {
             matches.append(row.toDictionary())
         }
     }
@@ -161,7 +161,7 @@ func queryMetadataAndPropertyForDocumentsFromDB(_ db:Database, limit:Int = 10) t
 func queryMetadataAndAllPropertiesForDocumentsFromDB(_ db:Database, limit:Int = 10) throws -> [Data]? {
     
     let searchQuery = Query
-        .select(SelectResult.expression(Expression.meta().id),
+        .select(SelectResult.expression(Meta.id),
                 SelectResult.all())
         .from(DataSource.database(db))
         .limit(limit)
@@ -169,7 +169,7 @@ func queryMetadataAndAllPropertiesForDocumentsFromDB(_ db:Database, limit:Int = 
     
     var matches:[Data] = [Data]()
     do {
-        for row in try searchQuery.run() {
+        for row in try searchQuery.execute() {
             let dict = row.toDictionary()
             let docId = dict["id"]
             if let docDetails = dict["travel-sample"] as? [String:Any] {

@@ -62,10 +62,11 @@ func closeDatabase(_ db:Database) throws  {
  */
 
 func queryForDocumentsInAscendingOrderFromDB(_ db:Database, limit:Int = 10 ) throws -> [Data]? {
+
     
     let searchQuery = Query
         .select(
-            SelectResult.expression(Expression.meta().id),
+            SelectResult.expression(Meta.id),
             SelectResult.expression(Expression.property("title")))
         .from(DataSource.database(db))
         .where(Expression.property("type").equalTo("hotel"))
@@ -74,7 +75,7 @@ func queryForDocumentsInAscendingOrderFromDB(_ db:Database, limit:Int = 10 ) thr
     
     var matches:[Data] = [Data]()
     do {
-        for row in try searchQuery.run() {
+        for row in try searchQuery.execute() {
             matches.append(row.toDictionary())
         }
     }

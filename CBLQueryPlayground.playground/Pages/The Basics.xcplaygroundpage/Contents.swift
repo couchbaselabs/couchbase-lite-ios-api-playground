@@ -75,7 +75,7 @@ func queryForAllDocumentsFromDB(_ db:Database, limit:Int = 10 ) throws -> [Data]
     
     var matches:[Data] = [Data]()
     do {
-        for row in try searchQuery.run() {
+        for row in try searchQuery.execute() {
             matches.append(row.toDictionary())
         }
     }
@@ -101,7 +101,7 @@ func queryForAllDocumentsFromSpecifiedOffsetFromDB(_ db:Database, offset:Int = 0
     
     var matches:[Data] = [Data]()
     do {
-        for row in try searchQuery.run() {
+        for row in try searchQuery.execute() {
             matches.append(row.toDictionary())
         }
     }

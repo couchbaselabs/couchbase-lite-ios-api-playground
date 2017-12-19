@@ -75,20 +75,20 @@ func closeDatabase(_ db:Database) throws  {
  
  */
 
-func queryForDocumentsUsingSubstringFilteringFromDB(_ db:Database, limit:Int = 10) throws -> [Data]? {
+func queryForDocumentsUsingSubstringFilteringFromDB(_ db:Database, limit:Int = 30000) throws -> [Data]? {
     
     let searchQuery = Query
-        .select(SelectResult.expression(Expression.meta().id),
+        .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("email")),
                 SelectResult.expression(Expression.property("name")))
         .from(DataSource.database(db))
-        .where(Expression.property("email").and(Function.contains(Expression.property("email"), substring: "nationaltrust.org")))
+        .where(Expression.property("email").and(Function.contains(Expression.property("email"), substring: ".uk")))
         .limit(limit)
     
     
     var matches:[Data] = [Data]()
     do {
-        for row in try searchQuery.run() {
+        for row in try searchQuery.execute() {
             matches.append(row.toDictionary())
         }
     }
@@ -111,7 +111,7 @@ func queryForDocumentsApplyingStringCollation(_ db:Database, limit:Int = 10) thr
         .ignoreCase(true)
     
     let searchQuery = Query
-        .select(SelectResult.expression(Expression.meta().id),
+        .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("name")))
         .from(DataSource.database(db))
         .where(Expression.property("type").equalTo("hotel")
@@ -121,7 +121,7 @@ func queryForDocumentsApplyingStringCollation(_ db:Database, limit:Int = 10) thr
 
     var matches:[Data] = [Data]()
     do {
-        for row in try searchQuery.run() {
+        for row in try searchQuery.execute() {
             matches.append(row.toDictionary())
         }
     }

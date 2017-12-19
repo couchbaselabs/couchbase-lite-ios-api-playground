@@ -92,7 +92,7 @@ func queryForDocumentsOfSpecificTypeFromDB(_ db:Database,limit:Int = 10 ) throws
     
     var matches:[Data] = [Data]()
     do {
-        for row in try searchQuery.run() {
+        for row in try searchQuery.execute() {
             matches.append(row.toDictionary())
         }
     }
@@ -131,7 +131,7 @@ func queryForDocumentsOfSpecificTypeFromDB(_ db:Database,limit:Int = 10 ) throws
 func queryForDocumentsWithLogicalExpressionFilterFromDB(_ db:Database, limit:Int = 10 ) throws -> [Data]? {
     
     let searchQuery = Query
-        .select(SelectResult.expression(Expression.meta().id))
+        .select(SelectResult.expression(Meta.id))
         .from(DataSource.database(db))
         .where(Expression.property("type").equalTo("hotel")
             .and(Expression.property("country").equalTo("United States")
@@ -141,7 +141,7 @@ func queryForDocumentsWithLogicalExpressionFilterFromDB(_ db:Database, limit:Int
     
     var matches:[Data] = [Data]()
     do {
-        for row in try searchQuery.run() {
+        for row in try searchQuery.execute() {
             matches.append(row.toDictionary())
         }
     }
@@ -169,7 +169,7 @@ func queryDocumentsByKeyPathFromDB(_ db:Database , limit:Int = 10) throws -> [Da
     
     var matches:[Data] = [Data]()
     do {
-        for row in try searchQuery.run() {
+        for row in try searchQuery.execute() {
             matches.append(row.toDictionary())
         }
     }
@@ -189,7 +189,7 @@ func queryForDocumentsWithBoolFilterFromDB(_ db:Database, limit:Int = 10 ) throw
     
     let searchQuery = Query
         .select(SelectResult.expression(Expression.property("title")),
-                SelectResult.expression(Expression.property("vacancy")))
+                SelectResult.expression(Expression.property("email")))
         .from(DataSource.database(db))
         .where(Expression.property("type").equalTo("hotel")
             .and(Expression.property("vacancy").equalTo(true)))
@@ -197,7 +197,7 @@ func queryForDocumentsWithBoolFilterFromDB(_ db:Database, limit:Int = 10 ) throw
     
     var matches:[Data] = [Data]()
     do {
-        for row in try searchQuery.run() {
+        for row in try searchQuery.execute() {
             matches.append(row.toDictionary())
         }
     }

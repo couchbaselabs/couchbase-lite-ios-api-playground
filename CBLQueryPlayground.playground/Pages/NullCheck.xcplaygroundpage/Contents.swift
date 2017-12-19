@@ -63,7 +63,7 @@ func closeDatabase(_ db:Database) throws  {
 func queryMissingOrNullPropertyForDocumentsFromDB(_ db:Database, limit:Int = 10) throws -> [Data]? {
     
     let searchQuery = Query
-        .select(SelectResult.expression(Expression.meta().id),
+        .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("email")))
         .from(DataSource.database(db))
         .where(Expression.property("email").isNullOrMissing())
@@ -72,7 +72,7 @@ func queryMissingOrNullPropertyForDocumentsFromDB(_ db:Database, limit:Int = 10)
     
     var matches:[Data] = [Data]()
     do {
-        for row in try searchQuery.run() {
+        for row in try searchQuery.execute() {
             matches.append(row.toDictionary())
         }
     }
@@ -90,7 +90,7 @@ func queryMissingOrNullPropertyForDocumentsFromDB(_ db:Database, limit:Int = 10)
 func queryNotMissingOrNullPropertyForDocumentsFromDB(_ db:Database, limit:Int = 10) throws -> [Data]? {
     
     let searchQuery = Query
-        .select(SelectResult.expression(Expression.meta().id),
+        .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("email")))
         .from(DataSource.database(db))
         .where(Expression.property("email").notNullOrMissing())
@@ -99,7 +99,7 @@ func queryNotMissingOrNullPropertyForDocumentsFromDB(_ db:Database, limit:Int = 
     
     var matches:[Data] = [Data]()
     do {
-        for row in try searchQuery.run() {
+        for row in try searchQuery.execute() {
             matches.append(row.toDictionary())
         }
     }

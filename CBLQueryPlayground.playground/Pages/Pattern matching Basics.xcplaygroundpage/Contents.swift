@@ -73,7 +73,7 @@ func closeDatabase(_ db:Database) throws  {
 func queryForDocumentsMatchingStringFromDB(_ db:Database,limit:Int = 10 ) throws -> [Data]? {
     
     let searchQuery = Query
-        .select(SelectResult.expression(Expression.meta().id),
+        .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("country")),
                 SelectResult.expression(Expression.property("name")))
         .from(DataSource.database(db))
@@ -84,7 +84,7 @@ func queryForDocumentsMatchingStringFromDB(_ db:Database,limit:Int = 10 ) throws
     
     var matches:[Data] = [Data]()
     do {
-        for row in try searchQuery.run() {
+        for row in try searchQuery.execute() {
             matches.append(row.toDictionary())
         }
     }
@@ -105,7 +105,7 @@ func queryForDocumentsMatchingStringFromDB(_ db:Database,limit:Int = 10 ) throws
 func queryForDocumentsMatchingWildcardedStringFromDB(_ db:Database,limit:Int = 10 ) throws -> [Data]? {
     
     let searchQuery = Query
-        .select(SelectResult.expression(Expression.meta().id),
+        .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("country")),
                 SelectResult.expression(Expression.property("name")))
         .from(DataSource.database(db))
@@ -115,7 +115,7 @@ func queryForDocumentsMatchingWildcardedStringFromDB(_ db:Database,limit:Int = 1
  
     var matches:[Data] = [Data]()
     do {
-        for row in try searchQuery.run() {
+        for row in try searchQuery.execute() {
             matches.append(row.toDictionary())
         }
     }
@@ -137,7 +137,7 @@ func queryForDocumentsMatchingWildcardedStringFromDB(_ db:Database,limit:Int = 1
 func queryForDocumentsMatchingCharacterWildcardedStringFromDB(_ db:Database,limit:Int = 10 ) throws -> [Data]? {
     
     let searchQuery = Query
-        .select(SelectResult.expression(Expression.meta().id),
+        .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("country")),
                 SelectResult.expression(Expression.property("name")))
         .from(DataSource.database(db))
@@ -147,7 +147,7 @@ func queryForDocumentsMatchingCharacterWildcardedStringFromDB(_ db:Database,limi
     
     var matches:[Data] = [Data]()
     do {
-        for row in try searchQuery.run() {
+        for row in try searchQuery.execute() {
             matches.append(row.toDictionary())
         }
     }
@@ -167,7 +167,7 @@ func queryForDocumentsMatchingCharacterWildcardedStringFromDB(_ db:Database,limi
 
 func queryForDocumentsMatchingRegexFromDB(_ db:Database,limit:Int = 10 ) throws -> [Data]? {
     let searchQuery = Query
-        .select(SelectResult.expression(Expression.meta().id),
+        .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("name"))        )
         .from(DataSource.database(db))
         .where(Expression.property("type").equalTo("landmark")
@@ -177,7 +177,7 @@ func queryForDocumentsMatchingRegexFromDB(_ db:Database,limit:Int = 10 ) throws 
     
     var matches:[Data] = [Data]()
     do {
-        for row in try searchQuery.run() {
+        for row in try searchQuery.execute() {
             matches.append(row.toDictionary())
         }
     }

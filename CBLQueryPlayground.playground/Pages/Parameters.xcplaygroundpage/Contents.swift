@@ -70,25 +70,28 @@ func closeDatabase(_ db:Database) throws  {
 
 func queryForDocumentsApplyingFunctionsWithParams(_ db:Database, limit:Int = 10) throws -> [Data]? {
     
-    let likesCount = Function.arrayLength(Expression.property("public_likes"))
+    let likesCount = ArrayFunction.length(Expression.property("public_likes"))
     let lowerCount = Expression.parameter("lower")
     let upperCount = Expression.parameter("upper")
-    
+  
     let searchQuery = Query
-        .select(SelectResult.expression(Expression.meta().id),
+        .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("name")),
                 SelectResult.expression(likesCount).as("NumLikes")
         )
         .from(DataSource.database(db))
-        .where(Expression.property("type").equalTo("hotel").and(likesCount.between(lowerCount,and: upperCount)))
+        .where(Expression.property("type").equalTo("hotel")
+            .and(likesCount.between(lowerCount,and: upperCount)))
         .limit(limit)
-    
-    searchQuery.parameters.setInt(5, forName: "lower")
-    searchQuery.parameters.setInt(10, forName: "upper")
+
+    var params = Parameters()
+    params.setInt(5, forName: "lower")
+    params.setInt(10, forName: "upper")
+    searchQuery.parameters = params
     
     var matches:[Data] = [Data]()
     do {
-        for row in try searchQuery.run() {
+        for row in try searchQuery.execute() {
             matches.append(row.toDictionary())
         }
     }
@@ -104,7 +107,7 @@ do {
     // Open or Create Couchbase Lite Database
     if let db:Database = try createOrOpenDatabase() {
         
-        let results1 = try queryForDocumentsApplyingFunctionsWithParams(db, limit: 50)
+        let results1 = try queryForDocumentsApplyingFunctionsWithParams(db, limit: 10)
         print("\n*****\nResponse to queryForDocumentsApplyingFunctionsWithParams : \n \(results1)")
         
         // try closeDatabase(db)

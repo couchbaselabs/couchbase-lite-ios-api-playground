@@ -77,7 +77,7 @@ func queryDocumentCountFromDB(_ db:Database, limit:Int = 10) throws -> [Data]? {
     
     var matches:[Data] = [Data]()
     do {
-        for row in try searchQuery.run() {
+        for row in try searchQuery.execute() {
             matches.append(row.toDictionary())
         }
     }
@@ -108,7 +108,7 @@ func queryDocumentCountGroupedByPropertyFromDB(_ db:Database, limit:Int = 10) th
     
     var matches:[Data] = [Data]()
     do {
-        for row in try searchQuery.run() {
+        for row in try searchQuery.execute() {
             matches.append(row.toDictionary())
         }
     }
@@ -129,7 +129,7 @@ func queryDocumentCountGroupedByPropertyFromDB(_ db:Database, limit:Int = 10) th
 func queryDocumentsGroupedByPropertyFromDB(_ db:Database, limit:Int = 10) throws -> [Data]? {
     
     let searchQuery = Query
-        .select(SelectResult.expression(Expression.meta().id),
+        .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("name")))
         .from(DataSource.database(db))
         .where(Expression.property("type").equalTo("hotel"))
@@ -140,7 +140,7 @@ func queryDocumentsGroupedByPropertyFromDB(_ db:Database, limit:Int = 10) throws
     
     var matches:[Data] = [Data]()
     do {
-        for row in try searchQuery.run() {
+        for row in try searchQuery.execute() {
             matches.append(row.toDictionary())
         }
     }
