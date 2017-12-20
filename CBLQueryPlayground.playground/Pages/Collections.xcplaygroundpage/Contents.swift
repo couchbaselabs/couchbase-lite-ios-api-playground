@@ -104,7 +104,7 @@ func queryForDocumentsByReturningArrayLength(_ db:Database, limit:Int = 10) thro
     let searchQuery = Query
         .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("name")),
-    SelectResult.expression(ArrayFunction.length(Expression.property("public_likes"))))
+    SelectResult.expression(ArrayFunction.length(Expression.property("public_likes"))).as("NumLikes"))
         .from(DataSource.database(db))
         .where(Expression.property("type").equalTo("hotel"))
         .limit(limit)
@@ -202,6 +202,7 @@ func queryForDocumentsApplyingSatisfiesCriteriaOnNestedArrayFromDB(_ db:Database
                 .satisfies(VAR_OVERALL.greaterThanOrEqualTo(4))))
         .limit(limit)
     
+   
     
     var matches:[Data] = [Data]()
     do {
