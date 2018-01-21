@@ -59,11 +59,9 @@ func createOrOpenDatabase() throws -> Database? {
     let sharedDocumentDirectory = playgroundSharedDataDirectory.resolvingSymlinksInPath()
     let kDBName:String = "joindb"
     let fileManager:FileManager = FileManager.default
-    
-    var options =  DatabaseConfiguration()
     let appSupportFolderPath = sharedDocumentDirectory.path
-    options.fileProtection = .noFileProtection
-    options.directory = appSupportFolderPath
+    
+    let options =  DatabaseConfiguration.Builder().setDirectory(appSupportFolderPath).setFileProtection(.noFileProtection).build()
     
     // Uncomment the line below  if you want details of the SQLite query equivalent
     // Database.setLogLevel(.verbose, domain: .all)
@@ -102,8 +100,8 @@ func queryForDocumentsFromDatabasePerformingInnerJoin(_ db:Database) throws -> [
     // Join where the "department" field of employee documents is equal to the department "code" of
     // "department" documents
     let joinExpr = employeeDeptExpr.equalTo(departmentCodeExpr)
-        .and(Expression.property("type").from("employeeDS").equalTo("employee"))
-        .and(Expression.property("type").from("departmentDS").equalTo("department"))
+        .and(Expression.property("type").from("employeeDS").equalTo(Expression.string("employee")))
+        .and(Expression.property("type").from("departmentDS").equalTo(Expression.string("department")))
 
     // join expression
     let join = Join.join(departmentDS).on(joinExpr)
@@ -152,8 +150,8 @@ func queryForDocumentsFromDatabasePerformingLeftJoin(_ db:Database) throws -> [D
     // Join where the "department" field of employee documents is equal to the department "code" of
     // "department" documents
     let joinExpr = employeeDeptExpr.equalTo(departmentCodeExpr)
-        .and(Expression.property("type").from("employeeDS").equalTo("employee"))
-        .and(Expression.property("type").from("departmentDS").equalTo("department"))
+        .and(Expression.property("type").from("employeeDS").equalTo(Expression.string("employee")))
+        .and(Expression.property("type").from("departmentDS").equalTo(Expression.string("department")))
 
     // join expression
     let join = Join.leftJoin(departmentDS).on(joinExpr)
@@ -191,8 +189,8 @@ do {
     // Open or Create Couchbase Lite Database
     if let db:Database = try createOrOpenDatabase() {
         
-        let results1 = try queryForDocumentsFromDatabasePerformingInnerJoin(db)
-        print("\n*****\nResponse to queryForDocumentsFromDatabasePerformingInnerJoin :\n\(results1)")
+//        let results1 = try queryForDocumentsFromDatabasePerformingInnerJoin(db)
+//        print("\n*****\nResponse to queryForDocumentsFromDatabasePerformingInnerJoin :\n\(results1)")
 
         let results2 = try queryForDocumentsFromDatabasePerformingLeftJoin(db)
         print("\n*****\nResponse to queryForDocumentsFromDatabasePerformingLeftJoin :\n\(results2)")
