@@ -34,19 +34,18 @@ typealias Data = [String:Any?]
  
  */
 func createOrOpenDatabase() throws -> Database? {
-    let sharedDocumentDirectory = playgroundSharedDataDirectory.resolvingSymlinksInPath()
     let kDBName:String = "travel-sample"
-    let fileManager:FileManager = FileManager.default
-    
-    var options =  DatabaseConfiguration()
+    let sharedDocumentDirectory = playgroundSharedDataDirectory.resolvingSymlinksInPath()
     let appSupportFolderPath = sharedDocumentDirectory.path
-    options.fileProtection = .noFileProtection
-    options.directory = appSupportFolderPath
+    
+    let options =  DatabaseConfiguration.Builder()
+        .setDirectory(appSupportFolderPath)
+        .setFileProtection(.noFileProtection)
+        .build()
     
     // Uncomment the line below  if you want details of the SQLite query equivalent
     // Database.setLogLevel(.verbose, domain: .all)
     return try Database(name: kDBName, config: options)
-    
     
 }
 
@@ -70,10 +69,10 @@ func closeDatabase(_ db:Database) throws  {
 func queryDocumentCountFromDB(_ db:Database, limit:Int = 10) throws -> [Data]? {
     
     let searchQuery = Query
-        .select(SelectResult.expression(Function.count(1)).as("NumHotels"))
+        .select(SelectResult.expression(Function.count(Expression.int(0))).as("NumHotels"))
         .from(DataSource.database(db))
-        .where(Expression.property("type").equalTo("hotel"))
-        .limit(limit)
+        .where(Expression.property("type").equalTo(Expression.string ("hotel")))
+        .limit(Expression.int(limit))
     
     var matches:[Data] = [Data]()
     do {
@@ -98,12 +97,12 @@ func queryDocumentCountFromDB(_ db:Database, limit:Int = 10) throws -> [Data]? {
 func queryDocumentCountGroupedByPropertyFromDB(_ db:Database, limit:Int = 10) throws -> [Data]? {
     
     let searchQuery = Query
-        .select(SelectResult.expression(Function.count(0)).as("NumHotels"),
+        .select(SelectResult.expression(Function.count(Expression.int(0))).as("NumHotels"),
                 SelectResult.expression(Expression.property("country")))
         .from(DataSource.database(db))
-        .where(Expression.property("type").equalTo("hotel"))
+        .where(Expression.property("type").equalTo(Expression.string ("hotel")))
         .groupBy(Expression.property("country"))
-        .limit(limit)
+        .limit(Expression.int(limit))
     
     
     var matches:[Data] = [Data]()
@@ -132,9 +131,9 @@ func queryDocumentsGroupedByPropertyFromDB(_ db:Database, limit:Int = 10) throws
         .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("name")))
         .from(DataSource.database(db))
-        .where(Expression.property("type").equalTo("hotel"))
+        .where(Expression.property("type").equalTo(Expression.string ("hotel")))
         .groupBy(Expression.property("country"))
-        .limit(limit)
+        .limit(Expression.int(limit))
     
   
     

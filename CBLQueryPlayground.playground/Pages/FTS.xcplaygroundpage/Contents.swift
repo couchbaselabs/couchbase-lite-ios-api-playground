@@ -35,19 +35,18 @@ typealias Data = [String:Any?]
  
  */
 func createOrOpenDatabase() throws -> Database? {
-    let sharedDocumentDirectory = playgroundSharedDataDirectory.resolvingSymlinksInPath()
     let kDBName:String = "travel-sample"
-    let fileManager:FileManager = FileManager.default
-    
-    var options =  DatabaseConfiguration()
+    let sharedDocumentDirectory = playgroundSharedDataDirectory.resolvingSymlinksInPath()
     let appSupportFolderPath = sharedDocumentDirectory.path
-    options.fileProtection = .noFileProtection
-    options.directory = appSupportFolderPath
+    
+    let options =  DatabaseConfiguration.Builder()
+        .setDirectory(appSupportFolderPath)
+        .setFileProtection(.noFileProtection)
+        .build()
     
     // Uncomment the line below  if you want details of the SQLite query equivalent
     // Database.setLogLevel(.verbose, domain: .all)
     return try Database(name: kDBName, config: options)
-    
 }
 
 /*:
@@ -115,9 +114,9 @@ func queryForDocumentsContainingSpecificString(_ db:Database,limit:Int = 10 ) th
         .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("content")))
         .from(DataSource.database(db))
-        .where(Expression.property("type").equalTo("landmark")
+        .where(Expression.property("type").equalTo(Expression.string ("landmark"))
             .and( ftsExpression.match("Mechanical")))
-        .limit(limit)
+        .limit(Expression.int(limit))
     
     
     var matches:[Data] = [Data]()
@@ -145,9 +144,9 @@ func queryForDocumentsContainingSpecificStringWithNoStemming(_ db:Database,limit
         .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("content")))
         .from(DataSource.database(db))
-        .where(Expression.property("type").equalTo("landmark")
+        .where(Expression.property("type").equalTo(Expression.string ("landmark"))
             .and( ftsExpression.match("Mechanical")))
-        .limit(limit)
+        .limit(Expression.int(limit))
     
     
     var matches:[Data] = [Data]()
@@ -177,9 +176,9 @@ func queryForDocumentsContainingSpecificWildcardString(_ db:Database,limit:Int =
         .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("content")))
         .from(DataSource.database(db))
-        .where(Expression.property("type").equalTo("landmark")
+        .where(Expression.property("type").equalTo(Expression.string ("landmark"))
             .and( ftsExpression.match("walt*")))
-        .limit(limit)
+        .limit(Expression.int(limit))
     
     
     var matches:[Data] = [Data]()
@@ -208,9 +207,9 @@ func queryForDocumentsContainingSpecificLogicalOperatorStringNoStemming(_ db:Dat
         .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("content")))
         .from(DataSource.database(db))
-        .where(Expression.property("type").equalTo("landmark")
+        .where(Expression.property("type").equalTo(Expression.string ("landmark"))
             .and( ftsExpression.match("Mechanical OR Mechanism")))
-        .limit(limit)
+        .limit(Expression.int(limit))
     
     
     var matches:[Data] = [Data]()
@@ -243,9 +242,9 @@ func queryForDocumentsContainingSpecificStringInMultipleProperties(_ db:Database
                 SelectResult.expression(Expression.property("name")),
                 SelectResult.expression(Expression.property("content")))
         .from(DataSource.database(db))
-        .where(Expression.property("type").equalTo("landmark")
+        .where(Expression.property("type").equalTo(Expression.string ("landmark"))
             .and( ftsExpression.match("Mechanical")))
-        .limit(limit)
+        .limit(Expression.int(limit))
     
     
     var matches:[Data] = [Data]()
@@ -275,9 +274,9 @@ func queryForDocumentsContainingSpecificStringWithStopWords(_ db:Database,limit:
         .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("content")))
         .from(DataSource.database(db))
-        .where(Expression.property("type").equalTo("landmark")
+        .where(Expression.property("type").equalTo(Expression.string ("landmark"))
             .and( ftsExpression.match("on the history")))
-        .limit(limit)
+        .limit(Expression.int(limit))
     
     
     var matches:[Data] = [Data]()
@@ -305,9 +304,9 @@ func queryForDocumentsContainingSpecificStringIgnoringStopWords(_ db:Database,li
         .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("content")))
         .from(DataSource.database(db))
-        .where(Expression.property("type").equalTo("landmark")
+        .where(Expression.property("type").equalTo(Expression.string ("landmark"))
             .and( ftsExpression.match("blue fin yellow fin")))
-        .limit(limit)
+        .limit(Expression.int(limit))
     
     
     var matches:[Data] = [Data]()
@@ -336,10 +335,10 @@ func queryForDocumentsContainingSpecificStringWithRankOrder(_ db:Database,limit:
         .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("content")))
         .from(DataSource.database(db))
-        .where(Expression.property("type").equalTo("landmark")
+        .where(Expression.property("type").equalTo(Expression.string ("landmark"))
             .and( ftsExpression.match("attract")))
         .orderBy(Ordering.expression(FullTextFunction.rank("ContentFTSIndexNoStemming")).descending())
-        .limit(limit)
+        .limit(Expression.int(limit))
     
   
     
@@ -362,24 +361,6 @@ func queryForDocumentsContainingSpecificStringWithRankOrder(_ db:Database,limit:
 do {
     // Open or Create Couchbase Lite Database
     if let db:Database = try createOrOpenDatabase() {
-        
-//        let doc = MutableDocument.init(withID: "test3")
-//        var dict:[String:Any] = [:]
-//        dict["foo"] = 1234.555
-//        doc.setValue(dict, forKey: "map")
-//        doc.setValue(1234.0, forKey: "single1")
-//        try? db.saveDocument(doc)
-//
-//        let doc1 = db.document(withID: "test3")
-//
-//        print(doc1?.value(forKey: "single1"))
-//        print(type(of:doc1?.float(forKey: "single1")))
-//        let dict2 = doc1?.dictionary(forKey: "map")?.toDictionary()
-//        print(dict2)
-//        let val = dict2?["foo"]
-//        print(val)
-//        print(type(of: val))
-        
         // If you not create indexes, you will get an exception "Exception is 'match' test requires a full-text index"
         let _ = try createFTSIndexOnDatabase(db)
         
@@ -387,30 +368,30 @@ do {
         
         let _ = try createFTSIndexOnDatabaseWithMultipleProperties(db)
 
-//        let results1 = try queryForDocumentsContainingSpecificString(db)
-//        print("\n*****\nResponse to queryForDocumentsContainingSpecificString :\n\(results1)")
-//
-//        let results2 = try queryForDocumentsContainingSpecificStringWithNoStemming(db)
-//        print("\n*****\nResponse to queryForDocumentsContainingSpecificStringWithNoStemming :\n\(results2)")
-//
-//        let results3 = try queryForDocumentsContainingSpecificLogicalOperatorStringNoStemming(db)
-//        print("\n*****\nResponse to queryForDocumentsContainingSpecificLogicalOperatorStringNoStemming :\n\(results3)")
+        let results1 = try queryForDocumentsContainingSpecificString(db)
+        print("\n*****\nResponse to queryForDocumentsContainingSpecificString :\n\(results1)")
 
-//        let results4 = try queryForDocumentsContainingSpecificWildcardString(db)
-//        print("\n*****\nResponse to queryForDocumentsContainingSpecificWildcardString :\n\(results4)")
-//
-//        let results5 = try queryForDocumentsContainingSpecificStringInMultipleProperties(db)
-//        print("\n*****\nResponse to queryForDocumentsContainingSpecificStringInMultipleProperties :\n\(results5)")
-//
-//        let results6 = try queryForDocumentsContainingSpecificStringWithStopWords(db)
-//        print("\n*****\nResponse to queryForDocumentsContainingSpecificStringWithStopWords :\n\(results6)")
-//
-//        let results7 = try queryForDocumentsContainingSpecificStringIgnoringStopWords(db)
-//        print("\n*****\nResponse to queryForDocumentsContainingSpecificStringInMultipleProperties :\n\(results7)")
+        let results2 = try queryForDocumentsContainingSpecificStringWithNoStemming(db)
+        print("\n*****\nResponse to queryForDocumentsContainingSpecificStringWithNoStemming :\n\(results2)")
+
+        let results3 = try queryForDocumentsContainingSpecificLogicalOperatorStringNoStemming(db)
+        print("\n*****\nResponse to queryForDocumentsContainingSpecificLogicalOperatorStringNoStemming :\n\(results3)")
+
+        let results4 = try queryForDocumentsContainingSpecificWildcardString(db)
+        print("\n*****\nResponse to queryForDocumentsContainingSpecificWildcardString :\n\(results4)")
+
+        let results5 = try queryForDocumentsContainingSpecificStringInMultipleProperties(db)
+        print("\n*****\nResponse to queryForDocumentsContainingSpecificStringInMultipleProperties :\n\(results5)")
+
+        let results6 = try queryForDocumentsContainingSpecificStringWithStopWords(db)
+        print("\n*****\nResponse to queryForDocumentsContainingSpecificStringWithStopWords :\n\(results6)")
+
+        let results7 = try queryForDocumentsContainingSpecificStringIgnoringStopWords(db)
+        print("\n*****\nResponse to queryForDocumentsContainingSpecificStringInMultipleProperties :\n\(results7)")
         
         let results8 = try queryForDocumentsContainingSpecificStringWithRankOrder(db)
         print("\n*****\nResponse to queryForDocumentsContainingSpecificStringWithRankOrder :\n\(results8)")
-        
+
 
         // try closeDatabase(db)
     }
