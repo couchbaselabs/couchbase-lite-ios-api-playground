@@ -27,19 +27,18 @@ typealias Data = [String:Any?]
  
  */
 func createOrOpenDatabase() throws -> Database? {
-    let sharedDocumentDirectory = playgroundSharedDataDirectory.resolvingSymlinksInPath()
     let kDBName:String = "travel-sample"
-    let fileManager:FileManager = FileManager.default
-    
-    var options =  DatabaseConfiguration()
+    let sharedDocumentDirectory = playgroundSharedDataDirectory.resolvingSymlinksInPath()
     let appSupportFolderPath = sharedDocumentDirectory.path
-    options.fileProtection = .noFileProtection
-    options.directory = appSupportFolderPath
+    
+    let options =  DatabaseConfiguration.Builder()
+        .setDirectory(appSupportFolderPath)
+        .setFileProtection(.noFileProtection)
+        .build()
     
     // Uncomment the line below  if you want details of the SQLite query equivalent
     // Database.setLogLevel(.verbose, domain: .all)
     return try Database(name: kDBName, config: options)
-    
     
 }
 
@@ -69,9 +68,9 @@ func queryForDocumentsInAscendingOrderFromDB(_ db:Database, limit:Int = 10 ) thr
             SelectResult.expression(Meta.id),
             SelectResult.expression(Expression.property("title")))
         .from(DataSource.database(db))
-        .where(Expression.property("type").equalTo("hotel"))
+        .where(Expression.property("type").equalTo(Expression.string("hotel")))
         .orderBy(Ordering.property("title").ascending())
-        .limit(limit)
+        .limit(Expression.int(limit))
     
     var matches:[Data] = [Data]()
     do {

@@ -26,20 +26,19 @@ typealias Data = [String:Any?]
  
  */
 func createOrOpenDatabase() throws -> Database? {
-    let sharedDocumentDirectory = playgroundSharedDataDirectory.resolvingSymlinksInPath()
     let kDBName:String = "travel-sample"
-    let fileManager:FileManager = FileManager.default
-    
-    var options =  DatabaseConfiguration()
+    let sharedDocumentDirectory = playgroundSharedDataDirectory.resolvingSymlinksInPath()
     let appSupportFolderPath = sharedDocumentDirectory.path
-    options.fileProtection = .noFileProtection
-    options.directory = appSupportFolderPath
+    
+    let options =  DatabaseConfiguration.Builder()
+        .setDirectory(appSupportFolderPath)
+        .setFileProtection(.noFileProtection)
+        .build()
     
     // Uncomment the line below  if you want details of the SQLite query equivalent
     // Database.setLogLevel(.verbose, domain: .all)
     return try Database(name: kDBName, config: options)
-    
-    
+
 }
 
 /*:
@@ -67,7 +66,7 @@ func queryMissingOrNullPropertyForDocumentsFromDB(_ db:Database, limit:Int = 10)
                 SelectResult.expression(Expression.property("email")))
         .from(DataSource.database(db))
         .where(Expression.property("email").isNullOrMissing())
-        .limit(limit)
+        .limit(Expression.int(limit))
     
     
     var matches:[Data] = [Data]()
@@ -94,7 +93,7 @@ func queryNotMissingOrNullPropertyForDocumentsFromDB(_ db:Database, limit:Int = 
                 SelectResult.expression(Expression.property("email")))
         .from(DataSource.database(db))
         .where(Expression.property("email").notNullOrMissing())
-        .limit(limit)
+        .limit(Expression.int(limit))
     
     
     var matches:[Data] = [Data]()

@@ -34,14 +34,14 @@ typealias Data = [String:Any?]
  
  */
 func createOrOpenDatabase() throws -> Database? {
-    let sharedDocumentDirectory = playgroundSharedDataDirectory.resolvingSymlinksInPath()
     let kDBName:String = "travel-sample"
-    let fileManager:FileManager = FileManager.default
-    
-    var options =  DatabaseConfiguration()
+    let sharedDocumentDirectory = playgroundSharedDataDirectory.resolvingSymlinksInPath()
     let appSupportFolderPath = sharedDocumentDirectory.path
-    options.fileProtection = .noFileProtection
-    options.directory = appSupportFolderPath
+    
+    let options =  DatabaseConfiguration.Builder()
+        .setDirectory(appSupportFolderPath)
+        .setFileProtection(.noFileProtection)
+        .build()
     
     // Uncomment the line below  if you want details of the SQLite query equivalent
     // Database.setLogLevel(.verbose, domain: .all)
@@ -75,10 +75,10 @@ func queryForDocumentsByTestingArrayContainment(_ db:Database, limit:Int = 10) t
                 SelectResult.expression(Expression.property("name")),
                 SelectResult.expression(Expression.property("public_likes")))
         .from(DataSource.database(db))
-        .where(Expression.property("type").equalTo("hotel")
-            .and( ArrayFunction.contains(Expression.property("public_likes"), value: "Armani Langworth")))
+        .where(Expression.property("type").equalTo(Expression.string("hotel"))
+            .and( ArrayFunction.contains(Expression.property("public_likes"), value: Expression.string("Armani Langworth"))))
      
-        .limit(limit)
+        .limit(Expression.int(limit))
     
     
     var matches:[Data] = [Data]()
@@ -106,8 +106,8 @@ func queryForDocumentsByReturningArrayLength(_ db:Database, limit:Int = 10) thro
                 SelectResult.expression(Expression.property("name")),
     SelectResult.expression(ArrayFunction.length(Expression.property("public_likes"))).as("NumLikes"))
         .from(DataSource.database(db))
-        .where(Expression.property("type").equalTo("hotel"))
-        .limit(limit)
+        .where(Expression.property("type").equalTo(Expression.string("hotel")))
+        .limit(Expression.int(limit))
     
     
     var matches:[Data] = [Data]()
@@ -136,8 +136,8 @@ func queryForDocumentsByReturningArrayLengthWithAlias(_ db:Database, limit:Int =
                 SelectResult.expression(ArrayFunction.length(Expression.property("public_likes"))).as("NumLikes")
         )
         .from(DataSource.database(db))
-        .where(Expression.property("type").equalTo("hotel"))
-        .limit(limit)
+        .where(Expression.property("type").equalTo(Expression.string("hotel")))
+        .limit(Expression.int(limit))
     
     
     var matches:[Data] = [Data]()
@@ -165,10 +165,10 @@ func queryForDocumentsApplyingSatisfiesCriteriaFromDB(_ db:Database, limit:Int =
         .select(SelectResult.expression(Meta.id),
             SelectResult.expression((Expression.property("public_likes"))))
         .from(DataSource.database(db))
-        .where(Expression.property("type").equalTo("hotel")
-            .and(ArrayExpression.any("likedby").in(Expression.property("public_likes"))
-                .satisfies(VAR_LIKEDBY.like("Cor%"))))
-        .limit(limit)
+        .where(Expression.property("type").equalTo(Expression.string("hotel"))
+            .and(ArrayExpression.any(VAR_LIKEDBY).in(Expression.property("public_likes"))
+                .satisfies(VAR_LIKEDBY.like(Expression.string("Cor%")))))
+        .limit(Expression.int(limit))
     
     
     var matches:[Data] = [Data]()
@@ -193,14 +193,15 @@ func queryForDocumentsApplyingSatisfiesCriteriaFromDB(_ db:Database, limit:Int =
 func queryForDocumentsApplyingSatisfiesCriteriaOnNestedArrayFromDB(_ db:Database, limit:Int = 10) throws -> [Data]? {
     
     let VAR_OVERALL = ArrayExpression.variable("review.ratings.Overall")
+    let VAR_REVIEWS = ArrayExpression.variable("review")
     let searchQuery = Query
         .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("name")))
         .from(DataSource.database(db))
-        .where(Expression.property("type").equalTo("hotel")
-            .and(ArrayExpression.any("review").in(Expression.property("reviews"))
-                .satisfies(VAR_OVERALL.greaterThanOrEqualTo(4))))
-        .limit(limit)
+        .where(Expression.property("type").equalTo(Expression.string("hotel"))
+            .and(ArrayExpression.any(VAR_REVIEWS).in(Expression.property("reviews"))
+                .satisfies(VAR_OVERALL.greaterThanOrEqualTo(Expression.int(4)))))
+        .limit(Expression.int(limit))
     
    
     
@@ -230,8 +231,8 @@ func postProcessingAndFlattenArrayResultsFromDB(_ db:Database) throws  {
         .select(
                 SelectResult.expression(Expression.property("reviews")))
         .from(DataSource.database(db))
-        .where(Expression.property("type").equalTo("hotel")
-            .and(Meta.id.equalTo("hotel_10025")))
+        .where(Expression.property("type").equalTo(Expression.string("hotel"))
+            .and(Meta.id.equalTo(Expression.string("hotel_10025"))))
    
     
     // 2. Result set if an array of objects, one for each docment that matches the criteria.

@@ -35,14 +35,14 @@ typealias Data = [String:Any?]
  
  */
 func createOrOpenDatabase() throws -> Database? {
-    let sharedDocumentDirectory = playgroundSharedDataDirectory.resolvingSymlinksInPath()
     let kDBName:String = "travel-sample"
-    let fileManager:FileManager = FileManager.default
-    
-    var options =  DatabaseConfiguration()
+    let sharedDocumentDirectory = playgroundSharedDataDirectory.resolvingSymlinksInPath()
     let appSupportFolderPath = sharedDocumentDirectory.path
-    options.fileProtection = .noFileProtection
-    options.directory = appSupportFolderPath
+    
+    let options =  DatabaseConfiguration.Builder()
+        .setDirectory(appSupportFolderPath)
+        .setFileProtection(.noFileProtection)
+        .build()
     
     // Uncomment the line below  if you want details of the SQLite query equivalent
     // Database.setLogLevel(.verbose, domain: .all)
@@ -77,9 +77,9 @@ func queryForDocumentsMatchingStringFromDB(_ db:Database,limit:Int = 10 ) throws
                 SelectResult.expression(Expression.property("country")),
                 SelectResult.expression(Expression.property("name")))
         .from(DataSource.database(db))
-        .where(Expression.property("type").equalTo("landmark")
-            .and( Expression.property("name").like("Royal engineers museum")))
-        .limit(limit)
+        .where(Expression.property("type").equalTo(Expression.string("landmark"))
+            .and(Function.lower(Expression.property("name")).like(Expression.string("royal engineers museum"))))
+        .limit(Expression.int(limit))
    
     
     var matches:[Data] = [Data]()
@@ -109,9 +109,9 @@ func queryForDocumentsMatchingWildcardedStringFromDB(_ db:Database,limit:Int = 1
                 SelectResult.expression(Expression.property("country")),
                 SelectResult.expression(Expression.property("name")))
         .from(DataSource.database(db))
-        .where(Expression.property("type").equalTo("landmark")
-            .and( Expression.property("name").like("%eng%r%")))
-        .limit(limit)
+        .where(Expression.property("type").equalTo(Expression.string("landmark"))
+            .and( Function.lower(Expression.property("name")).like(Expression.string("%eng%r%"))))
+        .limit(Expression.int(limit))
  
     var matches:[Data] = [Data]()
     do {
@@ -141,9 +141,10 @@ func queryForDocumentsMatchingCharacterWildcardedStringFromDB(_ db:Database,limi
                 SelectResult.expression(Expression.property("country")),
                 SelectResult.expression(Expression.property("name")))
         .from(DataSource.database(db))
-        .where(Expression.property("type").equalTo("landmark")
-            .and( Expression.property("name").like("%eng____r%")))
-        .limit(limit)
+        .where(Expression.property("type").equalTo(Expression.string("landmark"))
+            .and( Expression.property("name")
+                .like(Expression.string("%Eng____r%"))))
+        .limit(Expression.int(limit))
     
     var matches:[Data] = [Data]()
     do {
@@ -170,9 +171,9 @@ func queryForDocumentsMatchingRegexFromDB(_ db:Database,limit:Int = 10 ) throws 
         .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("name"))        )
         .from(DataSource.database(db))
-        .where(Expression.property("type").equalTo("landmark")
-            .and(Expression.property("name").regex("\\bEng.*r.*\\b")))
-        .limit(limit)
+        .where(Expression.property("type").equalTo(Expression.string("landmark"))
+            .and(Function.lower(Expression.property("name")).regex(Expression.string("\\beng.*r.*\\b"))))
+        .limit(Expression.int(limit))
     
     
     var matches:[Data] = [Data]()

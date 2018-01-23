@@ -38,18 +38,19 @@ typealias Data = [String:Any?]
 
  */
 func createOrOpenDatabase() throws -> Database? {
-    let sharedDocumentDirectory = playgroundSharedDataDirectory.resolvingSymlinksInPath()
     let kDBName:String = "travel-sample"
-    let fileManager:FileManager = FileManager.default
-    
-    var options =  DatabaseConfiguration()
+    let sharedDocumentDirectory = playgroundSharedDataDirectory.resolvingSymlinksInPath()
     let appSupportFolderPath = sharedDocumentDirectory.path
-    options.fileProtection = .noFileProtection
-    options.directory = appSupportFolderPath
-  
+    
+    let options =  DatabaseConfiguration.Builder()
+        .setDirectory(appSupportFolderPath)
+        .setFileProtection(.noFileProtection)
+        .build()
+    
     // Uncomment the line below  if you want details of the SQLite query equivalent
     // Database.setLogLevel(.verbose, domain: .all)
     return try Database(name: kDBName, config: options)
+
     
 }
 
@@ -77,7 +78,7 @@ func queryPropertyForDocumentsFromDB(_ db:Database, limit:Int = 10) throws -> [D
     let searchQuery = Query
         .select(SelectResult.expression(Expression.property("type")))
         .from(DataSource.database(db))
-        .limit(limit)
+        .limit(Expression.int(limit))
     
     
     var matches:[Data] = [Data]()
@@ -105,7 +106,7 @@ func queryMetadataForDocumentsFromDB(_ db:Database, limit:Int = 10) throws -> [D
     let searchQuery = Query
         .select(SelectResult.expression(Meta.id))
         .from(DataSource.database(db))
-        .limit(limit)
+        .limit(Expression.int(limit))
     
     
     var matches:[Data] = [Data]()
@@ -138,7 +139,7 @@ func queryMetadataAndPropertyForDocumentsFromDB(_ db:Database, limit:Int = 10) t
         .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("type")))
         .from(DataSource.database(db))
-        .limit(limit)
+        .limit(Expression.int(limit))
     
     
     var matches:[Data] = [Data]()
@@ -164,7 +165,7 @@ func queryMetadataAndAllPropertiesForDocumentsFromDB(_ db:Database, limit:Int = 
         .select(SelectResult.expression(Meta.id),
                 SelectResult.all())
         .from(DataSource.database(db))
-        .limit(limit)
+        .limit(Expression.int(limit))
     
     
     var matches:[Data] = [Data]()

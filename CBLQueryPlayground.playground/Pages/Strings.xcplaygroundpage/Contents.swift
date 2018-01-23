@@ -34,20 +34,18 @@ typealias Data = [String:Any?]
  
  */
 func createOrOpenDatabase() throws -> Database? {
-    let sharedDocumentDirectory = playgroundSharedDataDirectory.resolvingSymlinksInPath()
     let kDBName:String = "travel-sample"
-    let fileManager:FileManager = FileManager.default
-    
-    var options =  DatabaseConfiguration()
+    let sharedDocumentDirectory = playgroundSharedDataDirectory.resolvingSymlinksInPath()
     let appSupportFolderPath = sharedDocumentDirectory.path
-    options.fileProtection = .noFileProtection
-    options.directory = appSupportFolderPath
+    
+    let options =  DatabaseConfiguration.Builder()
+        .setDirectory(appSupportFolderPath)
+        .setFileProtection(.noFileProtection)
+        .build()
     
     // Uncomment the line below  if you want details of the SQLite query equivalent
     // Database.setLogLevel(.verbose, domain: .all)
     return try Database(name: kDBName, config: options)
-    
-    
 }
 
 /*:
@@ -82,8 +80,8 @@ func queryForDocumentsUsingSubstringFilteringFromDB(_ db:Database, limit:Int = 3
                 SelectResult.expression(Expression.property("email")),
                 SelectResult.expression(Expression.property("name")))
         .from(DataSource.database(db))
-        .where(Expression.property("email").and(Function.contains(Expression.property("email"), substring: ".uk")))
-        .limit(limit)
+        .where(Expression.property("email").and(Function.contains(Expression.property("email"), substring: Expression.string (".uk"))))
+        .limit(Expression.int(limit))
     
     
     var matches:[Data] = [Data]()
@@ -114,9 +112,9 @@ func queryForDocumentsApplyingStringCollation(_ db:Database, limit:Int = 10) thr
         .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("name")))
         .from(DataSource.database(db))
-        .where(Expression.property("type").equalTo("hotel")
-            .and(Expression.property("name").collate(ignoreCase).equalTo("the robins")))
-        .limit(limit)
+        .where(Expression.property("type").equalTo(Expression.string("hotel"))
+            .and(Expression.property("name").collate(ignoreCase).equalTo(Expression.string ("the robins"))))
+        .limit(Expression.int(limit))
     
 
     var matches:[Data] = [Data]()

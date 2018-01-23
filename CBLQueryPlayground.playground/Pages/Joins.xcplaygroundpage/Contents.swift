@@ -61,7 +61,10 @@ func createOrOpenDatabase() throws -> Database? {
     let fileManager:FileManager = FileManager.default
     let appSupportFolderPath = sharedDocumentDirectory.path
     
-    let options =  DatabaseConfiguration.Builder().setDirectory(appSupportFolderPath).setFileProtection(.noFileProtection).build()
+    let options =  DatabaseConfiguration.Builder()
+        .setDirectory(appSupportFolderPath)
+        .setFileProtection(.noFileProtection)
+        .build()
     
     // Uncomment the line below  if you want details of the SQLite query equivalent
     // Database.setLogLevel(.verbose, domain: .all)

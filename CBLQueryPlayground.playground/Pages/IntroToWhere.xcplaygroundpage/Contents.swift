@@ -35,14 +35,14 @@ typealias Data = [String:Any?]
  
  */
 func createOrOpenDatabase() throws -> Database? {
-    let sharedDocumentDirectory = playgroundSharedDataDirectory.resolvingSymlinksInPath()
     let kDBName:String = "travel-sample"
-    let fileManager:FileManager = FileManager.default
-    
-    var options =  DatabaseConfiguration()
+    let sharedDocumentDirectory = playgroundSharedDataDirectory.resolvingSymlinksInPath()
     let appSupportFolderPath = sharedDocumentDirectory.path
-    options.fileProtection = .noFileProtection
-    options.directory = appSupportFolderPath
+    
+    let options =  DatabaseConfiguration.Builder()
+        .setDirectory(appSupportFolderPath)
+        .setFileProtection(.noFileProtection)
+        .build()
     
     // Uncomment the line below  if you want details of the SQLite query equivalent
     // Database.setLogLevel(.verbose, domain: .all)
@@ -87,8 +87,8 @@ func queryForDocumentsOfSpecificTypeFromDB(_ db:Database,limit:Int = 10 ) throws
     let searchQuery = Query
         .select(SelectResult.all())
         .from(DataSource.database(db))
-        .where(Expression.property("type").equalTo("hotel"))
-        .limit(limit)
+        .where(Expression.property("type").equalTo(Expression.string("hotel")))
+        .limit(Expression.int(limit))
     
     var matches:[Data] = [Data]()
     do {
@@ -133,11 +133,11 @@ func queryForDocumentsWithLogicalExpressionFilterFromDB(_ db:Database, limit:Int
     let searchQuery = Query
         .select(SelectResult.expression(Meta.id))
         .from(DataSource.database(db))
-        .where(Expression.property("type").equalTo("hotel")
-            .and(Expression.property("country").equalTo("United States")
-                .or(Expression.property("country").equalTo("France")))
-                .and(Expression.property("vacancy").equalTo(true)))
-        .limit(limit)
+        .where(Expression.property("type").equalTo(Expression.string("hotel"))
+            .and(Expression.property("country").equalTo(Expression.string ("United States"))
+            .or(Expression.property("country").equalTo(Expression.string ("France"))))
+            .and(Expression.property("vacancy").equalTo(Expression.boolean(true))))
+        .limit(Expression.int(limit))
     
     var matches:[Data] = [Data]()
     do {
@@ -163,8 +163,8 @@ func queryDocumentsByKeyPathFromDB(_ db:Database , limit:Int = 10) throws -> [Da
                 SelectResult.expression(Expression.property("geo.lat")),
                 SelectResult.expression(Expression.property("geo.lon")))
         .from(DataSource.database(db))
-        .where(Expression.property("type").equalTo("hotel"))
-        .limit(limit)
+        .where(Expression.property("type").equalTo(Expression.string("hotel")))
+        .limit(Expression.int(limit))
     
     
     var matches:[Data] = [Data]()
@@ -191,9 +191,9 @@ func queryForDocumentsWithBoolFilterFromDB(_ db:Database, limit:Int = 10 ) throw
         .select(SelectResult.expression(Expression.property("title")),
                 SelectResult.expression(Expression.property("email")))
         .from(DataSource.database(db))
-        .where(Expression.property("type").equalTo("hotel")
-            .and(Expression.property("vacancy").equalTo(true)))
-        .limit(limit)
+        .where(Expression.property("type").equalTo(Expression.string("hotel"))
+            .and(Expression.property("vacancy").equalTo(Expression.boolean(true))))
+        .limit(Expression.int(limit))
     
     var matches:[Data] = [Data]()
     do {
