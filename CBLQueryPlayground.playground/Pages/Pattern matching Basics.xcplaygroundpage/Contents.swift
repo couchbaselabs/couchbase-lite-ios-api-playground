@@ -39,10 +39,9 @@ func createOrOpenDatabase() throws -> Database? {
     let sharedDocumentDirectory = playgroundSharedDataDirectory.resolvingSymlinksInPath()
     let appSupportFolderPath = sharedDocumentDirectory.path
     
-    let options =  DatabaseConfiguration.Builder()
-        .setDirectory(appSupportFolderPath)
-        .setFileProtection(.noFileProtection)
-        .build()
+    let options =  DatabaseConfiguration()
+    options.directory = appSupportFolderPath
+
     
     // Uncomment the line below  if you want details of the SQLite query equivalent
     // Database.setLogLevel(.verbose, domain: .all)
@@ -72,7 +71,7 @@ func closeDatabase(_ db:Database) throws  {
 
 func queryForDocumentsMatchingStringFromDB(_ db:Database,limit:Int = 10 ) throws -> [Data]? {
     
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("country")),
                 SelectResult.expression(Expression.property("name")))
@@ -104,7 +103,7 @@ func queryForDocumentsMatchingStringFromDB(_ db:Database,limit:Int = 10 ) throws
 
 func queryForDocumentsMatchingWildcardedStringFromDB(_ db:Database,limit:Int = 10 ) throws -> [Data]? {
     
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("country")),
                 SelectResult.expression(Expression.property("name")))
@@ -136,7 +135,7 @@ func queryForDocumentsMatchingWildcardedStringFromDB(_ db:Database,limit:Int = 1
 
 func queryForDocumentsMatchingCharacterWildcardedStringFromDB(_ db:Database,limit:Int = 10 ) throws -> [Data]? {
     
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("country")),
                 SelectResult.expression(Expression.property("name")))
@@ -167,7 +166,7 @@ func queryForDocumentsMatchingCharacterWildcardedStringFromDB(_ db:Database,limi
  */
 
 func queryForDocumentsMatchingRegexFromDB(_ db:Database,limit:Int = 10 ) throws -> [Data]? {
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("name"))        )
         .from(DataSource.database(db))

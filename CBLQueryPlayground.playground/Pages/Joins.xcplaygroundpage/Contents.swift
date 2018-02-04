@@ -61,14 +61,15 @@ func createOrOpenDatabase() throws -> Database? {
     let fileManager:FileManager = FileManager.default
     let appSupportFolderPath = sharedDocumentDirectory.path
     
-    let options =  DatabaseConfiguration.Builder()
-        .setDirectory(appSupportFolderPath)
-        .setFileProtection(.noFileProtection)
-        .build()
+    let options =  DatabaseConfiguration()
+    options.directory = appSupportFolderPath
+
     
     // Uncomment the line below  if you want details of the SQLite query equivalent
     // Database.setLogLevel(.verbose, domain: .all)
     return try Database(name: kDBName, config: options)
+    
+    options.directory = "foobar"
     
 }
 
@@ -109,7 +110,7 @@ func queryForDocumentsFromDatabasePerformingInnerJoin(_ db:Database) throws -> [
     // join expression
     let join = Join.join(departmentDS).on(joinExpr)
 
-    let searchQuery = Query.select(SelectResult.expression(Expression.property("firstname").from("employeeDS")),
+    let searchQuery = QueryBuilder.select(SelectResult.expression(Expression.property("firstname").from("employeeDS")),
                         SelectResult.expression(Expression.property("lastname").from("employeeDS")),
                         SelectResult.expression(Expression.property("name").from("departmentDS")))
         .from(employeeDS)
@@ -159,7 +160,7 @@ func queryForDocumentsFromDatabasePerformingLeftJoin(_ db:Database) throws -> [D
     // join expression
     let join = Join.leftJoin(departmentDS).on(joinExpr)
 
-    let searchQuery = Query.select(SelectResult.expression(Expression.property("firstname").from("employeeDS")),
+    let searchQuery = QueryBuilder.select(SelectResult.expression(Expression.property("firstname").from("employeeDS")),
                                    SelectResult.expression(Expression.property("lastname").from("employeeDS")),
                                    SelectResult.expression(Expression.property("name").from("departmentDS")))
         .from(employeeDS)
@@ -205,7 +206,7 @@ func queryForDocumentsFromDatabasePerformingCrossJoin(_ db:Database) throws -> [
     let deptTypeExpr = Expression.property("type").from("departmentDS")
     let locationTypeExpr = Expression.property("type").from("locationDS")
     
-    let searchQuery = Query.select(SelectResult.expression(Expression.property("name").from("departmentDS")).as("DeptName"),
+    let searchQuery = QueryBuilder.select(SelectResult.expression(Expression.property("name").from("departmentDS")).as("DeptName"),
                                    SelectResult.expression(Expression.property("name").from("locationDS")).as("LocationName"),
                                    SelectResult.expression(Expression.property("address").from("locationDS")))
         .from(departmentDS)
@@ -272,7 +273,7 @@ func queryForDocumentsFromDatabasePerformingLeftJoinOnThreeDocuments(_ db:Databa
     // join expression for location code
     let joinLocationCode = Join.join(locationDS).on(joinLocationCodeExpr)
     
-    let searchQuery = Query.select(SelectResult.expression(Expression.property("firstname").from("employeeDS")),
+    let searchQuery = QueryBuilder.select(SelectResult.expression(Expression.property("firstname").from("employeeDS")),
                             SelectResult.expression(Expression.property("lastname").from("employeeDS")),
                             SelectResult.expression(Expression.property("name").from("departmentDS")).as("deptName"),
                             SelectResult.expression(Expression.property("name").from("locationDS")).as("locationName"))
@@ -304,14 +305,14 @@ do {
     // Open or Create Couchbase Lite Database
     if let db:Database = try createOrOpenDatabase() {
         
-//        let results1 = try queryForDocumentsFromDatabasePerformingInnerJoin(db)
-//        print("\n*****\nResponse to queryForDocumentsFromDatabasePerformingInnerJoin :\n\(results1)")
-//
-//        let results2 = try queryForDocumentsFromDatabasePerformingLeftJoin(db)
-//        print("\n*****\nResponse to queryForDocumentsFromDatabasePerformingLeftJoin :\n\(results2)")
+        let results1 = try queryForDocumentsFromDatabasePerformingInnerJoin(db)
+        print("\n*****\nResponse to queryForDocumentsFromDatabasePerformingInnerJoin :\n\(results1)")
 
-//        let results3 = try queryForDocumentsFromDatabasePerformingCrossJoin(db)
-//        print("\n*****\nResponse to queryForDocumentsFromDatabasePerformingCrossJoin :\n\(results3)")
+        let results2 = try queryForDocumentsFromDatabasePerformingLeftJoin(db)
+        print("\n*****\nResponse to queryForDocumentsFromDatabasePerformingLeftJoin :\n\(results2)")
+
+        let results3 = try queryForDocumentsFromDatabasePerformingCrossJoin(db)
+        print("\n*****\nResponse to queryForDocumentsFromDatabasePerformingCrossJoin :\n\(results3)")
 
         let results4 = try queryForDocumentsFromDatabasePerformingLeftJoinOnThreeDocuments(db)
         print("\n*****\nResponse to queryForDocumentsFromDatabasePerformingLeftJoinOnThreeDocuments :\n\(results4)")

@@ -42,10 +42,9 @@ func createOrOpenDatabase() throws -> Database? {
     let sharedDocumentDirectory = playgroundSharedDataDirectory.resolvingSymlinksInPath()
     let appSupportFolderPath = sharedDocumentDirectory.path
     
-    let options =  DatabaseConfiguration.Builder()
-        .setDirectory(appSupportFolderPath)
-        .setFileProtection(.noFileProtection)
-        .build()
+    let options =  DatabaseConfiguration()
+    options.directory = appSupportFolderPath
+    
     
     // Uncomment the line below  if you want details of the SQLite query equivalent
     // Database.setLogLevel(.verbose, domain: .all)
@@ -75,7 +74,7 @@ func closeDatabase(_ db:Database) throws  {
 
 func queryPropertyForDocumentsFromDB(_ db:Database, limit:Int = 10) throws -> [Data]? {
     
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(SelectResult.expression(Expression.property("type")))
         .from(DataSource.database(db))
         .limit(Expression.int(limit))
@@ -103,7 +102,7 @@ func queryPropertyForDocumentsFromDB(_ db:Database, limit:Int = 10) throws -> [D
 
 func queryMetadataForDocumentsFromDB(_ db:Database, limit:Int = 10) throws -> [Data]? {
     
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(SelectResult.expression(Meta.id))
         .from(DataSource.database(db))
         .limit(Expression.int(limit))
@@ -135,7 +134,7 @@ func queryMetadataForDocumentsFromDB(_ db:Database, limit:Int = 10) throws -> [D
 
 func queryMetadataAndPropertyForDocumentsFromDB(_ db:Database, limit:Int = 10) throws -> [Data]? {
     
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("type")))
         .from(DataSource.database(db))
@@ -161,7 +160,7 @@ func queryMetadataAndPropertyForDocumentsFromDB(_ db:Database, limit:Int = 10) t
 
 func queryMetadataAndAllPropertiesForDocumentsFromDB(_ db:Database, limit:Int = 10) throws -> [Data]? {
     
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(SelectResult.expression(Meta.id),
                 SelectResult.all())
         .from(DataSource.database(db))

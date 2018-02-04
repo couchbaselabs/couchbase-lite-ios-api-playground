@@ -38,10 +38,9 @@ func createOrOpenDatabase() throws -> Database? {
     let sharedDocumentDirectory = playgroundSharedDataDirectory.resolvingSymlinksInPath()
     let appSupportFolderPath = sharedDocumentDirectory.path
     
-    let options =  DatabaseConfiguration.Builder()
-        .setDirectory(appSupportFolderPath)
-        .setFileProtection(.noFileProtection)
-        .build()
+    let options =  DatabaseConfiguration()
+    options.directory = appSupportFolderPath
+
     
     // Uncomment the line below  if you want details of the SQLite query equivalent
     // Database.setLogLevel(.verbose, domain: .all)
@@ -70,7 +69,7 @@ func closeDatabase(_ db:Database) throws  {
 
 func queryForDocumentsByTestingArrayContainment(_ db:Database, limit:Int = 10) throws -> [Data]? {
     
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("name")),
                 SelectResult.expression(Expression.property("public_likes")))
@@ -101,10 +100,10 @@ func queryForDocumentsByTestingArrayContainment(_ db:Database, limit:Int = 10) t
 
 func queryForDocumentsByReturningArrayLength(_ db:Database, limit:Int = 10) throws -> [Data]? {
     
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("name")),
-    SelectResult.expression(ArrayFunction.length(Expression.property("public_likes"))).as("NumLikes"))
+    SelectResult.expression(ArrayFunction.length(Expression.property("public_likes"))))
         .from(DataSource.database(db))
         .where(Expression.property("type").equalTo(Expression.string("hotel")))
         .limit(Expression.int(limit))
@@ -130,7 +129,7 @@ The `as` expression is used to alias the results of evaluating an expression. In
 
 func queryForDocumentsByReturningArrayLengthWithAlias(_ db:Database, limit:Int = 10) throws -> [Data]? {
     
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("name")),
                 SelectResult.expression(ArrayFunction.length(Expression.property("public_likes"))).as("NumLikes")
@@ -160,8 +159,9 @@ func queryForDocumentsByReturningArrayLengthWithAlias(_ db:Database, limit:Int =
 
 func queryForDocumentsApplyingSatisfiesCriteriaFromDB(_ db:Database, limit:Int = 10) throws -> [Data]? {
     
+    
     let VAR_LIKEDBY = ArrayExpression.variable("likedby")
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(SelectResult.expression(Meta.id),
             SelectResult.expression((Expression.property("public_likes"))))
         .from(DataSource.database(db))
@@ -194,7 +194,7 @@ func queryForDocumentsApplyingSatisfiesCriteriaOnNestedArrayFromDB(_ db:Database
     
     let VAR_OVERALL = ArrayExpression.variable("review.ratings.Overall")
     let VAR_REVIEWS = ArrayExpression.variable("review")
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("name")))
         .from(DataSource.database(db))
@@ -224,7 +224,7 @@ func queryForDocumentsApplyingSatisfiesCriteriaOnNestedArrayFromDB(_ db:Database
 
 func queryForDocumentsByFetchingElementsAtArrayIndex(_ db:Database, limit:Int = 10) throws -> [Data]? {
     
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("name")),
                 SelectResult.expression(Expression.property("public_likes[0]")))
@@ -253,7 +253,7 @@ func queryForDocumentsByFetchingElementsAtArrayIndex(_ db:Database, limit:Int = 
 
 func queryForDocumentsDependingOnValueOfElementAtIndex(_ db:Database, limit:Int = 10) throws -> [Data]? {
     
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("name")),
                 SelectResult.expression(Expression.property("public_likes")))
@@ -285,7 +285,7 @@ func queryForDocumentsDependingOnValueOfElementAtIndex(_ db:Database, limit:Int 
 func postProcessingAndFlattenArrayResultsFromDB(_ db:Database) throws  {
     
     // 1. Query for reviews property array for the given hotel
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(
                 SelectResult.expression(Expression.property("reviews")))
         .from(DataSource.database(db))
@@ -416,26 +416,26 @@ do {
 
         let results1 = try queryForDocumentsByTestingArrayContainment(db, limit: 5)
         print("\n*****\nResponse to queryForDocumentsByTestingArrayContainment : \n \(results1)")
-//
-//        let results2 = try queryForDocumentsByReturningArrayLength(db, limit: 5)
-//        print("\n*****\nResponse to  queryForDocumentsByReturningArrayLength : \n \(results2)")
-//
-//        let results3 = try queryForDocumentsByReturningArrayLengthWithAlias(db, limit: 5)
-//        print("\n*****\nResponse to queryForDocumentsByReturningArrayLengthWithAlias : \n \(results3)")
 
-//        let results4 = try queryForDocumentsApplyingSatisfiesCriteriaFromDB(db, limit: 5)
-//        print("\n*****\nResponse to queryForDocumentsApplyingSatisfiesCriteriaFromDB : \n \(results4)")
+        let results2 = try queryForDocumentsByReturningArrayLength(db, limit: 5)
+        print("\n*****\nResponse to  queryForDocumentsByReturningArrayLength : \n \(results2)")
 
-//        let results5 = try queryForDocumentsApplyingSatisfiesCriteriaOnNestedArrayFromDB(db, limit: 5)
-//        print("\n*****\nResponse to queryForDocumentsApplyingSatisfiesCriteriaOnNestedArrayFromDB : \n \(results5)")
+        let results3 = try queryForDocumentsByReturningArrayLengthWithAlias(db, limit: 5)
+        print("\n*****\nResponse to queryForDocumentsByReturningArrayLengthWithAlias : \n \(results3)")
+
+        let results4 = try queryForDocumentsApplyingSatisfiesCriteriaFromDB(db, limit: 5)
+        print("\n*****\nResponse to queryForDocumentsApplyingSatisfiesCriteriaFromDB : \n \(results4)")
+
+        let results5 = try queryForDocumentsApplyingSatisfiesCriteriaOnNestedArrayFromDB(db, limit: 5)
+        print("\n*****\nResponse to queryForDocumentsApplyingSatisfiesCriteriaOnNestedArrayFromDB : \n \(results5)")
         
-//        let results6 = try queryForDocumentsByFetchingElementsAtArrayIndex(db, limit: 5)
-//        print("\n*****\nResponse to queryForDocumentsByFetchingElementsAtArrayIndex : \n \(results6)")
+        let results6 = try queryForDocumentsByFetchingElementsAtArrayIndex(db, limit: 5)
+        print("\n*****\nResponse to queryForDocumentsByFetchingElementsAtArrayIndex : \n \(results6)")
 
         let results7 = try queryForDocumentsDependingOnValueOfElementAtIndex(db, limit: 5)
         print("\n*****\nResponse to queryForDocumentsDependingOnValueOfElementAtIndex : \n \(results7)")
 
-        // try postProcessingAndFlattenArrayResultsFromDB(db)
+         try postProcessingAndFlattenArrayResultsFromDB(db)
         
 
         

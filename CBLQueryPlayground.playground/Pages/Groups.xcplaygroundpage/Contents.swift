@@ -38,10 +38,9 @@ func createOrOpenDatabase() throws -> Database? {
     let sharedDocumentDirectory = playgroundSharedDataDirectory.resolvingSymlinksInPath()
     let appSupportFolderPath = sharedDocumentDirectory.path
     
-    let options =  DatabaseConfiguration.Builder()
-        .setDirectory(appSupportFolderPath)
-        .setFileProtection(.noFileProtection)
-        .build()
+    let options =  DatabaseConfiguration()
+    options.directory = appSupportFolderPath
+
     
     // Uncomment the line below  if you want details of the SQLite query equivalent
     // Database.setLogLevel(.verbose, domain: .all)
@@ -68,7 +67,7 @@ func closeDatabase(_ db:Database) throws  {
 
 func queryDocumentCountFromDB(_ db:Database, limit:Int = 10) throws -> [Data]? {
     
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(SelectResult.expression(Function.count(Expression.int(0))).as("NumHotels"))
         .from(DataSource.database(db))
         .where(Expression.property("type").equalTo(Expression.string ("hotel")))
@@ -96,7 +95,7 @@ func queryDocumentCountFromDB(_ db:Database, limit:Int = 10) throws -> [Data]? {
 
 func queryDocumentCountGroupedByPropertyFromDB(_ db:Database, limit:Int = 10) throws -> [Data]? {
     
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(SelectResult.expression(Function.count(Expression.int(0))).as("NumHotels"),
                 SelectResult.expression(Expression.property("country")))
         .from(DataSource.database(db))
@@ -127,7 +126,7 @@ func queryDocumentCountGroupedByPropertyFromDB(_ db:Database, limit:Int = 10) th
 
 func queryDocumentsGroupedByPropertyFromDB(_ db:Database, limit:Int = 10) throws -> [Data]? {
     
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("name")))
         .from(DataSource.database(db))

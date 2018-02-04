@@ -31,11 +31,9 @@ func createOrOpenDatabase() throws -> Database? {
     let sharedDocumentDirectory = playgroundSharedDataDirectory.resolvingSymlinksInPath()
     let appSupportFolderPath = sharedDocumentDirectory.path
     
-    let options =  DatabaseConfiguration.Builder()
-        .setDirectory(appSupportFolderPath)
-        .setFileProtection(.noFileProtection)
-        .build()
-    
+    let options =  DatabaseConfiguration()
+    options.directory = appSupportFolderPath
+
     // Uncomment the line below  if you want details of the SQLite query equivalent
     // Database.setLogLevel(.verbose, domain: .all)
     return try Database(name: kDBName, config: options)
@@ -63,7 +61,7 @@ func closeDatabase(_ db:Database) throws  {
 func queryForDocumentsInAscendingOrderFromDB(_ db:Database, limit:Int = 10 ) throws -> [Data]? {
 
     
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(
             SelectResult.expression(Meta.id),
             SelectResult.expression(Expression.property("title")))

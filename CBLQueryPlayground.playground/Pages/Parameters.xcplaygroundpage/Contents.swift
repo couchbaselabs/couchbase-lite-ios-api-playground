@@ -36,11 +36,9 @@ func createOrOpenDatabase() throws -> Database? {
     let sharedDocumentDirectory = playgroundSharedDataDirectory.resolvingSymlinksInPath()
     let appSupportFolderPath = sharedDocumentDirectory.path
     
-    let options =  DatabaseConfiguration.Builder()
-        .setDirectory(appSupportFolderPath)
-        .setFileProtection(.noFileProtection)
-        .build()
-    
+    let options =  DatabaseConfiguration()
+    options.directory = appSupportFolderPath
+
     // Uncomment the line below  if you want details of the SQLite query equivalent
     // Database.setLogLevel(.verbose, domain: .all)
     return try Database(name: kDBName, config: options)
@@ -73,7 +71,7 @@ func queryForDocumentsApplyingFunctionsWithParams(_ db:Database, limit:Int = 10)
     let lowerCount = Expression.parameter("lower")
     let upperCount = Expression.parameter("upper")
   
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("name")),
                 SelectResult.expression(likesCount).as("NumLikes")
@@ -83,7 +81,7 @@ func queryForDocumentsApplyingFunctionsWithParams(_ db:Database, limit:Int = 10)
             .and(likesCount.between(lowerCount,and: upperCount)))
         .limit(Expression.int(limit))
 
-    let params = Parameters.Builder().setInt(5, forName: "lower").setInt(10, forName: "upper").build()
+    let params = Parameters.init().setInt(5, forName: "lower").setInt(10, forName: "upper")
     searchQuery.parameters = params
     
     var matches:[Data] = [Data]()

@@ -38,10 +38,9 @@ func createOrOpenDatabase() throws -> Database? {
     let sharedDocumentDirectory = playgroundSharedDataDirectory.resolvingSymlinksInPath()
     let appSupportFolderPath = sharedDocumentDirectory.path
     
-    let options =  DatabaseConfiguration.Builder()
-        .setDirectory(appSupportFolderPath)
-        .setFileProtection(.noFileProtection)
-        .build()
+    let options =  DatabaseConfiguration()
+    options.directory = appSupportFolderPath
+
     
     // Uncomment the line below  if you want details of the SQLite query equivalent
     // Database.setLogLevel(.verbose, domain: .all)
@@ -75,12 +74,12 @@ func closeDatabase(_ db:Database) throws  {
 
 func queryForDocumentsUsingSubstringFilteringFromDB(_ db:Database, limit:Int = 30000) throws -> [Data]? {
     
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("email")),
                 SelectResult.expression(Expression.property("name")))
         .from(DataSource.database(db))
-        .where(Expression.property("email").and(Function.contains(Expression.property("email"), substring: Expression.string (".uk"))))
+        .where(Function.contains(Expression.property("email"), substring: Expression.string (".uk")))
         .limit(Expression.int(limit))
     
     
@@ -108,7 +107,7 @@ func queryForDocumentsApplyingStringCollation(_ db:Database, limit:Int = 10) thr
     let ignoreCase = Collation.unicode()
         .ignoreCase(true)
     
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("name")))
         .from(DataSource.database(db))

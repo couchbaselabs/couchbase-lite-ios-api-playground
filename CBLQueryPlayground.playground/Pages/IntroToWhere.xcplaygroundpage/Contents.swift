@@ -39,10 +39,9 @@ func createOrOpenDatabase() throws -> Database? {
     let sharedDocumentDirectory = playgroundSharedDataDirectory.resolvingSymlinksInPath()
     let appSupportFolderPath = sharedDocumentDirectory.path
     
-    let options =  DatabaseConfiguration.Builder()
-        .setDirectory(appSupportFolderPath)
-        .setFileProtection(.noFileProtection)
-        .build()
+    let options =  DatabaseConfiguration()
+    options.directory = appSupportFolderPath
+    
     
     // Uncomment the line below  if you want details of the SQLite query equivalent
     // Database.setLogLevel(.verbose, domain: .all)
@@ -84,7 +83,7 @@ func closeDatabase(_ db:Database) throws  {
 
 func queryForDocumentsOfSpecificTypeFromDB(_ db:Database,limit:Int = 10 ) throws -> [Data]? {
     
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(SelectResult.all())
         .from(DataSource.database(db))
         .where(Expression.property("type").equalTo(Expression.string("hotel")))
@@ -130,7 +129,7 @@ func queryForDocumentsOfSpecificTypeFromDB(_ db:Database,limit:Int = 10 ) throws
 
 func queryForDocumentsWithLogicalExpressionFilterFromDB(_ db:Database, limit:Int = 10 ) throws -> [Data]? {
     
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(SelectResult.expression(Meta.id))
         .from(DataSource.database(db))
         .where(Expression.property("type").equalTo(Expression.string("hotel"))
@@ -158,7 +157,7 @@ func queryForDocumentsWithLogicalExpressionFilterFromDB(_ db:Database, limit:Int
 
 func queryDocumentsByKeyPathFromDB(_ db:Database , limit:Int = 10) throws -> [Data]? {
     
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(SelectResult.expression(Expression.property("name")),
                 SelectResult.expression(Expression.property("geo.lat")),
                 SelectResult.expression(Expression.property("geo.lon")))
@@ -187,7 +186,7 @@ func queryDocumentsByKeyPathFromDB(_ db:Database , limit:Int = 10) throws -> [Da
 
 func queryForDocumentsWithBoolFilterFromDB(_ db:Database, limit:Int = 10 ) throws -> [Data]? {
     
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(SelectResult.expression(Expression.property("title")),
                 SelectResult.expression(Expression.property("email")))
         .from(DataSource.database(db))

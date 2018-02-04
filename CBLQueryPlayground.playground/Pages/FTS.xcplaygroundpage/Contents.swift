@@ -39,10 +39,10 @@ func createOrOpenDatabase() throws -> Database? {
     let sharedDocumentDirectory = playgroundSharedDataDirectory.resolvingSymlinksInPath()
     let appSupportFolderPath = sharedDocumentDirectory.path
     
-    let options =  DatabaseConfiguration.Builder()
-        .setDirectory(appSupportFolderPath)
-        .setFileProtection(.noFileProtection)
-        .build()
+    let options =  DatabaseConfiguration()
+    options.directory = appSupportFolderPath
+
+    
     
     // Uncomment the line below  if you want details of the SQLite query equivalent
     // Database.setLogLevel(.verbose, domain: .all)
@@ -56,7 +56,7 @@ func createOrOpenDatabase() throws -> Database? {
  
  */
 func createFTSIndexOnDatabase(_ db:Database) throws  {
-    let ftsIndex = try Index.fullTextIndex(withItems: FullTextIndexItem.property("content"))
+    let ftsIndex = IndexBuilder.fullTextIndex(items: FullTextIndexItem.property("content"))
     try db.createIndex(ftsIndex,withName: "ContentFTSIndex")
 }
 
@@ -69,7 +69,7 @@ func createFTSIndexOnDatabase(_ db:Database) throws  {
 func createFTSIndexOnDatabaseWithNoStemming(_ db:Database) throws  {
     
     // Setting locale as "" disables stemming
-    let ftsIndex = try Index.fullTextIndex(withItems: FullTextIndexItem.property("content")).locale("")
+    let ftsIndex = IndexBuilder.fullTextIndex(items: FullTextIndexItem.property("content")).language(nil)
     try db.createIndex(ftsIndex,withName: "ContentFTSIndexNoStemming")
 }
 
@@ -81,7 +81,7 @@ func createFTSIndexOnDatabaseWithNoStemming(_ db:Database) throws  {
  */
 func createFTSIndexOnDatabaseWithMultipleProperties(_ db:Database) throws  {
     
-    let ftsIndex = try Index.fullTextIndex(withItems: FullTextIndexItem.property("content"),FullTextIndexItem.property("name"))
+    let ftsIndex = IndexBuilder.fullTextIndex(items: FullTextIndexItem.property("content"),FullTextIndexItem.property("name"))
     try db.createIndex(ftsIndex,withName: "ContentAndNameFTSIndex")
 }
 
@@ -110,7 +110,7 @@ func closeDatabase(_ db:Database) throws  {
 
 func queryForDocumentsContainingSpecificString(_ db:Database,limit:Int = 10 ) throws -> [Data]? {
     let ftsExpression = FullTextExpression.index("ContentFTSIndex")
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("content")))
         .from(DataSource.database(db))
@@ -140,7 +140,7 @@ func queryForDocumentsContainingSpecificString(_ db:Database,limit:Int = 10 ) th
 
 func queryForDocumentsContainingSpecificStringWithNoStemming(_ db:Database,limit:Int = 10 ) throws -> [Data]? {
     let ftsExpression = FullTextExpression.index("ContentFTSIndexNoStemming")
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("content")))
         .from(DataSource.database(db))
@@ -172,7 +172,7 @@ func queryForDocumentsContainingSpecificStringWithNoStemming(_ db:Database,limit
 
 func queryForDocumentsContainingSpecificWildcardString(_ db:Database,limit:Int = 10 ) throws -> [Data]? {
     let ftsExpression = FullTextExpression.index("ContentFTSIndex")
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("content")))
         .from(DataSource.database(db))
@@ -203,7 +203,7 @@ func queryForDocumentsContainingSpecificWildcardString(_ db:Database,limit:Int =
 
 func queryForDocumentsContainingSpecificLogicalOperatorStringNoStemming(_ db:Database,limit:Int = 10 ) throws -> [Data]? {
     let ftsExpression = FullTextExpression.index("ContentFTSIndexNoStemming")
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("content")))
         .from(DataSource.database(db))
@@ -237,7 +237,7 @@ func queryForDocumentsContainingSpecificLogicalOperatorStringNoStemming(_ db:Dat
 
 func queryForDocumentsContainingSpecificStringInMultipleProperties(_ db:Database,limit:Int = 100 ) throws -> [Data]? {
     let ftsExpression = FullTextExpression.index("ContentAndNameFTSIndex")
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("name")),
                 SelectResult.expression(Expression.property("content")))
@@ -270,7 +270,7 @@ func queryForDocumentsContainingSpecificStringInMultipleProperties(_ db:Database
 
 func queryForDocumentsContainingSpecificStringWithStopWords(_ db:Database,limit:Int = 5) throws -> [Data]? {
     let ftsExpression = FullTextExpression.index("ContentFTSIndex")
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("content")))
         .from(DataSource.database(db))
@@ -300,7 +300,7 @@ func queryForDocumentsContainingSpecificStringWithStopWords(_ db:Database,limit:
 
 func queryForDocumentsContainingSpecificStringIgnoringStopWords(_ db:Database,limit:Int = 100 ) throws -> [Data]? {
     let ftsExpression = FullTextExpression.index("ContentFTSIndex")
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("content")))
         .from(DataSource.database(db))
@@ -331,7 +331,7 @@ func queryForDocumentsContainingSpecificStringIgnoringStopWords(_ db:Database,li
 
 func queryForDocumentsContainingSpecificStringWithRankOrder(_ db:Database,limit:Int = 10) throws -> [Data]? {
     let ftsExpression = FullTextExpression.index("ContentFTSIndexNoStemming")
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("content")))
         .from(DataSource.database(db))
