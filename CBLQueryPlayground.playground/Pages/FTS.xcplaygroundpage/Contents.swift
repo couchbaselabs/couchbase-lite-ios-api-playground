@@ -353,6 +353,8 @@ func queryForDocumentsContainingSpecificStringWithRankOrder(_ db:Database,limit:
     return matches
 }
 
+
+
 /*:
  ## Run the queries defined in the above functions
  */
@@ -391,7 +393,6 @@ do {
         
         let results8 = try queryForDocumentsContainingSpecificStringWithRankOrder(db)
         print("\n*****\nResponse to queryForDocumentsContainingSpecificStringWithRankOrder :\n\(results8)")
-
 
         // try closeDatabase(db)
     }

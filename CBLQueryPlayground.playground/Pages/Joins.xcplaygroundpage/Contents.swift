@@ -7,7 +7,7 @@
  Examples that demonstrate basic JOIN capabilities. Unlike the other examples, the JOIN examples will
  NOT use the travel-sample DB . Instead we will use the jointest sample DB.
  
- We will insert some test documents in a "jointest" DB and use that as examples
+ We will insert some test documents in a "joindb" test DB and use that as examples
  - The "department" type document
  {
  "type": "department",
@@ -15,7 +15,8 @@
  "code": "1000",
  "head":{
  "firstname":"John",
- "lastname":"Smith"
+ "lastname":"Smith",
+ "location":["101","102"]
  }
  
  }
@@ -26,7 +27,19 @@
  "type":"employee",
  "firstname":"John",
  "lastname":"Smith",
- "department":"1000"
+ "department":"1000",
+ "location":"101"
+ }
+ 
+ - "location" type documents. Every employee will have a specific location. Every department will
+ have one or more locations
+ /** Document 1 **/
+{
+ "type":"location",
+ "name": "Central HQ",
+ "address":"44 Shirley Ave. West Chicago, IL 60185",
+ "code": "102"
+ 
  }
  
  The following examples will demonstrate
@@ -296,6 +309,59 @@ func queryForDocumentsFromDatabasePerformingLeftJoinOnThreeDocuments(_ db:Databa
     return matches
 }
 
+
+/*:
+ ## Do an  Join on "department" type documents with "location" type documents based on the location
+ codes in the "location" array in department document
+ 
+ The "name" properties from "department" document are returned along with the
+ location "name" and "address" from the "location" document.
+ 
+ - parameter db : The database to query
+ - returns: Documents matching the query
+ 
+ */
+
+func queryForDocumentsFromDatabasePerformingJoinOnArrayProperty(_ db:Database) throws -> [Data]? {
+    // join key cannot be missing. cannot hsve employee doc with department missing
+    let departmentDS = DataSource.database(db).as("departmentDS")
+    let locationDS = DataSource.database(db).as("locationDS")
+
+    let departmentLocationExpr = Expression.property("location").from("departmentDS")
+    let departmentLocationVar = ArrayExpression.variable("locationCode")
+
+    let locationCodeExpr = Expression.property("code").from("locationDS")
+
+    // Join where the "code" field of location documents is contained in the "location" code array of "department" documents
+    let joinDeptCodeExpr = ArrayExpression.any(departmentLocationVar).in(departmentLocationExpr)
+        .satisfies(departmentLocationVar.equalTo(locationCodeExpr))
+        .and(Expression.property("type").from("locationDS").equalTo(Expression.string("location"))
+            .and(Expression.property("type").from("departmentDS").equalTo(Expression.string("department"))))
+
+    // join expression
+    let joinLocationCode = Join.join(departmentDS).on(joinDeptCodeExpr)
+
+    let searchQuery = QueryBuilder.select(
+    SelectResult.expression(Expression.property("name").from("departmentDS")).as("departmentName"),
+        SelectResult.expression(Expression.property("name").from("locationDS")).as("locationName"))
+        .from(locationDS)
+        .join(joinLocationCode)
+    
+      // print(try searchQuery.explain())
+    
+    var matches:[Data] = [Data]()
+    do {
+        for row in try searchQuery.execute() {
+            
+            let r = row.toDictionary()
+            print(r)
+            
+            matches.append(row.toDictionary())
+        }
+    }
+    return matches
+}
+
 /*:
  ## Run the queries defined in the above functions
  */
@@ -305,17 +371,20 @@ do {
     // Open or Create Couchbase Lite Database
     if let db:Database = try createOrOpenDatabase() {
         
-        let results1 = try queryForDocumentsFromDatabasePerformingInnerJoin(db)
-        print("\n*****\nResponse to queryForDocumentsFromDatabasePerformingInnerJoin :\n\(results1)")
-
-        let results2 = try queryForDocumentsFromDatabasePerformingLeftJoin(db)
-        print("\n*****\nResponse to queryForDocumentsFromDatabasePerformingLeftJoin :\n\(results2)")
-
-        let results3 = try queryForDocumentsFromDatabasePerformingCrossJoin(db)
-        print("\n*****\nResponse to queryForDocumentsFromDatabasePerformingCrossJoin :\n\(results3)")
-
-        let results4 = try queryForDocumentsFromDatabasePerformingLeftJoinOnThreeDocuments(db)
-        print("\n*****\nResponse to queryForDocumentsFromDatabasePerformingLeftJoinOnThreeDocuments :\n\(results4)")
+//        let results1 = try queryForDocumentsFromDatabasePerformingInnerJoin(db)
+//        print("\n*****\nResponse to queryForDocumentsFromDatabasePerformingInnerJoin :\n\(results1)")
+//
+//        let results2 = try queryForDocumentsFromDatabasePerformingLeftJoin(db)
+//        print("\n*****\nResponse to queryForDocumentsFromDatabasePerformingLeftJoin :\n\(results2)")
+//
+//        let results3 = try queryForDocumentsFromDatabasePerformingCrossJoin(db)
+//        print("\n*****\nResponse to queryForDocumentsFromDatabasePerformingCrossJoin :\n\(results3)")
+//
+//        let results4 = try queryForDocumentsFromDatabasePerformingLeftJoinOnThreeDocuments(db)
+//        print("\n*****\nResponse to queryForDocumentsFromDatabasePerformingLeftJoinOnThreeDocuments :\n\(results4)")
+        
+        let results4 = try queryForDocumentsFromDatabasePerformingJoinOnArrayProperty(db)
+        print("\n*****\nResponse to queryForDocumentsFromDatabasePerformingJoinOnArrayProperty :\n\(results4)")
 
         // try closeDatabase(db)
     }
