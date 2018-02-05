@@ -10,7 +10,6 @@
 		5F481E952027B2B90016187B /* db.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = 5F481E922027B2B80016187B /* db.sqlite3 */; };
 		5F481E962027B2B90016187B /* db.sqlite3-shm in Resources */ = {isa = PBXBuildFile; fileRef = 5F481E932027B2B80016187B /* db.sqlite3-shm */; };
 		5F481E972027B2B90016187B /* db.sqlite3-wal in Resources */ = {isa = PBXBuildFile; fileRef = 5F481E942027B2B80016187B /* db.sqlite3-wal */; };
-		5FAA2AA220153F8900A94144 /* CouchbaseLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F3664081F3ABE3200D1E889 /* CouchbaseLite.framework */; };
 		5FC1749E1FEB1D1900A5AF52 /* CouchbaseLiteSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5F36640A1F3ABE3200D1E889 /* CouchbaseLiteSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5FDE9C1E1F3A3DED006968FB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDE9C1D1F3A3DED006968FB /* AppDelegate.swift */; };
 		5FDE9C201F3A3DED006968FB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDE9C1F1F3A3DED006968FB /* ViewController.swift */; };
@@ -118,7 +117,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5FAA2AA220153F8900A94144 /* CouchbaseLite.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

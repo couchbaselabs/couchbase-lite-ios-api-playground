@@ -339,15 +339,15 @@ func queryForDocumentsFromDatabasePerformingJoinOnArrayProperty(_ db:Database) t
             .and(Expression.property("type").from("departmentDS").equalTo(Expression.string("department"))))
 
     // join expression
-    let joinLocationCode = Join.join(departmentDS).on(joinDeptCodeExpr)
+    let joinLocationCode = Join.join(locationDS).on(joinDeptCodeExpr)
 
     let searchQuery = QueryBuilder.select(
     SelectResult.expression(Expression.property("name").from("departmentDS")).as("departmentName"),
         SelectResult.expression(Expression.property("name").from("locationDS")).as("locationName"))
-        .from(locationDS)
+        .from(departmentDS)
         .join(joinLocationCode)
     
-      // print(try searchQuery.explain())
+       print(try searchQuery.explain())
     
     var matches:[Data] = [Data]()
     do {

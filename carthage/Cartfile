@@ -1,2 +1,2 @@
 #github "couchbase/couchbase-lite-ios" "2.0DB021"
-github "couchbase/couchbase-lite-ios" "feature/2.0"
+github "couchbase/couchbase-lite-ios" "feature/2.0-dev"
