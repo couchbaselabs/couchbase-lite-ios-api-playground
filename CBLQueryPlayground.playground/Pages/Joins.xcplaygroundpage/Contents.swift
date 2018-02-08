@@ -224,8 +224,9 @@ func queryForDocumentsFromDatabasePerformingCrossJoin(_ db:Database) throws -> [
                                    SelectResult.expression(Expression.property("address").from("locationDS")))
         .from(departmentDS)
         .join(join)
-        .where(deptTypeExpr.equalTo(Expression.string("department"))
-                    .and(locationTypeExpr.equalTo(Expression.string("location"))))
+        .where(
+            Expression.property("type").from("departmentDS").equalTo(Expression.string("department"))
+            .and(Expression.property("type").from("locationDS").equalTo(Expression.string("location"))))
     
     
     
@@ -310,7 +311,7 @@ func queryForDocumentsFromDatabasePerformingLeftJoinOnThreeDocuments(_ db:Databa
 }
 
 
-/*:
+/*: DOES NOT WORK IN DB022 / BETA. This will be available in GA
  ## Do an  Join on "department" type documents with "location" type documents based on the location
  codes in the "location" array in department document
  
@@ -328,23 +329,21 @@ func queryForDocumentsFromDatabasePerformingJoinOnArrayProperty(_ db:Database) t
     let locationDS = DataSource.database(db).as("locationDS")
 
     let departmentLocationExpr = Expression.property("location").from("departmentDS")
-    let departmentLocationVar = ArrayExpression.variable("locationCode")
-
+  
     let locationCodeExpr = Expression.property("code").from("locationDS")
 
     // Join where the "code" field of location documents is contained in the "location" code array of "department" documents
-    let joinDeptCodeExpr = ArrayExpression.any(departmentLocationVar).in(departmentLocationExpr)
-        .satisfies(departmentLocationVar.equalTo(locationCodeExpr))
+    let joinDeptCodeExpr = ArrayFunction.contains(departmentLocationExpr, value: locationCodeExpr)
         .and(Expression.property("type").from("locationDS").equalTo(Expression.string("location"))
-            .and(Expression.property("type").from("departmentDS").equalTo(Expression.string("department"))))
+        .and(Expression.property("type").from("departmentDS").equalTo(Expression.string("department"))))
 
     // join expression
-    let joinLocationCode = Join.join(locationDS).on(joinDeptCodeExpr)
+    let joinLocationCode = Join.join(departmentDS).on(joinDeptCodeExpr)
 
     let searchQuery = QueryBuilder.select(
     SelectResult.expression(Expression.property("name").from("departmentDS")).as("departmentName"),
         SelectResult.expression(Expression.property("name").from("locationDS")).as("locationName"))
-        .from(departmentDS)
+        .from(locationDS)
         .join(joinLocationCode)
     
        print(try searchQuery.explain())
@@ -371,20 +370,21 @@ do {
     // Open or Create Couchbase Lite Database
     if let db:Database = try createOrOpenDatabase() {
         
-//        let results1 = try queryForDocumentsFromDatabasePerformingInnerJoin(db)
-//        print("\n*****\nResponse to queryForDocumentsFromDatabasePerformingInnerJoin :\n\(results1)")
-//
-//        let results2 = try queryForDocumentsFromDatabasePerformingLeftJoin(db)
-//        print("\n*****\nResponse to queryForDocumentsFromDatabasePerformingLeftJoin :\n\(results2)")
-//
-//        let results3 = try queryForDocumentsFromDatabasePerformingCrossJoin(db)
-//        print("\n*****\nResponse to queryForDocumentsFromDatabasePerformingCrossJoin :\n\(results3)")
-//
-//        let results4 = try queryForDocumentsFromDatabasePerformingLeftJoinOnThreeDocuments(db)
-//        print("\n*****\nResponse to queryForDocumentsFromDatabasePerformingLeftJoinOnThreeDocuments :\n\(results4)")
-        
-        let results4 = try queryForDocumentsFromDatabasePerformingJoinOnArrayProperty(db)
-        print("\n*****\nResponse to queryForDocumentsFromDatabasePerformingJoinOnArrayProperty :\n\(results4)")
+        let results1 = try queryForDocumentsFromDatabasePerformingInnerJoin(db)
+        print("\n*****\nResponse to queryForDocumentsFromDatabasePerformingInnerJoin :\n\(results1)")
+
+        let results2 = try queryForDocumentsFromDatabasePerformingLeftJoin(db)
+        print("\n*****\nResponse to queryForDocumentsFromDatabasePerformingLeftJoin :\n\(results2)")
+
+        let results3 = try queryForDocumentsFromDatabasePerformingCrossJoin(db)
+        print("\n*****\nResponse to queryForDocumentsFromDatabasePerformingCrossJoin :\n\(results3)")
+
+        let results4 = try queryForDocumentsFromDatabasePerformingLeftJoinOnThreeDocuments(db)
+        print("\n*****\nResponse to queryForDocumentsFromDatabasePerformingLeftJoinOnThreeDocuments :\n\(results4)")
+
+        // This query below will not work in Beta
+        let results5 = try queryForDocumentsFromDatabasePerformingJoinOnArrayProperty(db)
+        print("\n*****\nResponse to queryForDocumentsFromDatabasePerformingJoinOnArrayProperty :\n\(results5)")
 
         // try closeDatabase(db)
     }
