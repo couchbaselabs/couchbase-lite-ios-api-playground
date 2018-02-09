@@ -256,6 +256,41 @@ func queryForDocumentsContainingSpecificStringInMultipleProperties(_ db:Database
     return matches
 }
 
+/*:
+ ## Query for all documents using specific match criteria applied to the name or content property- multiple property match
+ 
+ The sample query returns all `landmark` documents  where the `content` or `name` includes the term "Mechanical"
+ followed by zero or more characters and the address property includes the term "sunset"
+ Documents will match content with terms "Mechanical","mechanisms","mechanics". Disable stemming for exact match
+ 
+ - parameter db : The database to query
+ - parameter limit: The max number of documents to fetch. Defaults to 10
+ - returns: Documents matching the query
+ */
+/*** DOES NOT WORK
+
+func queryForDocumentsContainingSpecificStringByOverrdingIndex(_ db:Database,limit:Int = 100 ) throws -> [Data]? {
+    let ftsExpression = FullTextExpression.index("ContentAndNameFTSIndex")
+    let searchQuery = QueryBuilder
+        .select(SelectResult.expression(Meta.id),
+                SelectResult.expression(Expression.property("name")),
+                SelectResult.expression(Expression.property("content")),
+                SelectResult.expression(Expression.property("address")))
+        .from(DataSource.database(db))
+        .where(Expression.property("type").equalTo(Expression.string ("landmark"))
+            .and( ftsExpression.match("'address:Mason Mechanical'")))
+        .limit(Expression.int(limit))
+    
+    
+    var matches:[Data] = [Data]()
+    do {
+        for row in try searchQuery.execute() {
+            matches.append(row.toDictionary())
+        }
+    }
+    return matches
+}
+****/
 
 /*:
  ## Query for all documents for search string containing stop words
@@ -275,7 +310,7 @@ func queryForDocumentsContainingSpecificStringWithStopWords(_ db:Database,limit:
                 SelectResult.expression(Expression.property("content")))
         .from(DataSource.database(db))
         .where(Expression.property("type").equalTo(Expression.string ("landmark"))
-            .and( ftsExpression.match("on the history")))
+            .and( ftsExpression.match("Winter gardens")))
         .limit(Expression.int(limit))
     
     
@@ -305,7 +340,7 @@ func queryForDocumentsContainingSpecificStringIgnoringStopWords(_ db:Database,li
                 SelectResult.expression(Expression.property("content")))
         .from(DataSource.database(db))
         .where(Expression.property("type").equalTo(Expression.string ("landmark"))
-            .and( ftsExpression.match("blue fin yellow fin")))
+            .and( ftsExpression.match("'blue fin yellow fin'")))
         .limit(Expression.int(limit))
     
     
@@ -317,6 +352,68 @@ func queryForDocumentsContainingSpecificStringIgnoringStopWords(_ db:Database,li
     }
     return matches
 }
+
+/*:
+ ## Query for all documents for search term with maximum distance between the search tokens specified
+ 
+ The sample query returns all `landmark` documents  where the `content` or `name` includes the term "blue fin yellow fin"
+ This would match documents that include text "fish" and "clothing". Stop words are ignored duing search.
+  separated by maximum of 2 tokens. This will include stem variants of the terms "fish" and "clothing"
+ - parameter db : The database to query
+ - parameter limit: The max number of documents to fetch. Defaults to 10
+ - returns: Documents matching the query
+ */
+
+func queryForDocumentsContainingStringsSeparatedByMaxDistance(_ db:Database,limit:Int = 10 ) throws -> [Data]? {
+    let ftsExpression = FullTextExpression.index("ContentFTSIndex")
+    let searchQuery = QueryBuilder
+        .select(SelectResult.expression(Meta.id),
+                SelectResult.expression(Expression.property("content")))
+        .from(DataSource.database(db))
+        .where(Expression.property("type").equalTo(Expression.string ("landmark"))
+            .and( ftsExpression.match("fish NEAR/1 clothing")))
+        .limit(Expression.int(limit))
+    
+    
+    var matches:[Data] = [Data]()
+    do {
+        for row in try searchQuery.execute() {
+            matches.append(row.toDictionary())
+        }
+    }
+    return matches
+}
+
+/*:
+ ## Query for all documents with phrase words.
+ 
+ The sample query returns all `landmark` documents  where the `content` or `name` includes the term "winter gardens" without any intervening tokens. By default by not including in quotes, it will return documents with winter and gardens in it separated by any number of tokens
+ 
+ - parameter db : The database to query
+ - parameter limit: The max number of documents to fetch. Defaults to 10
+ - returns: Documents matching the query
+ */
+
+func queryForDocumentsContainingSpecificPhrase(_ db:Database,limit:Int = 5 ) throws -> [Data]? {
+    let ftsExpression = FullTextExpression.index("ContentFTSIndex")
+    let searchQuery = QueryBuilder
+        .select(SelectResult.expression(Meta.id),
+                SelectResult.expression(Expression.property("content")))
+        .from(DataSource.database(db))
+        .where(Expression.property("type").equalTo(Expression.string ("landmark"))
+            .and( ftsExpression.match("'\"Winter gardens\"'")))
+        .limit(Expression.int(limit))
+    
+    
+    var matches:[Data] = [Data]()
+    do {
+        for row in try searchQuery.execute() {
+            matches.append(row.toDictionary())
+        }
+    }
+    return matches
+}
+
 
 /*:
  ## Query for all documents for search string sorted by rank order
@@ -388,11 +485,20 @@ do {
         let results6 = try queryForDocumentsContainingSpecificStringWithStopWords(db)
         print("\n*****\nResponse to queryForDocumentsContainingSpecificStringWithStopWords :\n\(results6)")
 
-        let results7 = try queryForDocumentsContainingSpecificStringIgnoringStopWords(db)
-        print("\n*****\nResponse to queryForDocumentsContainingSpecificStringInMultipleProperties :\n\(results7)")
-        
-        let results8 = try queryForDocumentsContainingSpecificStringWithRankOrder(db)
-        print("\n*****\nResponse to queryForDocumentsContainingSpecificStringWithRankOrder :\n\(results8)")
+        let results7 = try queryForDocumentsContainingSpecificPhrase(db)
+        print("\n*****\nResponse to queryForDocumentsContainingSpecificPhrase :\n\(results7)")
+
+        let results8 = try queryForDocumentsContainingSpecificStringIgnoringStopWords(db)
+        print("\n*****\nResponse to queryForDocumentsContainingSpecificStringIgnoringStopWords :\n\(results8)")
+
+        let results9 = try queryForDocumentsContainingStringsSeparatedByMaxDistance(db)
+        print("\n*****\nResponse to queryForDocumentsContainingStringsSeparatedByMaxDistance :\n\(results9)")
+
+        let results10 = try queryForDocumentsContainingSpecificStringWithRankOrder(db)
+        print("\n*****\nResponse to queryForDocumentsContainingSpecificStringWithRankOrder :\n\(results10)")
+
+//        let results11 = try queryForDocumentsContainingSpecificStringByOverrdingIndex(db)
+//        print("\n*****\nResponse to queryForDocumentsContainingSpecificStringByOverrdingIndex :\n\(results11)")
 
         // try closeDatabase(db)
     }
