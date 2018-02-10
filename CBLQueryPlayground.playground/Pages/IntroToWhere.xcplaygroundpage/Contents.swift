@@ -35,14 +35,13 @@ typealias Data = [String:Any?]
  
  */
 func createOrOpenDatabase() throws -> Database? {
-    let sharedDocumentDirectory = playgroundSharedDataDirectory.resolvingSymlinksInPath()
     let kDBName:String = "travel-sample"
-    let fileManager:FileManager = FileManager.default
-    
-    var options =  DatabaseConfiguration()
+    let sharedDocumentDirectory = playgroundSharedDataDirectory.resolvingSymlinksInPath()
     let appSupportFolderPath = sharedDocumentDirectory.path
-    options.fileProtection = .noFileProtection
+    
+    let options =  DatabaseConfiguration()
     options.directory = appSupportFolderPath
+    
     
     // Uncomment the line below  if you want details of the SQLite query equivalent
     // Database.setLogLevel(.verbose, domain: .all)
@@ -84,11 +83,11 @@ func closeDatabase(_ db:Database) throws  {
 
 func queryForDocumentsOfSpecificTypeFromDB(_ db:Database,limit:Int = 10 ) throws -> [Data]? {
     
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(SelectResult.all())
         .from(DataSource.database(db))
-        .where(Expression.property("type").equalTo("hotel"))
-        .limit(limit)
+        .where(Expression.property("type").equalTo(Expression.string("hotel")))
+        .limit(Expression.int(limit))
     
     var matches:[Data] = [Data]()
     do {
@@ -130,14 +129,14 @@ func queryForDocumentsOfSpecificTypeFromDB(_ db:Database,limit:Int = 10 ) throws
 
 func queryForDocumentsWithLogicalExpressionFilterFromDB(_ db:Database, limit:Int = 10 ) throws -> [Data]? {
     
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(SelectResult.expression(Meta.id))
         .from(DataSource.database(db))
-        .where(Expression.property("type").equalTo("hotel")
-            .and(Expression.property("country").equalTo("United States")
-                .or(Expression.property("country").equalTo("France")))
-                .and(Expression.property("vacancy").equalTo(true)))
-        .limit(limit)
+        .where(Expression.property("type").equalTo(Expression.string("hotel"))
+            .and(Expression.property("country").equalTo(Expression.string ("United States"))
+            .or(Expression.property("country").equalTo(Expression.string ("France"))))
+            .and(Expression.property("vacancy").equalTo(Expression.boolean(true))))
+        .limit(Expression.int(limit))
     
     var matches:[Data] = [Data]()
     do {
@@ -158,13 +157,13 @@ func queryForDocumentsWithLogicalExpressionFilterFromDB(_ db:Database, limit:Int
 
 func queryDocumentsByKeyPathFromDB(_ db:Database , limit:Int = 10) throws -> [Data]? {
     
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(SelectResult.expression(Expression.property("name")),
                 SelectResult.expression(Expression.property("geo.lat")),
                 SelectResult.expression(Expression.property("geo.lon")))
         .from(DataSource.database(db))
-        .where(Expression.property("type").equalTo("hotel"))
-        .limit(limit)
+        .where(Expression.property("type").equalTo(Expression.string("hotel")))
+        .limit(Expression.int(limit))
     
     
     var matches:[Data] = [Data]()
@@ -187,13 +186,13 @@ func queryDocumentsByKeyPathFromDB(_ db:Database , limit:Int = 10) throws -> [Da
 
 func queryForDocumentsWithBoolFilterFromDB(_ db:Database, limit:Int = 10 ) throws -> [Data]? {
     
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(SelectResult.expression(Expression.property("title")),
                 SelectResult.expression(Expression.property("email")))
         .from(DataSource.database(db))
-        .where(Expression.property("type").equalTo("hotel")
-            .and(Expression.property("vacancy").equalTo(true)))
-        .limit(limit)
+        .where(Expression.property("type").equalTo(Expression.string("hotel"))
+            .and(Expression.property("vacancy").equalTo(Expression.boolean(true))))
+        .limit(Expression.int(limit))
     
     var matches:[Data] = [Data]()
     do {

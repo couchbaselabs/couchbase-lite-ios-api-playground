@@ -34,14 +34,13 @@ typealias Data = [String:Any?]
  
  */
 func createOrOpenDatabase() throws -> Database? {
-    let sharedDocumentDirectory = playgroundSharedDataDirectory.resolvingSymlinksInPath()
     let kDBName:String = "travel-sample"
-    let fileManager:FileManager = FileManager.default
-    
-    var options =  DatabaseConfiguration()
+    let sharedDocumentDirectory = playgroundSharedDataDirectory.resolvingSymlinksInPath()
     let appSupportFolderPath = sharedDocumentDirectory.path
-    options.fileProtection = .noFileProtection
+    
+    let options =  DatabaseConfiguration()
     options.directory = appSupportFolderPath
+
     
     // Uncomment the line below  if you want details of the SQLite query equivalent
     // Database.setLogLevel(.verbose, domain: .all)
@@ -70,15 +69,15 @@ func closeDatabase(_ db:Database) throws  {
 
 func queryForDocumentsByTestingArrayContainment(_ db:Database, limit:Int = 10) throws -> [Data]? {
     
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("name")),
                 SelectResult.expression(Expression.property("public_likes")))
         .from(DataSource.database(db))
-        .where(Expression.property("type").equalTo("hotel")
-            .and( ArrayFunction.contains(Expression.property("public_likes"), value: "Armani Langworth")))
+        .where(Expression.property("type").equalTo(Expression.string("hotel"))
+            .and( ArrayFunction.contains(Expression.property("public_likes"), value: Expression.string("Yasmeen Lemke"))))
      
-        .limit(limit)
+        .limit(Expression.int(limit))
     
     
     var matches:[Data] = [Data]()
@@ -101,13 +100,13 @@ func queryForDocumentsByTestingArrayContainment(_ db:Database, limit:Int = 10) t
 
 func queryForDocumentsByReturningArrayLength(_ db:Database, limit:Int = 10) throws -> [Data]? {
     
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("name")),
-    SelectResult.expression(ArrayFunction.length(Expression.property("public_likes"))).as("NumLikes"))
+    SelectResult.expression(ArrayFunction.length(Expression.property("public_likes"))))
         .from(DataSource.database(db))
-        .where(Expression.property("type").equalTo("hotel"))
-        .limit(limit)
+        .where(Expression.property("type").equalTo(Expression.string("hotel")))
+        .limit(Expression.int(limit))
     
     
     var matches:[Data] = [Data]()
@@ -130,14 +129,14 @@ The `as` expression is used to alias the results of evaluating an expression. In
 
 func queryForDocumentsByReturningArrayLengthWithAlias(_ db:Database, limit:Int = 10) throws -> [Data]? {
     
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("name")),
                 SelectResult.expression(ArrayFunction.length(Expression.property("public_likes"))).as("NumLikes")
         )
         .from(DataSource.database(db))
-        .where(Expression.property("type").equalTo("hotel"))
-        .limit(limit)
+        .where(Expression.property("type").equalTo(Expression.string("hotel")))
+        .limit(Expression.int(limit))
     
     
     var matches:[Data] = [Data]()
@@ -160,15 +159,16 @@ func queryForDocumentsByReturningArrayLengthWithAlias(_ db:Database, limit:Int =
 
 func queryForDocumentsApplyingSatisfiesCriteriaFromDB(_ db:Database, limit:Int = 10) throws -> [Data]? {
     
+    
     let VAR_LIKEDBY = ArrayExpression.variable("likedby")
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(SelectResult.expression(Meta.id),
             SelectResult.expression((Expression.property("public_likes"))))
         .from(DataSource.database(db))
-        .where(Expression.property("type").equalTo("hotel")
-            .and(ArrayExpression.any("likedby").in(Expression.property("public_likes"))
-                .satisfies(VAR_LIKEDBY.like("Cor%"))))
-        .limit(limit)
+        .where(Expression.property("type").equalTo(Expression.string("hotel"))
+            .and(ArrayExpression.any(VAR_LIKEDBY).in(Expression.property("public_likes"))
+                .satisfies(VAR_LIKEDBY.like(Expression.string("Cor%")))))
+        .limit(Expression.int(limit))
     
     
     var matches:[Data] = [Data]()
@@ -193,14 +193,15 @@ func queryForDocumentsApplyingSatisfiesCriteriaFromDB(_ db:Database, limit:Int =
 func queryForDocumentsApplyingSatisfiesCriteriaOnNestedArrayFromDB(_ db:Database, limit:Int = 10) throws -> [Data]? {
     
     let VAR_OVERALL = ArrayExpression.variable("review.ratings.Overall")
-    let searchQuery = Query
+    let VAR_REVIEWS = ArrayExpression.variable("review")
+    let searchQuery = QueryBuilder
         .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("name")))
         .from(DataSource.database(db))
-        .where(Expression.property("type").equalTo("hotel")
-            .and(ArrayExpression.any("review").in(Expression.property("reviews"))
-                .satisfies(VAR_OVERALL.greaterThanOrEqualTo(4))))
-        .limit(limit)
+        .where(Expression.property("type").equalTo(Expression.string("hotel"))
+            .and(ArrayExpression.any(VAR_REVIEWS).in(Expression.property("reviews"))
+                .satisfies(VAR_OVERALL.greaterThanOrEqualTo(Expression.int(4)))))
+        .limit(Expression.int(limit))
     
    
     
@@ -213,6 +214,64 @@ func queryForDocumentsApplyingSatisfiesCriteriaOnNestedArrayFromDB(_ db:Database
     return matches
 }
 
+/*:
+ ## Query for documents requesting first element in nested array
+ - parameter db : The database to query
+ - parameter limit: The max number of documents to fetch. Defaults to 10
+ - returns: Documents matching the query
+ 
+ */
+
+func queryForDocumentsByFetchingElementsAtArrayIndex(_ db:Database, limit:Int = 10) throws -> [Data]? {
+    
+    let searchQuery = QueryBuilder
+        .select(SelectResult.expression(Meta.id),
+                SelectResult.expression(Expression.property("name")),
+                SelectResult.expression(Expression.property("public_likes[0]")))
+        .from(DataSource.database(db))
+        .where(Expression.property("type").equalTo(Expression.string("hotel")))
+        
+        .limit(Expression.int(limit))
+    
+    
+    var matches:[Data] = [Data]()
+    do {
+        for row in try searchQuery.execute() {
+            matches.append(row.toDictionary())
+        }
+    }
+    return matches
+}
+
+/*:
+ ## Query for documents wherein the nested array object  contains a specific element at specific array index
+ - parameter db : The database to query
+ - parameter limit: The max number of documents to fetch. Defaults to 10
+ - returns: Documents matching the query
+ 
+ */
+
+func queryForDocumentsDependingOnValueOfElementAtIndex(_ db:Database, limit:Int = 10) throws -> [Data]? {
+    
+    let searchQuery = QueryBuilder
+        .select(SelectResult.expression(Meta.id),
+                SelectResult.expression(Expression.property("name")),
+                SelectResult.expression(Expression.property("public_likes")))
+        .from(DataSource.database(db))
+        .where(Expression.property("type").equalTo(Expression.string("hotel"))
+            .and(Expression.property("public_likes[0]").equalTo(Expression.string ("Yasmeen Lemke"))))
+        
+        .limit(Expression.int(limit))
+    
+    
+    var matches:[Data] = [Data]()
+    do {
+        for row in try searchQuery.execute() {
+            matches.append(row.toDictionary())
+        }
+    }
+    return matches
+}
 
 /*:
  ## Since Couchbase Lite lacks array expressions to flatten an array, we demonstrate the use of swift language capabilities to
@@ -226,12 +285,12 @@ func queryForDocumentsApplyingSatisfiesCriteriaOnNestedArrayFromDB(_ db:Database
 func postProcessingAndFlattenArrayResultsFromDB(_ db:Database) throws  {
     
     // 1. Query for reviews property array for the given hotel
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(
                 SelectResult.expression(Expression.property("reviews")))
         .from(DataSource.database(db))
-        .where(Expression.property("type").equalTo("hotel")
-            .and(Meta.id.equalTo("hotel_10025")))
+        .where(Expression.property("type").equalTo(Expression.string("hotel"))
+            .and(Meta.id.equalTo(Expression.string("hotel_10025"))))
    
     
     // 2. Result set if an array of objects, one for each docment that matches the criteria.
@@ -369,6 +428,12 @@ do {
 
         let results5 = try queryForDocumentsApplyingSatisfiesCriteriaOnNestedArrayFromDB(db, limit: 5)
         print("\n*****\nResponse to queryForDocumentsApplyingSatisfiesCriteriaOnNestedArrayFromDB : \n \(results5)")
+        
+        let results6 = try queryForDocumentsByFetchingElementsAtArrayIndex(db, limit: 5)
+        print("\n*****\nResponse to queryForDocumentsByFetchingElementsAtArrayIndex : \n \(results6)")
+
+        let results7 = try queryForDocumentsDependingOnValueOfElementAtIndex(db, limit: 5)
+        print("\n*****\nResponse to queryForDocumentsDependingOnValueOfElementAtIndex : \n \(results7)")
 
          try postProcessingAndFlattenArrayResultsFromDB(db)
         

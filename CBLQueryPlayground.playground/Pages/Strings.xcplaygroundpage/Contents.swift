@@ -34,20 +34,17 @@ typealias Data = [String:Any?]
  
  */
 func createOrOpenDatabase() throws -> Database? {
-    let sharedDocumentDirectory = playgroundSharedDataDirectory.resolvingSymlinksInPath()
     let kDBName:String = "travel-sample"
-    let fileManager:FileManager = FileManager.default
-    
-    var options =  DatabaseConfiguration()
+    let sharedDocumentDirectory = playgroundSharedDataDirectory.resolvingSymlinksInPath()
     let appSupportFolderPath = sharedDocumentDirectory.path
-    options.fileProtection = .noFileProtection
+    
+    let options =  DatabaseConfiguration()
     options.directory = appSupportFolderPath
+
     
     // Uncomment the line below  if you want details of the SQLite query equivalent
     // Database.setLogLevel(.verbose, domain: .all)
     return try Database(name: kDBName, config: options)
-    
-    
 }
 
 /*:
@@ -77,13 +74,13 @@ func closeDatabase(_ db:Database) throws  {
 
 func queryForDocumentsUsingSubstringFilteringFromDB(_ db:Database, limit:Int = 30000) throws -> [Data]? {
     
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("email")),
                 SelectResult.expression(Expression.property("name")))
         .from(DataSource.database(db))
-        .where(Expression.property("email").and(Function.contains(Expression.property("email"), substring: ".uk")))
-        .limit(limit)
+        .where(Function.contains(Expression.property("email"), substring: Expression.string (".uk")))
+        .limit(Expression.int(limit))
     
     
     var matches:[Data] = [Data]()
@@ -110,13 +107,13 @@ func queryForDocumentsApplyingStringCollation(_ db:Database, limit:Int = 10) thr
     let ignoreCase = Collation.unicode()
         .ignoreCase(true)
     
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(SelectResult.expression(Meta.id),
                 SelectResult.expression(Expression.property("name")))
         .from(DataSource.database(db))
-        .where(Expression.property("type").equalTo("hotel")
-            .and(Expression.property("name").collate(ignoreCase).equalTo("the robins")))
-        .limit(limit)
+        .where(Expression.property("type").equalTo(Expression.string("hotel"))
+            .and(Expression.property("name").collate(ignoreCase).equalTo(Expression.string ("the robins"))))
+        .limit(Expression.int(limit))
     
 
     var matches:[Data] = [Data]()

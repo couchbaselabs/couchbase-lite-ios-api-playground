@@ -30,19 +30,17 @@ typealias Data = [String:Any?]
  
  */
 func createOrOpenDatabase() throws -> Database? {
-    let sharedDocumentDirectory = playgroundSharedDataDirectory.resolvingSymlinksInPath()
     let kDBName:String = "travel-sample"
-    let fileManager:FileManager = FileManager.default
-    
-    var options =  DatabaseConfiguration()
+    let sharedDocumentDirectory = playgroundSharedDataDirectory.resolvingSymlinksInPath()
     let appSupportFolderPath = sharedDocumentDirectory.path
-    options.fileProtection = .noFileProtection
+    
+    let options =  DatabaseConfiguration()
     options.directory = appSupportFolderPath
+  
     
     // Uncomment the line below  if you want details of the SQLite query equivalent
     // Database.setLogLevel(.verbose, domain: .all)
     return try Database(name: kDBName, config: options)
-    
 
 }
 
@@ -68,10 +66,10 @@ func closeDatabase(_ db:Database) throws  {
 
 func queryForAllDocumentsFromDB(_ db:Database, limit:Int = 10 ) throws -> [Data]? {
     
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(SelectResult.all())
         .from(DataSource.database(db))
-        .limit(limit)
+        .limit(Expression.int(limit))
     
     var matches:[Data] = [Data]()
     do {
@@ -94,10 +92,10 @@ func queryForAllDocumentsFromDB(_ db:Database, limit:Int = 10 ) throws -> [Data]
 
 func queryForAllDocumentsFromSpecifiedOffsetFromDB(_ db:Database, offset:Int = 0,limit:Int = 10 ) throws -> [Data]? {
     
-    let searchQuery = Query
+    let searchQuery = QueryBuilder
         .select(SelectResult.all())
         .from(DataSource.database(db))
-        .limit(limit,offset: offset)
+        .limit(Expression.int(limit),offset: Expression.int(offset))
     
     var matches:[Data] = [Data]()
     do {
@@ -107,6 +105,8 @@ func queryForAllDocumentsFromSpecifiedOffsetFromDB(_ db:Database, offset:Int = 0
     }
     return matches
 }
+
+
 
 
 

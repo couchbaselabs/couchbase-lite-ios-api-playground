@@ -1,0 +1,3 @@
+[submodule "Carthage/Checkouts/couchbase-lite-ios"]
+	path = carthage/Carthage/Checkouts/couchbase-lite-ios
+	url = https://github.com/couchbase/couchbase-lite-ios.git
