@@ -36,6 +36,12 @@ This Swift Playground demonostrates the new Query interface in Couchbase Lite 2.
     $ cp  -r travel-sample.cblite2 ~/Documents/Shared\ Playground\ Data/
   ```
 
+- Copy the "joindb.cblite2" folder that is bundled with the repo into the "Shared Playground Data". This prebuilt database will be used for trying out the queries related to JOINs. Note that all the APIs will be exercised locally.
+
+  ``` bash
+    $ cd /path/to/couchbase-lite-ios-api-playground/
+    $ cp  -r joindb.cblite2 ~/Documents/Shared\ Playground\ Data/
+  ```
 ## Exploring the Project 
 
 - Open the `CBLTestBed.xcodeproj` using Xcode 8.3 or above
