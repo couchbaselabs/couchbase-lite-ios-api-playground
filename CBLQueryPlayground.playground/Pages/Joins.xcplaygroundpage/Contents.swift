@@ -2,7 +2,6 @@
  [Table of Contents](ToC) | [Previous](@previous) | [Next](@next)
  ****
  
- THIS PLAYGROUND IS WIP. Examples specified here will not work with DB021 of CBL release.
  
  Examples that demonstrate basic JOIN capabilities. Unlike the other examples, the JOIN examples will
  NOT use the travel-sample DB . Instead we will use the jointest sample DB.
@@ -82,7 +81,6 @@ func createOrOpenDatabase() throws -> Database? {
     // Database.setLogLevel(.verbose, domain: .all)
     return try Database(name: kDBName, config: options)
     
-    options.directory = "foobar"
     
 }
 
