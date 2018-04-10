@@ -1,4 +1,4 @@
-This Swift Playground demonostrates the new Query interface in Couchbase Lite 2.0. This supports Developer Preview Build DB021. 
+This Swift Playground demonstrates the new Query interface in Couchbase Lite 2.0. This supports Developer Preview Build DB021. 
 
 ## Platform 
 - iOS (Swift)
