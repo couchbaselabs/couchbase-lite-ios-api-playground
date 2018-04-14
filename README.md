@@ -13,8 +13,8 @@ So, even if you are not a Swift developer, you should be able to leverage the Xc
 
 ## Platform 
 - iOS (Swift)
-- Xcode 9.0 + 
-- Swift 4.0+
+- Xcode 8.3.3 + 
+- Swift 3.1+
 
 ## Installation
 - Clone the repo from GitHub by running the following command from the terminal
@@ -65,9 +65,7 @@ So, even if you are not a Swift developer, you should be able to leverage the Xc
 
 
 ## Build and Run
-- The very first time, you will need to build `CouchbaseLiteSwift.framework`. For this, select the "CBL Swift" scheme and build it using *Cmd-B* as shown below. You will not be required to build CBLite Swift framework unless you update to a different version of Couchbase Lite.
-
-![](https://raw.githubusercontent.com/couchbaselabs/couchbase-lite-ios-api-playground/master/build.png?token=AAnYgwn3F982pAEPUSUx8y7JIfzLpg-Kks5aCbMYwA%3D%3D)
+- Select the "CBLTestBed" scheme with simulator target and build it using *Cmd-B*. 
 
 - Select the playground that you want to Execute a playground by clicking on the "Run" button
 ![](https://raw.githubusercontent.com/couchbaselabs/couchbase-lite-ios-api-playground/master/run_page.gif?token=AAnYg1rpGHsrE3u5F7ZqEPdp8ub1iRd-ks5aCbFVwA%3D%3D)
