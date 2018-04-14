@@ -1,9 +1,20 @@
-This Swift Playground demonstrates the new Query interface in Couchbase Lite 2.0. This supports Developer Preview Build DB021. 
+This Swift Playground demonstrates the new Query interface in Couchbase Lite 2.0. 
+
+## Demo
+A step-by-step demonstration of using the playground for testing 
+
+[![Alt text](https://i.ytimg.com/vi/9NA2OXdSiqA/1.jpg)](https://youtu.be/9NA2OXdSiqA)
+
+## Overview
+While the Xcode playground demonstrates the queries in swift, given the unified nature of the QueryBuilder API across the various Couchbase Lite platforms, barring language specific idioms, you should be able to easily translate the queries to any of the other platform languages supported in Couchbase Lite. 
+
+So, even if you are not a Swift developer, you should be able to leverage the Xcode playground for API exploration. This video makes no assumptions about your familiarity with Swift or iOS Development so even if you are a complete newbie to iOS development, you should be able to follow along. 
+
 
 ## Platform 
 - iOS (Swift)
-- Xcode 8.3.3+ 
-- Swift 3.1+
+- Xcode 9.0 + 
+- Swift 4.0+
 
 ## Installation
 - Clone the repo from GitHub by running the following command from the terminal
