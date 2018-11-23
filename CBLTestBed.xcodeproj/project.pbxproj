@@ -7,18 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5FB278A0202C9F4700EDAF49 /* db.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = 5FB2789D202C9F4700EDAF49 /* db.sqlite3 */; };
-		5FB278A1202C9F4700EDAF49 /* db.sqlite3-shm in Resources */ = {isa = PBXBuildFile; fileRef = 5FB2789E202C9F4700EDAF49 /* db.sqlite3-shm */; };
-		5FB278A2202C9F4700EDAF49 /* db.sqlite3-wal in Resources */ = {isa = PBXBuildFile; fileRef = 5FB2789F202C9F4700EDAF49 /* db.sqlite3-wal */; };
 		5FC1749E1FEB1D1900A5AF52 /* CouchbaseLiteSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5F36640A1F3ABE3200D1E889 /* CouchbaseLiteSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5FDE9C1E1F3A3DED006968FB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDE9C1D1F3A3DED006968FB /* AppDelegate.swift */; };
 		5FDE9C201F3A3DED006968FB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDE9C1F1F3A3DED006968FB /* ViewController.swift */; };
 		5FDE9C231F3A3DED006968FB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5FDE9C211F3A3DED006968FB /* Main.storyboard */; };
 		5FDE9C251F3A3DED006968FB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5FDE9C241F3A3DED006968FB /* Assets.xcassets */; };
 		5FDE9C281F3A3DED006968FB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5FDE9C261F3A3DED006968FB /* LaunchScreen.storyboard */; };
-		5FF580691FACEA650004532E /* db.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = 5FF580661FACEA640004532E /* db.sqlite3 */; };
-		5FF5806A1FACEA650004532E /* db.sqlite3-shm in Resources */ = {isa = PBXBuildFile; fileRef = 5FF580671FACEA640004532E /* db.sqlite3-shm */; };
-		5FF5806B1FACEA650004532E /* db.sqlite3-wal in Resources */ = {isa = PBXBuildFile; fileRef = 5FF580681FACEA640004532E /* db.sqlite3-wal */; };
+		F170E4A421A5ACDD00A12340 /* joindb.cblite2 in Resources */ = {isa = PBXBuildFile; fileRef = F170E4A221A5ACDD00A12340 /* joindb.cblite2 */; };
+		F170E4A521A5ACDD00A12340 /* travel-sample.cblite2 in Resources */ = {isa = PBXBuildFile; fileRef = F170E4A321A5ACDD00A12340 /* travel-sample.cblite2 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +74,55 @@
 			remoteGlobalIDString = 275F92731E4D30A4007FD5A2;
 			remoteInfo = "CBL Swift";
 		};
+		F170E49421A5ACCC00A12340 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5F3663F91F3ABE3100D1E889 /* CouchbaseLite.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9343F00F207D611600F19A89;
+			remoteInfo = "CBL-EE ObjC";
+		};
+		F170E49621A5ACCC00A12340 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5F3663F91F3ABE3100D1E889 /* CouchbaseLite.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9343F133207D61AB00F19A89;
+			remoteInfo = "CBL-EE Swift";
+		};
+		F170E49821A5ACCC00A12340 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5F3663F91F3ABE3100D1E889 /* CouchbaseLite.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9343F151207D61EC00F19A89;
+			remoteInfo = "CBL-EE ObjC Tests";
+		};
+		F170E49A21A5ACCC00A12340 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5F3663F91F3ABE3100D1E889 /* CouchbaseLite.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9343F16D207D62C900F19A89;
+			remoteInfo = "CBL-EE Objc Tests - iOS App";
+		};
+		F170E49C21A5ACCC00A12340 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5F3663F91F3ABE3100D1E889 /* CouchbaseLite.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9343F188207D633300F19A89;
+			remoteInfo = "CBL-EE Objc Tests - iOS";
+		};
+		F170E49E21A5ACCC00A12340 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5F3663F91F3ABE3100D1E889 /* CouchbaseLite.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9343F1A2207D636300F19A89;
+			remoteInfo = "CBL-EE Swift Tests";
+		};
+		F170E4A021A5ACCC00A12340 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5F3663F91F3ABE3100D1E889 /* CouchbaseLite.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9343F1B7207D63BF00F19A89;
+			remoteInfo = "PerfTests-EE-Mac";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -96,9 +141,6 @@
 
 /* Begin PBXFileReference section */
 		5F3663F91F3ABE3100D1E889 /* CouchbaseLite.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CouchbaseLite.xcodeproj; path = "carthage/Carthage/Checkouts/couchbase-lite-ios/CouchbaseLite.xcodeproj"; sourceTree = "<group>"; };
-		5FB2789D202C9F4700EDAF49 /* db.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = db.sqlite3; sourceTree = "<group>"; };
-		5FB2789E202C9F4700EDAF49 /* db.sqlite3-shm */ = {isa = PBXFileReference; lastKnownFileType = file; path = "db.sqlite3-shm"; sourceTree = "<group>"; };
-		5FB2789F202C9F4700EDAF49 /* db.sqlite3-wal */ = {isa = PBXFileReference; lastKnownFileType = file; path = "db.sqlite3-wal"; sourceTree = "<group>"; };
 		5FDE9C1A1F3A3DED006968FB /* CBLTestBed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CBLTestBed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FDE9C1D1F3A3DED006968FB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5FDE9C1F1F3A3DED006968FB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -106,10 +148,9 @@
 		5FDE9C241F3A3DED006968FB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5FDE9C271F3A3DED006968FB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5FDE9C291F3A3DED006968FB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5FF580661FACEA640004532E /* db.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = db.sqlite3; sourceTree = "<group>"; };
-		5FF580671FACEA640004532E /* db.sqlite3-shm */ = {isa = PBXFileReference; lastKnownFileType = file; path = "db.sqlite3-shm"; sourceTree = "<group>"; };
-		5FF580681FACEA640004532E /* db.sqlite3-wal */ = {isa = PBXFileReference; lastKnownFileType = file; path = "db.sqlite3-wal"; sourceTree = "<group>"; };
 		5FF6B0771F6820910018A7BC /* CBLQueryPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = CBLQueryPlayground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		F170E4A221A5ACDD00A12340 /* joindb.cblite2 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = joindb.cblite2; sourceTree = "<group>"; };
+		F170E4A321A5ACDD00A12340 /* travel-sample.cblite2 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "travel-sample.cblite2"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,18 +174,15 @@
 				5F3664101F3ABE3200D1E889 /* CBL Objc Tests - iOS.xctest */,
 				5F3664121F3ABE3200D1E889 /* CouchbaseLiteSwiftTests.xctest */,
 				5F3664141F3ABE3200D1E889 /* CBLPerfTests */,
+				F170E49521A5ACCC00A12340 /* CouchbaseLite.framework */,
+				F170E49721A5ACCC00A12340 /* CouchbaseLiteSwift.framework */,
+				F170E49921A5ACCC00A12340 /* CouchbaseLiteTests.xctest */,
+				F170E49B21A5ACCC00A12340 /* CBL Tests.app */,
+				F170E49D21A5ACCC00A12340 /* CBL-EE Objc Tests - iOS.xctest */,
+				F170E49F21A5ACCC00A12340 /* CouchbaseLiteSwiftTests.xctest */,
+				F170E4A121A5ACCC00A12340 /* CBLPerfTests */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		5FB2789C202C9F4700EDAF49 /* joindb.cblite2 */ = {
-			isa = PBXGroup;
-			children = (
-				5FB2789D202C9F4700EDAF49 /* db.sqlite3 */,
-				5FB2789E202C9F4700EDAF49 /* db.sqlite3-shm */,
-				5FB2789F202C9F4700EDAF49 /* db.sqlite3-wal */,
-			);
-			path = joindb.cblite2;
 			sourceTree = "<group>";
 		};
 		5FC174911FEB1B0E00A5AF52 /* Frameworks */ = {
@@ -157,8 +195,8 @@
 		5FDE9C111F3A3DED006968FB = {
 			isa = PBXGroup;
 			children = (
-				5FB2789C202C9F4700EDAF49 /* joindb.cblite2 */,
-				5FF580651FACEA640004532E /* travel-sample.cblite2 */,
+				F170E4A221A5ACDD00A12340 /* joindb.cblite2 */,
+				F170E4A321A5ACDD00A12340 /* travel-sample.cblite2 */,
 				5FF6B0771F6820910018A7BC /* CBLQueryPlayground.playground */,
 				5F3663F91F3ABE3100D1E889 /* CouchbaseLite.xcodeproj */,
 				5FDE9C1C1F3A3DED006968FB /* CBLTestBed */,
@@ -186,16 +224,6 @@
 				5FDE9C291F3A3DED006968FB /* Info.plist */,
 			);
 			path = CBLTestBed;
-			sourceTree = "<group>";
-		};
-		5FF580651FACEA640004532E /* travel-sample.cblite2 */ = {
-			isa = PBXGroup;
-			children = (
-				5FF580661FACEA640004532E /* db.sqlite3 */,
-				5FF580671FACEA640004532E /* db.sqlite3-shm */,
-				5FF580681FACEA640004532E /* db.sqlite3-wal */,
-			);
-			path = "travel-sample.cblite2";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -311,6 +339,55 @@
 			remoteRef = 5F3664131F3ABE3200D1E889 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		F170E49521A5ACCC00A12340 /* CouchbaseLite.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CouchbaseLite.framework;
+			remoteRef = F170E49421A5ACCC00A12340 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F170E49721A5ACCC00A12340 /* CouchbaseLiteSwift.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CouchbaseLiteSwift.framework;
+			remoteRef = F170E49621A5ACCC00A12340 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F170E49921A5ACCC00A12340 /* CouchbaseLiteTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = CouchbaseLiteTests.xctest;
+			remoteRef = F170E49821A5ACCC00A12340 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F170E49B21A5ACCC00A12340 /* CBL Tests.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "CBL Tests.app";
+			remoteRef = F170E49A21A5ACCC00A12340 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F170E49D21A5ACCC00A12340 /* CBL-EE Objc Tests - iOS.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "CBL-EE Objc Tests - iOS.xctest";
+			remoteRef = F170E49C21A5ACCC00A12340 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F170E49F21A5ACCC00A12340 /* CouchbaseLiteSwiftTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = CouchbaseLiteSwiftTests.xctest;
+			remoteRef = F170E49E21A5ACCC00A12340 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F170E4A121A5ACCC00A12340 /* CBLPerfTests */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = CBLPerfTests;
+			remoteRef = F170E4A021A5ACCC00A12340 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -318,15 +395,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5FF5806B1FACEA650004532E /* db.sqlite3-wal in Resources */,
 				5FDE9C281F3A3DED006968FB /* LaunchScreen.storyboard in Resources */,
 				5FDE9C251F3A3DED006968FB /* Assets.xcassets in Resources */,
-				5FF5806A1FACEA650004532E /* db.sqlite3-shm in Resources */,
-				5FB278A1202C9F4700EDAF49 /* db.sqlite3-shm in Resources */,
 				5FDE9C231F3A3DED006968FB /* Main.storyboard in Resources */,
-				5FB278A2202C9F4700EDAF49 /* db.sqlite3-wal in Resources */,
-				5FF580691FACEA650004532E /* db.sqlite3 in Resources */,
-				5FB278A0202C9F4700EDAF49 /* db.sqlite3 in Resources */,
+				F170E4A421A5ACDD00A12340 /* joindb.cblite2 in Resources */,
+				F170E4A521A5ACDD00A12340 /* travel-sample.cblite2 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
