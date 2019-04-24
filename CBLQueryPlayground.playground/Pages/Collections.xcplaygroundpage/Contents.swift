@@ -159,19 +159,6 @@ func queryForDocumentsByReturningArrayLengthWithAlias(_ db:Database, limit:Int =
 
 
 func queryForDocumentsApplyingSatisfiesCriteriaFromDB(_ db:Database, limit:Int = 10) throws -> [Data]? {
-    //NSPredicate(format: "createdby == 'user1' AND (ANY detail.jobcode IN {'Sick', 'Vacation’})")
-
-    let VAR_LIKEDBY = ArrayExpression.variable("likedby")
-    
-    var arr_stringliterals  = Array<Expression>(arrayLiteral: Expression.string("foo"),Expression.string("bar")).init()
-    
-    
-    let searchQuery2 = QueryBuilder
-        .select(SelectResult.all())
-        .from(DataSource.database(db))
-        .where(Expression.property("type").equalTo(Expression.string("hotel"))
-            .and(Meta.id.in(arr_stringliterals))
-                .limit(Expression.int(limit))
     
     let VAR_LIKEDBY = ArrayExpression.variable("likedby")
     let searchQuery = QueryBuilder
