@@ -308,6 +308,58 @@ func queryForDocumentsFromDatabasePerformingLeftJoinOnThreeDocuments(_ db:Databa
     return matches
 }
 
+func queryForDocumentsFromDatabasePerformingLeftJoinOnTwoDocuments2(_ db:Database) throws -> [Data]? {
+    // join key cannot be missing. cannot hsve employee doc with department missing
+    let playlistDS = DataSource.database(db).as("playlistDS")
+    let trackDS = DataSource.database(db).as("trackDS")
+    
+    let playlistTrackExpr = Expression.property("tracks").from("playlistDS")
+    
+    let trackIdExpr = Expression.property("id").from("trackDS")
+    
+    // Join where the "id" field of track documents is contained in the "tracks"  array of "playlist" documents
+    let joinTrackIdExpr = ArrayFunction.contains(playlistTrackExpr, value: trackIdExpr)
+        .and(Expression.property("_type").from("playlistDS").equalTo(Expression.string("playlist"))
+            .and(Expression.property("_type").from("trackDS").equalTo(Expression.string("track"))))
+    
+    // join expression
+    let joinTrackCode = Join.join(playlistDS).on(joinTrackIdExpr)
+    
+    let searchQuery = QueryBuilder.select(
+        SelectResult.expression(Expression.property("name").from("playlist")).as("playlistName"),
+        SelectResult.expression(Expression.property("avg_rating").from("trackDS")).as("rating"))
+        .from(playlistDS)
+        .join(joinTrackCode)
+    .orderBy(Ordering.property("avg_rating"))
+    
+    let searchQuery = QueryBuilder.select(
+        SelectResult.expression(Expression.property("title").from("trackDS"))
+        ).from(
+            DataSource.database(database).as("trackDS")
+        ).join(
+            Join.join(DataSource.database(database).as("playlistDS")).on(
+                ArrayFunction.contains(Expression.property("tracks").from("playlistDS"), value: Expression.property("id").from("trackDS"))
+                    .and(Expression.property("_type").from("playlistDS").equalTo(Expression.string("playlist"))
+                        .and(Expression.property("_type").from("trackDS").equalTo(Expression.string("track"))))
+            )
+        ).where(
+            Expression.property("id").from("playlistDS").equalTo(Expression.string(playlistID))
+    )
+    
+    print(try searchQuery.explain())
+    
+    var matches:[Data] = [Data]()
+    do {
+        for row in try searchQuery.execute() {
+            
+            let r = row.toDictionary()
+            print(r)
+            
+            matches.append(row.toDictionary())
+        }
+    }
+    return matches
+}
 
 /*: DOES NOT WORK IN DB022 / BETA. This will be available in GA
  ## Do an  Join on "department" type documents with "location" type documents based on the location

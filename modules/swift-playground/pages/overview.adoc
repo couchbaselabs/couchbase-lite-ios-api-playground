@@ -1,1 +1,110 @@
-= Overview
+= Xcode Playground: Exploring Couchbase Lite Query API
+:idprefix:
+:idseparator: -
+:icons: font
+:quick-uri: https://asciidoctor.org/docs/asciidoc-syntax-quick-reference/
+:page-aliases: tutorials:xcode_playground/xcode_playground_query
+ifndef::env-site,env-github[]
+:toc: left
+:toclevels: 3
+endif::[]
+
+toc::[]
+
+== Introduction
+The link:https://developer.apple.com/swift/#playgrounds-repl[Xcode Playground] can be used to test out the key capabilities of link:https://docs.couchbase.com/couchbase-lite/2.1/swift.html#query[Query] interface in Couchbase Lite 2.x. 
+
+While the Xcode playground demonstrates the queries in swift, given the unified nature of the QueryBuilder API across the various Couchbase Lite platforms, barring language specific idioms, you should be able to map the queries to any of the other platform languages supported in Couchbase Lite.
+
+So, even if you are not a Swift developer, you should be able to leverage the Xcode playground for API exploration. This tutorial makes no assumptions about your familiarity with Swift or iOS Development so even if you are a complete newbie to iOS development, you should be able to follow along this step-by-step guide.
+
+
+== Prerequisites
+* iOS (Swift)
+* Xcode 10.1 +
+* Swift 5+
+
+== Installation
+- Clone the repo from GitHub by running the following command from the terminal
++
+[source,bash] 
+----
+  git clone https://github.com/couchbaselabs/couchbase-lite-ios-api-playground
+----
+
+- We will use link:https://github.com/Carthage/Carthage[Carthage] to download and install CouchbaseLite. If you do not have Carthage, please follow instructions link:https://github.com/Carthage/Carthage#installing-carthage[here] to install Carthage on your MacOS
+
+- Switch to folder containing the Cartfile
++
+[source,bash] 
+----
+  cd /path/to/couchbase-lite-ios-api-playground/carthage 
+----
+- Download Couchbase Lite using Carthage . The version of Couchbase Lite used is specified in the Cartfile
++
+[source,bash] 
+----
+  carthage update --platform ios
+----
+
+== Setup
+- Create a folder named "Shared Playground Data" within your "Documents" folder on your Mac
++
+[source,bash] 
+----
+  mkdir ~/Documents/Shared\ Playground\ Data/
+----
+
+- Copy the "travel-sample.cblite2" folder that is bundled with the repo into the "Shared Playground Data". This prebuilt database will be used for trying out the queries. Note that all the APIs will be exercised locally.
++
+[source,bash] 
+----
+  cd /path/to/couchbase-lite-ios-api-playground/
+  
+  cp  -r travel-sample.cblite2 ~/Documents/Shared\ Playground\ Data/
+----
+
+- Copy the "joindb.cblite2" folder that is bundled with the repo into the "Shared Playground Data". This prebuilt database will be used for trying out the queries related to JOINs. Note that all the APIs will be exercised locally.
++
+[source,bash] 
+----
+  cd /path/to/couchbase-lite-ios-api-playground/
+
+  cp  -r joindb.cblite2 ~/Documents/Shared\ Playground\ Data/
+----
+
+== Exploring the Project
+- Open the `CBLTestBed.xcodeproj` using Xcode 10.1 or above
+
+- You should see a bunch of playground pages in your project explorer. Start with the "ToC" page.
+
+- Check Render Documentation checkbox in the Utilities Window to turn on rendering of the playground pages 
+
+image::pages.png[Xcode Playground for Couchbase Lite Query API]
+
+- From the "ToC" page, you can navigate to any of the other playground pages. Each playground page exercises a set of queries against the "travel-sample.cblite" database
+
+== Build and Run
+- Select the "CBLTestBed" scheme with simulator target and build it using Cmd-B
+
+- Select the playground that you want to Execute a playground by clicking on the "Run" button
+
+image::build.png[Build and Run Xcode Playgroun]
+
+
+== Learn More
+Congratulations on completing this tutorial!
+
+This tutorial walked you through the steps to set up an Xcode playground for testing   the Query API in Couchbase Lite 2.x. As a next step, try expanding the playground to include additional queries against a different dataset . Check out the following links for further details on the Query API including a Xcode playground for testing the APIs.
+
+=== Further Reading
+* link:https://blog.couchbase.com/sql-for-json-query-interface-couchbase-mobile/[Fundamentals of the Couchbase Lite 2.0 Query API]
+
+* link:https://blog.couchbase.com/querying-array-collections-couchbase-mobile/[Handling Arrays in Queries]
+
+* link:https://blog.couchbase.com/full-text-search-couchbase-mobile-2-0/[Couchbase Lite 2.0 Full Text Search API]
+
+* link:https://blog.couchbase.com/join-queries-couchbase-mobile/[Couchbase Lite 2.0 JOIN Query]
+
+== Demo
+You can watch a video recording of this tutorial link:https://youtu.be/9NA2OXdSiqA[here]
