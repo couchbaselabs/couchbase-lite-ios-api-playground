@@ -89,7 +89,7 @@ image::pages.png[Xcode Playground for Couchbase Lite Query API]
 
 - Select the playground that you want to Execute a playground by clicking on the "Run" button
 
-image::build.png[Build and Run Xcode Playgroun]
+image::run_page.gif[Build and Run Xcode Playgroun]
 
 
 == Learn More
