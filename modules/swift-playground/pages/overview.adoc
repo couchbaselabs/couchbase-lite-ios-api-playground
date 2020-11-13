@@ -12,7 +12,7 @@ endif::[]
 toc::[]
 
 == Introduction
-The link:https://developer.apple.com/swift/#playgrounds-repl[Xcode Playground] can be used to test out the key capabilities of link:https://docs.couchbase.com/couchbase-lite/2.1/swift.html#query[Query] interface in Couchbase Lite 2.x. 
+The link:https://developer.apple.com/swift/#playgrounds-repl[Xcode Playground] can be used to test out the key capabilities of link:https://docs.couchbase.com/couchbase-lite/current/swift/learn/swift-query.html[Query] interface in Couchbase Lite 2.x. 
 
 While the Xcode playground demonstrates the queries in swift, given the unified nature of the QueryBuilder API across the various Couchbase Lite platforms, barring language specific idioms, you should be able to map the queries to any of the other platform languages supported in Couchbase Lite.
 
@@ -20,9 +20,9 @@ So, even if you are not a Swift developer, you should be able to leverage the Xc
 
 
 == Prerequisites
-* iOS (Swift)
-* Xcode 10.1 +
-* Swift 5+
+- iOS (Swift)
+- Xcode 12+ 
+- Swift 5.1+
 
 == Installation
 - Clone the repo from GitHub by running the following command from the terminal
@@ -44,37 +44,11 @@ So, even if you are not a Swift developer, you should be able to leverage the Xc
 +
 [source,bash] 
 ----
-  carthage update --platform ios
-----
-
-== Setup
-- Create a folder named "Shared Playground Data" within your "Documents" folder on your Mac
-+
-[source,bash] 
-----
-  mkdir ~/Documents/Shared\ Playground\ Data/
-----
-
-- Copy the "travel-sample.cblite2" folder that is bundled with the repo into the "Shared Playground Data". This prebuilt database will be used for trying out the queries. Note that all the APIs will be exercised locally.
-+
-[source,bash] 
-----
-  cd /path/to/couchbase-lite-ios-api-playground/
-  
-  cp  -r travel-sample.cblite2 ~/Documents/Shared\ Playground\ Data/
-----
-
-- Copy the "joindb.cblite2" folder that is bundled with the repo into the "Shared Playground Data". This prebuilt database will be used for trying out the queries related to JOINs. Note that all the APIs will be exercised locally.
-+
-[source,bash] 
-----
-  cd /path/to/couchbase-lite-ios-api-playground/
-
-  cp  -r joindb.cblite2 ~/Documents/Shared\ Playground\ Data/
+  carthage update --platform ios --no-build
 ----
 
 == Exploring the Project
-- Open the `CBLTestBed.xcodeproj` using Xcode 10.1 or above
+- Open the `CBLQueryTestBed.xcworkspace` using Xcode12 or above
 
 - You should see a bunch of playground pages in your project explorer. Start with the "ToC" page.
 
@@ -85,9 +59,16 @@ image::pages.png[Xcode Playground for Couchbase Lite Query API]
 - From the "ToC" page, you can navigate to any of the other playground pages. Each playground page exercises a set of queries against the "travel-sample.cblite" database
 
 == Build and Run
-- Select the "CBLTestBed" scheme with simulator target and build it using Cmd-B
+- Navigate to playground page that you want to run
 
-- Select the playground that you want to Execute a playground by clicking on the "Run" button
+- Select the "CBLTestBed" scheme with simulator target. This should be the active scheme
+
+- Do a clean of build  using *Cmd-Shift-K*. You may have to do that for every page
+
+- Run the playground. This will automatically build the dependent frameworks. 
+  *TROUBLESHOOTING TIPS*:
+  - If you see an error about "Couldn't lookup symbols", just re-run the playground and it should go away
+  - Supporting third party frameworks within xcode playgrounds is quite glitchy and typically re-running build will resolve it
 
 image::run_page.gif[Build and Run Xcode Playgroun]
 
@@ -107,4 +88,4 @@ This tutorial walked you through the steps to set up an Xcode playground for tes
 * link:https://blog.couchbase.com/join-queries-couchbase-mobile/[Couchbase Lite 2.0 JOIN Query]
 
 == Demo
-You can watch a video recording of this tutorial link:https://youtu.be/9NA2OXdSiqA[here]
+#You can watch a video recording of this tutorial link:https://youtu.be/9NA2OXdSiqA[here]

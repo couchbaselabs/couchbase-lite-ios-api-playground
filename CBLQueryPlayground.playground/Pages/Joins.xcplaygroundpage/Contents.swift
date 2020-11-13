@@ -73,9 +73,7 @@ func createOrOpenDatabase() throws -> Database? {
  
     let sharedDocumentDirectory = playgroundSharedDataDirectory.resolvingSymlinksInPath()
     let appSupportFolderPath = sharedDocumentDirectory.path
-    
-    print(appSupportFolderPath)
-    
+        
     let travelsampleFile = sharedDocumentDirectory.appendingPathComponent("joindb.cblite2", isDirectory: false)
     
      let options =  DatabaseConfiguration()

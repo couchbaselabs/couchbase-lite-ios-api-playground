@@ -40,9 +40,7 @@ func createOrOpenDatabase() throws -> Database? {
  
     let sharedDocumentDirectory = playgroundSharedDataDirectory.resolvingSymlinksInPath()
     let appSupportFolderPath = sharedDocumentDirectory.path
-    
-    print(appSupportFolderPath)
-    
+     
     let travelsampleFile = sharedDocumentDirectory.appendingPathComponent("travel-sample.cblite2", isDirectory: false)
     
      let options =  DatabaseConfiguration()
@@ -104,7 +102,8 @@ func createFTSIndexOnDatabase(_ db:Database) throws  {
  ## creates appropriate FTS Indexes with no stemming
  - returns: Handle to CBLite database
  - throws exception if failure to create/open database
- 
+ /Users/priya.rajagopal/projects/cblite/contacts.sql.txt
+
  */
 func createFTSIndexOnDatabaseWithNoStemming(_ db:Database) throws  {
     
