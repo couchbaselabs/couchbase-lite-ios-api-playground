@@ -1,3 +1,4 @@
+
 This Swift Playground demonstrates the new Query interface in Couchbase Lite 2.0. 
 
 ## Demo

@@ -12,6 +12,7 @@
 
 import UIKit
 import CouchbaseLiteSwift
+import ResourcesWrapper
 import Foundation
 import PlaygroundSupport
 
@@ -24,25 +25,141 @@ import PlaygroundSupport
 typealias Data = [String:Any?]
 /*:
  ## Opens Couchbase Lite Database.
- The opens the database from prebuilt travel-sample database in `playgroundSharedDataDirectory`. Make sure that you have the "travel-sample.cblite2" folder copied over to the ~/Documents/Shared\ Playground\ Data/ folder
+ The opens the database from prebuilt travel-sample database in `playgroundSharedDataDirectory`.
  - returns: Handle to CBLite database
  - throws exception if failure to create/open database
  
  */
+
 func createOrOpenDatabase() throws -> Database? {
     let kDBName:String = "travel-sample"
+ 
     let sharedDocumentDirectory = playgroundSharedDataDirectory.resolvingSymlinksInPath()
     let appSupportFolderPath = sharedDocumentDirectory.path
     
+    let travelsampleFile = sharedDocumentDirectory.appendingPathComponent("travel-sample.cblite2", isDirectory: false)
+  
     let options =  DatabaseConfiguration()
     options.directory = appSupportFolderPath
   
-    
+    // The sample databases are bundled with a separate  resource framework
+    if let resourcePath = Bundle(for:ResourcesWrapperTest.self).path(forResource: kDBName, ofType: "cblite2")
+       {
+
+        do {
+            let fileManager = FileManager.default
+          
+            if fileManager.fileExists(atPath: travelsampleFile.path) {
+                print("Sample databases already copied to *** \(appSupportFolderPath) ***folder")
+                print("Manually delete the sample database and re-run playground")
+                
+            }
+            else {
+                try fileManager.copyItem(at: URL.init(fileURLWithPath: resourcePath), to: travelsampleFile)
+  
+            }
+        }
+        catch {
+            print("Error in copying sample database files to playground's shared directory \(error)")
+        }
+   
+        
+    }
     // Uncomment the line below  if you want details of the SQLite query equivalent
-    // Database.setLogLevel(.verbose, domain: .all)
+  //  Database.setLogLevel(.verbose, domain: .all)
     return try Database(name: kDBName, config: options)
 
 }
+
+/**
+func createOrOpenDatabase() throws -> Database? {
+    let kDBName:String = "travel-sample"
+  //  let fileURL = URL.init(fileURLWithPath: "~/Documents/Shared Playground Data")
+   // let filePath = fileURL?.appendingPathComponent("travel-sample.cblite2")
+ //   let fileURL = URL.init(fileURLWithPath: "/Users/priya.rajagopal/Documents/Shared Playground Data")
+    
+//    let resourceURL = Bundle.main.resourceURL
+//
+//›
+//    let joindbFileAtSource = fileURL.appendingPathComponent("joindb.cblite2",isDirectory: true)
+//    let travelsampleFileAtSource = fileURL.appendingPathComponent("travel-sample.cblite2", isDirectory: true)
+    
+    let sharedDocumentDirectory = playgroundSharedDataDirectory.resolvingSymlinksInPath()
+    
+   // print( playgroundSharedDataDirectory)
+   // print(sharedDocumentDirectory)
+    
+  //  print( playgroundSharedDataDirectory.resolvingSymlinksInPath())
+    let appSupportFolderPath = sharedDocumentDirectory.path
+    
+       
+    let joindbFile = sharedDocumentDirectory.appendingPathComponent("joindb.cblite2", isDirectory: true)
+    let travelsampleFile = sharedDocumentDirectory.appendingPathComponent("travel-sample.cblite2", isDirectory: false)
+    
+    let fileManager = FileManager.default
+    let options =  DatabaseConfiguration()
+    print(Bundle(for: Database.self).path(forResource: kDBName, ofType: "cblite2"))
+    
+    
+    
+  //  let filePath = fileURL.appendingPathComponent("travel-sample.cblite2")
+
+    if let documentsURL = Bundle.main.resourceURL,
+       let resourcePath1 = Bundle.main.path(forResource: kDBName, ofType: "cblite2"), let resourcePath = Bundle(for:ResourcesWrapperTest.self).path(forResource: kDBName, ofType: "cblite2")
+       {
+        print(resourcePath)
+        
+        options.directory = appSupportFolderPath
+        print(options.directory)
+      
+
+      //  try Database.copy(fromPath: resourcePath, toDatabase: "\(kDBName)", withConfig: options)
+        print(resourcePath)
+
+        do {
+
+            if fileManager.fileExists(atPath: travelsampleFile.path) {
+                print("Already copied")
+            }
+            else {
+                //Copy from temporary location to custom location.
+               // try fileManager.copyItem(atPath: resourcePath, toPath: travelsampleFile.path)
+                try fileManager.copyItem(at: URL.init(fileURLWithPath: resourcePath), to: travelsampleFile)
+                print("*****")
+                print("SOURCE:\(resourcePath)")
+                print("DEST:\(travelsampleFile.path)")
+                print("*****")
+              //  try fileManager.replaceItemAt( travelsampleFile, withItemAt:URL.init(fileURLWithPath: resourcePath) )
+
+            }
+        }
+        catch {
+        print("Error in copying sample database files to playground's shared directory \(error)")
+        }
+   
+        
+    }
+        
+
+
+   
+
+  
+    
+    // Uncomment the line below  if you want details of the SQLite query equivalent
+     Database.setLogLevel(.verbose, domain: .all)
+    do {
+        let db  = try Database(name: kDBName, config: options)
+        return db
+    }
+    catch {
+        print(error)
+        return nil
+    }
+
+}
+ 
+ */
 
 /*:
  ## Close database

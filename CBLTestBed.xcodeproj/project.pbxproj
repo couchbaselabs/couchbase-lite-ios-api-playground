@@ -8,16 +8,43 @@
 
 /* Begin PBXBuildFile section */
 		5FC1749E1FEB1D1900A5AF52 /* CouchbaseLiteSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5F36640A1F3ABE3200D1E889 /* CouchbaseLiteSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5FC8A760255E077B00E79F9F /* ResourcesWrapper.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5F880E81255DFC5200D8B675 /* ResourcesWrapper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5FDE9C1E1F3A3DED006968FB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDE9C1D1F3A3DED006968FB /* AppDelegate.swift */; };
 		5FDE9C201F3A3DED006968FB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDE9C1F1F3A3DED006968FB /* ViewController.swift */; };
 		5FDE9C231F3A3DED006968FB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5FDE9C211F3A3DED006968FB /* Main.storyboard */; };
 		5FDE9C251F3A3DED006968FB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5FDE9C241F3A3DED006968FB /* Assets.xcassets */; };
 		5FDE9C281F3A3DED006968FB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5FDE9C261F3A3DED006968FB /* LaunchScreen.storyboard */; };
-		F170E4A421A5ACDD00A12340 /* joindb.cblite2 in Resources */ = {isa = PBXBuildFile; fileRef = F170E4A221A5ACDD00A12340 /* joindb.cblite2 */; };
-		F170E4A521A5ACDD00A12340 /* travel-sample.cblite2 in Resources */ = {isa = PBXBuildFile; fileRef = F170E4A321A5ACDD00A12340 /* travel-sample.cblite2 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		5F1751D5255C3C92007CAF7A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5F3663F91F3ABE3100D1E889 /* CouchbaseLite.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 93BB1C98246BB1F1004FFA00;
+			remoteInfo = CBL_Swift_Tests_iOS_App;
+		};
+		5F1751D7255C3C92007CAF7A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5F3663F91F3ABE3100D1E889 /* CouchbaseLite.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 93BB1C89246BB1DB004FFA00;
+			remoteInfo = CBL_Swift_Tests_iOS;
+		};
+		5F1751D9255C3C92007CAF7A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5F3663F91F3ABE3100D1E889 /* CouchbaseLite.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 930B63D0246B9CD1006D94FF;
+			remoteInfo = CBL_EE_Swift_Tests_iOS_App;
+		};
+		5F1751DB255C3C92007CAF7A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5F3663F91F3ABE3100D1E889 /* CouchbaseLite.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 930B63E3246B9CD2006D94FF;
+			remoteInfo = CBL_EE_Swift_Tests_iOS;
+		};
 		5F3664071F3ABE3200D1E889 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 5F3663F91F3ABE3100D1E889 /* CouchbaseLite.xcodeproj */;
@@ -67,12 +94,26 @@
 			remoteGlobalIDString = 275FF6131E3FE9DB005F90DD;
 			remoteInfo = "PerfTests-Mac";
 		};
+		5F880E80255DFC5200D8B675 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5F880E7C255DFC5200D8B675 /* ResourcesWrapper.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5F880E51255DFB7F00D8B675;
+			remoteInfo = ResourcesWrapper;
+		};
 		5FC1749F1FEB1D1900A5AF52 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 5F3663F91F3ABE3100D1E889 /* CouchbaseLite.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = 275F92731E4D30A4007FD5A2;
 			remoteInfo = "CBL Swift";
+		};
+		5FC8A7BC255F111300E79F9F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5F880E7C255DFC5200D8B675 /* ResourcesWrapper.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 5F880E50255DFB7F00D8B675;
+			remoteInfo = ResourcesWrapper;
 		};
 		F170E49421A5ACCC00A12340 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -132,6 +173,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				5FC8A760255E077B00E79F9F /* ResourcesWrapper.framework in Embed Frameworks */,
 				5FC1749E1FEB1D1900A5AF52 /* CouchbaseLiteSwift.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -141,6 +183,7 @@
 
 /* Begin PBXFileReference section */
 		5F3663F91F3ABE3100D1E889 /* CouchbaseLite.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CouchbaseLite.xcodeproj; path = "carthage/Carthage/Checkouts/couchbase-lite-ios/CouchbaseLite.xcodeproj"; sourceTree = "<group>"; };
+		5F880E7C255DFC5200D8B675 /* ResourcesWrapper.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ResourcesWrapper.xcodeproj; path = ResourcesWrapper/ResourcesWrapper.xcodeproj; sourceTree = "<group>"; };
 		5FDE9C1A1F3A3DED006968FB /* CBLTestBed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CBLTestBed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FDE9C1D1F3A3DED006968FB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5FDE9C1F1F3A3DED006968FB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -149,8 +192,6 @@
 		5FDE9C271F3A3DED006968FB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5FDE9C291F3A3DED006968FB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5FF6B0771F6820910018A7BC /* CBLQueryPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = CBLQueryPlayground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		F170E4A221A5ACDD00A12340 /* joindb.cblite2 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = joindb.cblite2; sourceTree = "<group>"; };
-		F170E4A321A5ACDD00A12340 /* travel-sample.cblite2 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "travel-sample.cblite2"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,17 +211,29 @@
 				5F3664081F3ABE3200D1E889 /* CouchbaseLite.framework */,
 				5F36640A1F3ABE3200D1E889 /* CouchbaseLiteSwift.framework */,
 				5F36640C1F3ABE3200D1E889 /* CouchbaseLiteTests.xctest */,
-				5F36640E1F3ABE3200D1E889 /* CBL Tests.app */,
-				5F3664101F3ABE3200D1E889 /* CBL Objc Tests - iOS.xctest */,
+				5F36640E1F3ABE3200D1E889 /* CBL_Tests.app */,
+				5F3664101F3ABE3200D1E889 /* CBL_Objc_Tests_iOS.xctest */,
+				5F1751D6255C3C92007CAF7A /* CBL_Swift_Tests.app */,
+				5F1751D8255C3C92007CAF7A /* CBL_Swift_Tests_iOS.xctest */,
 				5F3664121F3ABE3200D1E889 /* CouchbaseLiteSwiftTests.xctest */,
 				5F3664141F3ABE3200D1E889 /* CBLPerfTests */,
 				F170E49521A5ACCC00A12340 /* CouchbaseLite.framework */,
 				F170E49721A5ACCC00A12340 /* CouchbaseLiteSwift.framework */,
 				F170E49921A5ACCC00A12340 /* CouchbaseLiteTests.xctest */,
-				F170E49B21A5ACCC00A12340 /* CBL Tests.app */,
-				F170E49D21A5ACCC00A12340 /* CBL-EE Objc Tests - iOS.xctest */,
+				F170E49B21A5ACCC00A12340 /* CBL_EE_Tests.app */,
+				F170E49D21A5ACCC00A12340 /* CBL_EE_Objc_Tests_iOS.xctest */,
+				5F1751DA255C3C92007CAF7A /* CBL_EE_Swift_Tests.app */,
+				5F1751DC255C3C92007CAF7A /* CBL_EE_Swift_Tests_iOS.xctest */,
 				F170E49F21A5ACCC00A12340 /* CouchbaseLiteSwiftTests.xctest */,
 				F170E4A121A5ACCC00A12340 /* CBLPerfTests */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5F880E7D255DFC5200D8B675 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5F880E81255DFC5200D8B675 /* ResourcesWrapper.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -195,8 +248,7 @@
 		5FDE9C111F3A3DED006968FB = {
 			isa = PBXGroup;
 			children = (
-				F170E4A221A5ACDD00A12340 /* joindb.cblite2 */,
-				F170E4A321A5ACDD00A12340 /* travel-sample.cblite2 */,
+				5F880E7C255DFC5200D8B675 /* ResourcesWrapper.xcodeproj */,
 				5FF6B0771F6820910018A7BC /* CBLQueryPlayground.playground */,
 				5F3663F91F3ABE3100D1E889 /* CouchbaseLite.xcodeproj */,
 				5FDE9C1C1F3A3DED006968FB /* CBLTestBed */,
@@ -241,6 +293,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				5FC8A7BD255F111300E79F9F /* PBXTargetDependency */,
 				5FC174A01FEB1D1900A5AF52 /* PBXTargetDependency */,
 			);
 			name = CBLTestBed;
@@ -270,6 +323,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -281,6 +335,10 @@
 					ProductGroup = 5F3663FA1F3ABE3100D1E889 /* Products */;
 					ProjectRef = 5F3663F91F3ABE3100D1E889 /* CouchbaseLite.xcodeproj */;
 				},
+				{
+					ProductGroup = 5F880E7D255DFC5200D8B675 /* Products */;
+					ProjectRef = 5F880E7C255DFC5200D8B675 /* ResourcesWrapper.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -290,6 +348,34 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		5F1751D6255C3C92007CAF7A /* CBL_Swift_Tests.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = CBL_Swift_Tests.app;
+			remoteRef = 5F1751D5255C3C92007CAF7A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5F1751D8255C3C92007CAF7A /* CBL_Swift_Tests_iOS.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = CBL_Swift_Tests_iOS.xctest;
+			remoteRef = 5F1751D7255C3C92007CAF7A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5F1751DA255C3C92007CAF7A /* CBL_EE_Swift_Tests.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = CBL_EE_Swift_Tests.app;
+			remoteRef = 5F1751D9255C3C92007CAF7A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5F1751DC255C3C92007CAF7A /* CBL_EE_Swift_Tests_iOS.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = CBL_EE_Swift_Tests_iOS.xctest;
+			remoteRef = 5F1751DB255C3C92007CAF7A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		5F3664081F3ABE3200D1E889 /* CouchbaseLite.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -311,17 +397,17 @@
 			remoteRef = 5F36640B1F3ABE3200D1E889 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		5F36640E1F3ABE3200D1E889 /* CBL Tests.app */ = {
+		5F36640E1F3ABE3200D1E889 /* CBL_Tests.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
-			path = "CBL Tests.app";
+			path = CBL_Tests.app;
 			remoteRef = 5F36640D1F3ABE3200D1E889 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		5F3664101F3ABE3200D1E889 /* CBL Objc Tests - iOS.xctest */ = {
+		5F3664101F3ABE3200D1E889 /* CBL_Objc_Tests_iOS.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = "CBL Objc Tests - iOS.xctest";
+			path = CBL_Objc_Tests_iOS.xctest;
 			remoteRef = 5F36640F1F3ABE3200D1E889 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -337,6 +423,13 @@
 			fileType = "compiled.mach-o.executable";
 			path = CBLPerfTests;
 			remoteRef = 5F3664131F3ABE3200D1E889 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5F880E81255DFC5200D8B675 /* ResourcesWrapper.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ResourcesWrapper.framework;
+			remoteRef = 5F880E80255DFC5200D8B675 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		F170E49521A5ACCC00A12340 /* CouchbaseLite.framework */ = {
@@ -360,17 +453,17 @@
 			remoteRef = F170E49821A5ACCC00A12340 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		F170E49B21A5ACCC00A12340 /* CBL Tests.app */ = {
+		F170E49B21A5ACCC00A12340 /* CBL_EE_Tests.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
-			path = "CBL Tests.app";
+			path = CBL_EE_Tests.app;
 			remoteRef = F170E49A21A5ACCC00A12340 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		F170E49D21A5ACCC00A12340 /* CBL-EE Objc Tests - iOS.xctest */ = {
+		F170E49D21A5ACCC00A12340 /* CBL_EE_Objc_Tests_iOS.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = "CBL-EE Objc Tests - iOS.xctest";
+			path = CBL_EE_Objc_Tests_iOS.xctest;
 			remoteRef = F170E49C21A5ACCC00A12340 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -398,8 +491,6 @@
 				5FDE9C281F3A3DED006968FB /* LaunchScreen.storyboard in Resources */,
 				5FDE9C251F3A3DED006968FB /* Assets.xcassets in Resources */,
 				5FDE9C231F3A3DED006968FB /* Main.storyboard in Resources */,
-				F170E4A421A5ACDD00A12340 /* joindb.cblite2 in Resources */,
-				F170E4A521A5ACDD00A12340 /* travel-sample.cblite2 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -422,6 +513,11 @@
 			isa = PBXTargetDependency;
 			name = "CBL Swift";
 			targetProxy = 5FC1749F1FEB1D1900A5AF52 /* PBXContainerItemProxy */;
+		};
+		5FC8A7BD255F111300E79F9F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ResourcesWrapper;
+			targetProxy = 5FC8A7BC255F111300E79F9F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -553,7 +649,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.couchbase.CBLTestBed;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -568,7 +664,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.couchbase.CBLTestBed;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};

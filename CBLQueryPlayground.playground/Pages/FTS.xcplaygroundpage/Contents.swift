@@ -15,6 +15,7 @@
 
 import UIKit
 import CouchbaseLiteSwift
+import ResourcesWrapper
 import Foundation
 import PlaygroundSupport
 
@@ -29,24 +30,63 @@ typealias Data = [String:Any?]
 
 /*:
  ## Opens Couchbase Lite Database.
- The opens the database from prebuilt travel-sample database in `playgroundSharedDataDirectory`. Make sure that you have the "travel-sample.cblite2" folder copied over to the ~/Documents/Shared\ Playground\ Data/ folder
+ The opens the database from prebuilt travel-sample database in `playgroundSharedDataDirectory`. The pre-built "travel-sample.cblite2" folder copied over to the ~/Documents/Shared\ Playground\ Data/ folder
+ - returns: Handle to CBLite database
+ - throws exception if failure to create/open database
+
+ */
+func createOrOpenDatabase() throws -> Database? {
+    let kDBName:String = "travel-sample"
+ 
+    let sharedDocumentDirectory = playgroundSharedDataDirectory.resolvingSymlinksInPath()
+    let appSupportFolderPath = sharedDocumentDirectory.path
+    
+    print(appSupportFolderPath)
+    
+    let travelsampleFile = sharedDocumentDirectory.appendingPathComponent("travel-sample.cblite2", isDirectory: false)
+    
+     let options =  DatabaseConfiguration()
+    options.directory = appSupportFolderPath
+    
+    // The sample databases are bundled with a separate  resource framework
+    // and is copied into documents path
+    if let resourcePath = Bundle(for:ResourcesWrapperTest.self).path(forResource: kDBName, ofType: "cblite2")
+       {
+
+ 
+        do {
+            let fileManager = FileManager.default
+          
+            if fileManager.fileExists(atPath: travelsampleFile.path) {
+                print("Sample databases already copied to *** \(appSupportFolderPath) ***folder")
+                print("Manually delete the sample database and re-run playground")
+            }
+            else {
+                try fileManager.copyItem(at: URL.init(fileURLWithPath: resourcePath), to: travelsampleFile)
+            }
+        }
+        catch {
+              print("Error in copying sample database files to playground's shared directory \(error)")
+
+        }
+        
+    }
+    // Uncomment the line below  if you want details of the SQLite query equivalent
+  //  Database.setLogLevel(.verbose, domain: .all)
+    return try Database(name: kDBName, config: options)
+
+}
+/*:
+ ## delete all FTS Indexes
+ Clears any previously created indexes
  - returns: Handle to CBLite database
  - throws exception if failure to create/open database
  
  */
-func createOrOpenDatabase() throws -> Database? {
-    let kDBName:String = "travel-sample"
-    let sharedDocumentDirectory = playgroundSharedDataDirectory.resolvingSymlinksInPath()
-    let appSupportFolderPath = sharedDocumentDirectory.path
-    
-    let options =  DatabaseConfiguration()
-    options.directory = appSupportFolderPath
-
-    
-    
-    // Uncomment the line below  if you want details of the SQLite query equivalent
-    // Database.setLogLevel(.verbose, domain: .all)
-    return try Database(name: kDBName, config: options)
+func deleteAllFTSIndexesOnDatabase(_ db:Database) throws  {
+    try db.deleteIndex(forName: "ContentFTSIndex")
+    try db.deleteIndex(forName: "ContentFTSIndexNoStemming")
+    try db.deleteIndex(forName: "ContentAndNameFTSIndex")
 }
 
 /*:
@@ -461,10 +501,14 @@ do {
     // Open or Create Couchbase Lite Database
     if let db:Database = try createOrOpenDatabase() {
         // If you not create indexes, you will get an exception "Exception is 'match' test requires a full-text index"
+        print(db.indexes)
+        
+        let _ = try deleteAllFTSIndexesOnDatabase(db)
+        
         let _ = try createFTSIndexOnDatabase(db)
-        
+
         let _ = try createFTSIndexOnDatabaseWithNoStemming(db)
-        
+
         let _ = try createFTSIndexOnDatabaseWithMultipleProperties(db)
 
         let results1 = try queryForDocumentsContainingSpecificString(db)
