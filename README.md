@@ -38,6 +38,11 @@ So, even if you are not a Swift developer, you should be able to leverage the Xc
 ## Exploring the Project 
 
 - Open the `CBLQueryTestBed.xcworkspace` using Xcode12
+
+``` bash
+  cd /path/to/couchbase-lite-ios-api-playground/
+  open CBLQueryTestBed.xcworkspace
+```
 - You should see a bunch of playground pages in your project explorer. Start with the "ToC" page.
 
 - Check `Render Documentation` checkbox in the Utilities Window to turn on rendering of the playground pages
@@ -52,11 +57,13 @@ So, even if you are not a Swift developer, you should be able to leverage the Xc
 
 - Select the "CBLTestBed" scheme with simulator target. This should be the active scheme
 
-- Do a clean of build  using *Cmd-Shift-K*. You may have to do that for every page
+- Do a clean of build  using *Cmd-Shift-K*. You will have to do that for every page
 
-- Run the playground. This will automatically build the dependent frameworks. 
-  *NOTE*: If you see an error about "Couldn't lookup symbols", just re-run the playground and it should go away. Supporting third party frameworks within xcode playgrounds is quite glitchy and typically re-running build will resolve it
+- Run the playground. This will automatically build the dependent frameworks. Be patient- this will take a minute or so to build
 
+*TROUBLESHOOTING TIPS*:
+
+  - Supporting third party frameworks within xcode playgrounds is quite glitchy and it could take couple of build attempts to resolve the dependencies. If you see an error about "Couldn't lookup symbols", just re-run the playground
 
 
 - Select the playground that you want to Execute a playground by clicking on the "Run" button
