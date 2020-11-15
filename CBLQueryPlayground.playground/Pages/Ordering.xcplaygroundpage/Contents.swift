@@ -32,28 +32,26 @@ func createOrOpenDatabase() throws -> Database? {
  
     let sharedDocumentDirectory = playgroundSharedDataDirectory.resolvingSymlinksInPath()
     let appSupportFolderPath = sharedDocumentDirectory.path
- 
-    let travelsampleFile = sharedDocumentDirectory.appendingPathComponent("travel-sample.cblite2", isDirectory: false)
-    
-     let options =  DatabaseConfiguration()
+        
+    let travelsampleFile = sharedDocumentDirectory.appendingPathComponent("\(kDBName).cblite2", isDirectory: true)
+        
+    let options =  DatabaseConfiguration()
     options.directory = appSupportFolderPath
     
+    let _ = try Database(name: kDBName, config: options)
+    
+    let fileManager = FileManager.default
+ 
     // The sample databases are bundled with a separate  resource framework
     // and is copied into documents path
     if let resourcePath = Bundle(for:ResourcesWrapperTest.self).path(forResource: kDBName, ofType: "cblite2")
        {
-
+         do {
+            // replace the default one with pre-bundled version
+            // replaceItem results in permission issues so doing as two step
  
-        do {
-            let fileManager = FileManager.default
-          
-            if fileManager.fileExists(atPath: travelsampleFile.path) {
-                print("Sample databases already copied to *** \(appSupportFolderPath) ***folder")
-                print("Manually delete the sample database and re-run playground")
-            }
-            else {
-                try fileManager.copyItem(at: URL.init(fileURLWithPath: resourcePath), to: travelsampleFile)
-            }
+            try fileManager.removeItem(at: travelsampleFile)
+            try fileManager.copyItem(at:  URL(fileURLWithPath: resourcePath), to: travelsampleFile)
         }
         catch {
               print("Error in copying sample database files to playground's shared directory \(error)")
@@ -62,6 +60,7 @@ func createOrOpenDatabase() throws -> Database? {
     }
     // Uncomment the line below  if you want details of the SQLite query equivalent
   //  Database.setLogLevel(.verbose, domain: .all)
+    // reopen the database instance
     return try Database(name: kDBName, config: options)
 
 }

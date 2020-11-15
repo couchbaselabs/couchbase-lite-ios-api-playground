@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5FC1749E1FEB1D1900A5AF52 /* CouchbaseLiteSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5F36640A1F3ABE3200D1E889 /* CouchbaseLiteSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		5FC8A760255E077B00E79F9F /* ResourcesWrapper.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5F880E81255DFC5200D8B675 /* ResourcesWrapper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5FC1749E1FEB1D1900A5AF52 /* CouchbaseLiteSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5F36640A1F3ABE3200D1E889 /* CouchbaseLiteSwift.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		5FC8AC412560A05700E79F9F /* ResourcesWrapper.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5F880E81255DFC5200D8B675 /* ResourcesWrapper.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		5FDE9C1E1F3A3DED006968FB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDE9C1D1F3A3DED006968FB /* AppDelegate.swift */; };
 		5FDE9C201F3A3DED006968FB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDE9C1F1F3A3DED006968FB /* ViewController.swift */; };
 		5FDE9C231F3A3DED006968FB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5FDE9C211F3A3DED006968FB /* Main.storyboard */; };
@@ -173,7 +173,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				5FC8A760255E077B00E79F9F /* ResourcesWrapper.framework in Embed Frameworks */,
+				5FC8AC412560A05700E79F9F /* ResourcesWrapper.framework in Embed Frameworks */,
 				5FC1749E1FEB1D1900A5AF52 /* CouchbaseLiteSwift.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";

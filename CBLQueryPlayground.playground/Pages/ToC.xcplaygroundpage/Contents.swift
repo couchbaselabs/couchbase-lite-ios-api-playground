@@ -1,6 +1,6 @@
 /*:
- # Couchbase Lite 2.0 API Playground
- Examples in this playground demonstrate the Query and FTS interface in Couchbase Lite 2.0. The examples will use sample couchbase lite database named "travel-sample" that can be downloaded as part of the GitHub repo download
+ # Couchbase Lite 2.x API Playground
+ Examples in this playground demonstrate the Query and FTS interface in Couchbase Lite 2.x. The examples will use sample couchbase lite database named "travel-sample" that can be downloaded as part of the GitHub repo download
  
  
  ### Setup Instructions

@@ -9,8 +9,8 @@
 /* Begin PBXBuildFile section */
 		5F880E56255DFB7F00D8B675 /* ResourcesWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F880E54255DFB7F00D8B675 /* ResourcesWrapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5F880E5E255DFBB000D8B675 /* ResourcesWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F880E5D255DFBB000D8B675 /* ResourcesWrapper.swift */; };
-		5F880E61255DFC0C00D8B675 /* joindb.cblite2 in Resources */ = {isa = PBXBuildFile; fileRef = 5F880E60255DFC0C00D8B675 /* joindb.cblite2 */; };
-		5F880E64255DFC1400D8B675 /* travel-sample.cblite2 in Resources */ = {isa = PBXBuildFile; fileRef = 5F880E63255DFC1400D8B675 /* travel-sample.cblite2 */; };
+		5FC8AFA72560F42B00E79F9F /* joindb.cblite2 in Resources */ = {isa = PBXBuildFile; fileRef = 5FC8AFA62560F42B00E79F9F /* joindb.cblite2 */; };
+		5FC8AFAA2560F43300E79F9F /* travel-sample.cblite2 in Resources */ = {isa = PBXBuildFile; fileRef = 5FC8AFA92560F43300E79F9F /* travel-sample.cblite2 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -18,8 +18,8 @@
 		5F880E54255DFB7F00D8B675 /* ResourcesWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResourcesWrapper.h; sourceTree = "<group>"; };
 		5F880E55255DFB7F00D8B675 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5F880E5D255DFBB000D8B675 /* ResourcesWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourcesWrapper.swift; sourceTree = "<group>"; };
-		5F880E60255DFC0C00D8B675 /* joindb.cblite2 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = joindb.cblite2; sourceTree = SOURCE_ROOT; };
-		5F880E63255DFC1400D8B675 /* travel-sample.cblite2 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "travel-sample.cblite2"; sourceTree = SOURCE_ROOT; };
+		5FC8AFA62560F42B00E79F9F /* joindb.cblite2 */ = {isa = PBXFileReference; lastKnownFileType = file; path = joindb.cblite2; sourceTree = SOURCE_ROOT; };
+		5FC8AFA92560F43300E79F9F /* travel-sample.cblite2 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "travel-sample.cblite2"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,8 +52,8 @@
 		5F880E53255DFB7F00D8B675 /* ResourcesWrapper */ = {
 			isa = PBXGroup;
 			children = (
-				5F880E63255DFC1400D8B675 /* travel-sample.cblite2 */,
-				5F880E60255DFC0C00D8B675 /* joindb.cblite2 */,
+				5FC8AFA92560F43300E79F9F /* travel-sample.cblite2 */,
+				5FC8AFA62560F42B00E79F9F /* joindb.cblite2 */,
 				5F880E54255DFB7F00D8B675 /* ResourcesWrapper.h */,
 				5F880E55255DFB7F00D8B675 /* Info.plist */,
 				5F880E5D255DFBB000D8B675 /* ResourcesWrapper.swift */,
@@ -130,8 +130,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5F880E61255DFC0C00D8B675 /* joindb.cblite2 in Resources */,
-				5F880E64255DFC1400D8B675 /* travel-sample.cblite2 in Resources */,
+				5FC8AFAA2560F43300E79F9F /* travel-sample.cblite2 in Resources */,
+				5FC8AFA72560F42B00E79F9F /* joindb.cblite2 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -3,23 +3,9 @@
    LastUpgradeVersion = "0830"
    version = "1.3">
    <BuildAction
-      parallelizeBuildables = "YES"
+      parallelizeBuildables = "NO"
       buildImplicitDependencies = "YES">
       <BuildActionEntries>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5FDE9C191F3A3DED006968FB"
-               BuildableName = "CBLTestBed.app"
-               BlueprintName = "CBLTestBed"
-               ReferencedContainer = "container:CBLTestBed.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
          <BuildActionEntry
             buildForTesting = "YES"
             buildForRunning = "YES"
@@ -32,6 +18,20 @@
                BuildableName = "ResourcesWrapper.framework"
                BlueprintName = "ResourcesWrapper"
                ReferencedContainer = "container:ResourcesWrapper/ResourcesWrapper.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "5FDE9C191F3A3DED006968FB"
+               BuildableName = "CBLTestBed.app"
+               BlueprintName = "CBLTestBed"
+               ReferencedContainer = "container:CBLTestBed.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

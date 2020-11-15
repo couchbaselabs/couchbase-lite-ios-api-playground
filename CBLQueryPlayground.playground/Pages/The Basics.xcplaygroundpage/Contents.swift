@@ -36,37 +36,36 @@ func createOrOpenDatabase() throws -> Database? {
  
     let sharedDocumentDirectory = playgroundSharedDataDirectory.resolvingSymlinksInPath()
     let appSupportFolderPath = sharedDocumentDirectory.path
-    
-    let travelsampleFile = sharedDocumentDirectory.appendingPathComponent("travel-sample.cblite2", isDirectory: false)
-  
+        
+    let travelsampleFile = sharedDocumentDirectory.appendingPathComponent("\(kDBName).cblite2", isDirectory: true)
+        
     let options =  DatabaseConfiguration()
     options.directory = appSupportFolderPath
+    
+    // Create a database with an empty file
+    let _ = try Database(name: kDBName, config: options)
+    
   
     // The sample databases are bundled with a separate  resource framework
+    // and is copied into documents path
     if let resourcePath = Bundle(for:ResourcesWrapperTest.self).path(forResource: kDBName, ofType: "cblite2")
        {
-
-        do {
-            let fileManager = FileManager.default
+         do {
           
-            if fileManager.fileExists(atPath: travelsampleFile.path) {
-                print("Sample databases already copied to *** \(appSupportFolderPath) ***folder")
-                print("Manually delete the sample database and re-run playground")
-                
-            }
-            else {
-                try fileManager.copyItem(at: URL.init(fileURLWithPath: resourcePath), to: travelsampleFile)
-  
-            }
+            // replace the default one with pre-bundled version
+            // replaceItem results in permission issues so doing as two step
+            let fileManager = FileManager.default
+            try fileManager.removeItem(at: travelsampleFile)
+            try fileManager.copyItem(at:  URL(fileURLWithPath: resourcePath), to: travelsampleFile)
         }
         catch {
-            print("Error in copying sample database files to playground's shared directory \(error)")
+              print("Error in copying sample database files to playground's shared directory \(error)")
         }
-   
         
     }
     // Uncomment the line below  if you want details of the SQLite query equivalent
   //  Database.setLogLevel(.verbose, domain: .all)
+    // reopen the database instance with copied sample
     return try Database(name: kDBName, config: options)
 
 }
