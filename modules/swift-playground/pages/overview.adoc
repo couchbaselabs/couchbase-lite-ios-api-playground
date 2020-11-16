@@ -69,7 +69,7 @@ image::pages.png[Xcode Playground for Couchbase Lite Query API]
 == Build and Run
 - Navigate to playground page that you want to run
 
-- Select the "CBLTestBed" scheme with simulator target. This must be the active scheme
+- Select the *CBLTestBed* scheme with simulator target. This _must_ be the active scheme
 
 - Do a clean of build  using *Cmd-Shift-K*. You may have to do that for every page
 
