@@ -52,7 +52,9 @@ So, even if you are not a Swift developer, you should be able to leverage the Xc
 +
 [source,bash] 
 ----
-  cd /path/to/couchbase-lite-iosopen CBLQueryTestBed.xcworkspace-api-playground/
+  cd /path/to/couchbase-lite-ios
+  
+  open CBLQueryTestBed.xcworkspace-api-playground/
   
 ----
 
